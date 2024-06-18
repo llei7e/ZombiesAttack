@@ -10,13 +10,16 @@ public class Player extends Characters {
     private int timeSurvived;
     private String weapon;
 
+
     //Constructor
-    public Player(Object image){
+    public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength){
+        super(height, width, positionX, positionY, life, speed, strength);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
         this.weapon = "knife";
     }
+
 
     //Methods
     public int dash(int positionX, int positionY, boolean doubleClick){
@@ -29,6 +32,7 @@ public class Player extends Characters {
         Image attack = new Image("");
         Image hit = new Image("");
     }
+
 
     //Getters and Setters
 
