@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import kotlin.Unit;
 
 import java.util.Map;
@@ -48,6 +49,7 @@ public class Game extends GameApplication {
 
     }
 
+    // variaveis do jogo (global)
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("pixelsMoved", 0);
@@ -61,14 +63,14 @@ public class Game extends GameApplication {
         player = entityBuilder()
                 .type(EntityType.PLAYER)
                 .at(300, 300)
-                .viewWithBBox("brick.png")
+                .viewWithBBox("file:/brick.png")
                 .with(new CollidableComponent(true))
                 .buildAndAttach();
 
         entityBuilder()
                 .type(EntityType.COIN)
                 .at(500, 200)
-                .viewWithBBox(new Circle(15, 15, 15, Color.YELLOW))
+                .view(new Circle(15, 15, 15, Color.YELLOW))
                 .with(new CollidableComponent(true))
                 .buildAndAttach();
     }
@@ -95,7 +97,7 @@ public class Game extends GameApplication {
 
         getGameScene().addUINode(textPixels); // add to the scene graph
 
-        var brickTexture = getAssetLoader().loadTexture("brick.png");
+        var brickTexture = getAssetLoader().loadTexture("pixil.png");
         brickTexture.setTranslateX(50);
         brickTexture.setTranslateY(450);
 
