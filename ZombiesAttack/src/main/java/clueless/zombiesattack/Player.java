@@ -1,6 +1,9 @@
 package clueless.zombiesattack;
 
-public class Player extends Characters{
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class Player extends Characters {
     //Attributes
     private String name;
     private int points;
@@ -16,12 +19,15 @@ public class Player extends Characters{
     }
 
     //Methods
-    public void dash(){
-
+    public int dash(int positionX, int positionY, boolean doubleClick){
+        int dashSize = 3;
+        int newX;
+        return newX;
     }
 
-    public void attack(){
-
+    public void attack(int positionX, int positionY){
+        Image attack = new Image("");
+        Image hit = new Image("");
     }
 
     //Getters and Setters
