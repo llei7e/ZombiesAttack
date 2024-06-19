@@ -5,13 +5,13 @@
 
 ## Index
 - [About](#about)
-    - [History](#history)
+    - [Story](#story)
     - [Game Objective](#game-objective)
     - [Commands](#commands)
 - [Game Classes](#game-classes)
 - [Sound Effects](#sound-effects)
 - [Requirements](#requirements)
-- [Contribution](#Contribution)
+- [Contribution](#contribution)
 
 
 ## About
@@ -66,6 +66,7 @@ Characters <|-- Zombies
 ImageView <|-- Characters
 
 class Main{
+    +initSettings()
 }
 class ImageView{
     +setSprite()
@@ -92,8 +93,7 @@ class Player{
 class Zombies{
     -int type
     +chasing(int x, int y)
-}
-    
+}    
 ```
 
 
