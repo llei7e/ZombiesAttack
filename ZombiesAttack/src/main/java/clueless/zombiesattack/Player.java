@@ -24,8 +24,8 @@ public class Player extends Characters {
     //Methods
     public int dash(int positionX, int positionY, boolean doubleClick){
         int dashSize = 3;
-        int newX;
-        return newX;
+     //   int newX;
+        return 0;
     }
 
     public void attack(int positionX, int positionY){
