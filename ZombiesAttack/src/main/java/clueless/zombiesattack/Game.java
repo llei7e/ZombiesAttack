@@ -63,7 +63,7 @@ public class Game extends GameApplication {
         player = entityBuilder()
                 .type(EntityType.PLAYER)
                 .at(300, 300)
-                .viewWithBBox("file:/brick.png")
+                .viewWithBBox("brick.png")
                 .with(new CollidableComponent(true))
                 .buildAndAttach();
 
