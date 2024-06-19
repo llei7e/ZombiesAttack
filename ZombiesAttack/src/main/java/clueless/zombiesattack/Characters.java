@@ -1,5 +1,7 @@
 package clueless.zombiesattack;
 
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -7,10 +9,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import com.almasb.fxgl.physics.PhysicsComponent;
+
+import java.util.Objects;
+
 
 public abstract class Characters extends ImageView {
 
     // Properties
+    private PhysicsComponent physics;
     private int height;
     private int width;
     private int positionX;
@@ -33,28 +40,17 @@ public abstract class Characters extends ImageView {
     }
 
     // Methods
-    public void move(KeyEvent key ,int positionX, int positionY) {
-        if (key.getCode() == KeyCode.A) {
-            positionX -= speed;
+    public void move(String direction) {
+        if (Objects.equals(direction, "Left")) {
+            positionX -= 10;
         }
-        else if (key.getCode() == KeyCode.D){
-            positionX += speed;
+        else {
+            positionX += 10;
         }
     }
 
-    public void jump(Characters character) {
-        // Indicar que o salto começou
-        isJumping.set(true);
-        // Criar a animação de translação
-        TranslateTransition jump = new TranslateTransition(Duration.millis(230), character);
-        jump.setByY(-200);
-        //define que reverterá a direção depois do primeiro ciclo
-        jump.setAutoReverse(true);
-        //Quantidade de ciclos(dois para ir e voltar)
-        jump.setCycleCount(2);
-        jump.setOnFinished(event -> isJumping.set(false));
-        if (character.positionY > 375)
-            jump.play();
+    public void jump() {
+        physics.setVelocityY(-400);
     }
 
     // Getters
