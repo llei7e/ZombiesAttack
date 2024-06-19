@@ -5,9 +5,9 @@
 
 ## Index
 - [About](#about)
-    - [Story](#story)
-    - [Game Objective](#game-objective)
-    - [Commands](#commands)
+    - [Story](#-_story)
+    - [Game Objective](#-_game-objective)
+    - [Commands](#-_commands)
 - [Game Classes](#game-classes)
 - [Sound Effects](#sound-effects)
 - [Requirements](#requirements)
