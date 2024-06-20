@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+*{
+    -fx-font-family: "VT323", monospace;
+    -fx-font-weight: 400;
+}
+.homeButtons{
+    -fx-background-color: black;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-text-fill: red;
+    -fx-font-size: 30px;
+}
+
+.homeButtons:hover{
+    -fx-text-fill: yellow;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+.vbox{
+    -fx-background-color:black;
+    -fx-min-width: 620px;
+    -fx-min-height: 620px;
+    -fx-spacing: 8;
+}
+
+#start{
+    -fx-padding: 30 0 0 0;
+}
+
+.rankingText{
+    -fx-fill: red;
+    -fx-font-size: 35px;
+}
+
+.rankingText:hover{
+    -fx-text-fill: yellow;
+}
+
+.back{
+    -fx-background-color: black;
+    -fx-min-width: 100px;
+    -fx-text-fill: green;
+    -fx-font-size: 30px;
+    -fx-underline: true;
+}
+
+.back:hover{
+    -fx-text-fill: yellow;
+}
