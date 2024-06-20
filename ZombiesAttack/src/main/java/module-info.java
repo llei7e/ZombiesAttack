@@ -5,6 +5,7 @@ module clueless.zombiesattack {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
+    requires jbox2d.library;
 
     opens clueless.zombiesattack to javafx.fxml;
     exports clueless.zombiesattack;
