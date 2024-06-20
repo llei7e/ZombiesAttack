@@ -26,6 +26,7 @@ public class Game extends Application {
         Pane pane = new Pane();
         Scene scene = new Scene(pane, width, height);
         Rectangle rect = new Rectangle( 100, 20, Color.BISQUE);
+        Menu screen = new Menu();
 
         pane.getChildren().add(rect);
 
@@ -74,21 +75,7 @@ public class Game extends Application {
             }
         }.start();
 
-        Image zombieImg = new Image("zombie1.gif");
-        Zombies z1 =  new Zombies(160,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
-        Zombies z2 =  new Zombies(100,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
-        Zombies z3 =  new Zombies(250,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
-
-        Image img = new Image("fundo.png");
-        ImageView fundo = new ImageView(img);
-        fundo.setFitWidth(620);
-        fundo.setFitHeight(620);
-        pane.getChildren().add(fundo);
-
-        pane.getChildren().add(p1.getSprite());
-        pane.getChildren().add(z1.getSprite());
-        pane.getChildren().add(z2.getSprite());
-        pane.getChildren().add(z3.getSprite());
+        screen.homeScreen(scene, pane, primaryStage);
 
         // configurando "primaryStage"
         primaryStage.setTitle("Zombies Attack");
