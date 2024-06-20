@@ -3,7 +3,9 @@ package clueless.zombiesattack;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -21,12 +23,13 @@ public abstract class Characters extends ImageView {
     private int life;
     private int speed;
     private int strength;
-  //  private ImageView sprite;
-    BooleanProperty isJumping = new SimpleBooleanProperty(false);
+    protected ImageView sprite;
+
 
     // Constructor
 
-    public Characters(int height, int width, int positionX, int positionY, int life, int speed, int strength) {
+    public Characters(int height, int width, int positionX, int positionY, int life, int speed, int strength, Image sprite) {
+        this.sprite = new ImageView(sprite);
         this.height = height;
         this.width = width;
         this.positionX = positionX;
@@ -37,19 +40,28 @@ public abstract class Characters extends ImageView {
     }
 
     // Methods
-    /* refactore */
-    public void move(String direction) {
 
-        if (Objects.equals(direction, "Left")) {
+    public void move(boolean r, boolean l) {
+        // Timeline declaration and set a cycle
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
 
+        // it checks which direction to move and it reverses if diff.
+        if (r && speed < 0)
+            speed *= -1;
+        else if (l && speed > 0)
+            speed *= -1;
+
+        if(r||l) {
+            double desloc = sprite.xProperty().get() + speed;
+
+            // define KeyValue used in KeyFrame
+            KeyValue kv = new KeyValue(sprite.xProperty(), desloc, Interpolator.EASE_BOTH);
+            KeyFrame kf = new KeyFrame(Duration.millis(30), kv);
+            // added KeyFrame to timeline object
+            timeline.getKeyFrames().add(kf);
+            timeline.play();
         }
-        else {
-            positionX += 1;
-        }
-    }
-    /* refactore */
-    public void jump() {
-
     }
 
     // Getters
@@ -94,6 +106,7 @@ public abstract class Characters extends ImageView {
     public void setStrength(int strength) {
         this.strength = strength;
     }
+
 }
 
 

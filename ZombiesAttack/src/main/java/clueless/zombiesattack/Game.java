@@ -17,9 +17,10 @@ import javafx.util.Duration;
 public class Game extends Application {
     private int width = 620;
     private int height = 620;
-    private static final double GRAVITY = 0.1; // Gravidade
-    private double velocityY = 0; // Velocidade vertical
-
+    private boolean right = false;
+    private boolean left = false;
+    private boolean shotting = false;
+    private String direction = "right";
 
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
@@ -28,25 +29,55 @@ public class Game extends Application {
 
         pane.getChildren().add(rect);
 
-        // Iniciar o loop de atualização
-
-        /* refactor */
+        // Instance player
+        Image playerImg= new Image("brick.png");
+        Player p1 = new Player(10,10,width/2, height/2,10,5,10, playerImg);
         new AnimationTimer() {
-            
+
             @Override
             public void handle(long now) {
+                // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.D){
+                        right = true;
+                        left = false;
+                        direction = "right";
+                    }
+                    if (event.getCode() == KeyCode.A){
+                        right = false;
+                        left = true;
+                        direction = "left";
+                    }
+                    if (event.getCode() == KeyCode.SPACE)
+                        p1.jump();
+                    if (event.getCode() == KeyCode.J){
+                        p1.attack(direction);
+                        shotting = true;
+                        System.out.println("tiro apertado");
 
                     }
                 });
+                // check if keyboard has been released
+                scene.setOnKeyReleased(event -> {
+                    if (event.getCode() == KeyCode.D)
+                        right = false;
+                    if (event.getCode() == KeyCode.A)
+                        left = false;
+                    if (event.getCode() == KeyCode.J){
+                        shotting = false;
+                        System.out.println("tiro liberado");
+                    }
+
+                });
+                p1.move(right, left);
+
             }
         }.start();
 
-        Player p1 = new Player(10,10,width/2, height/2,10,10,10);
-        Zombies z1 =  new Zombies(160,400,10,width/2, height/2,10,10,10,10,10);
-        Zombies z2 =  new Zombies(100,400,10,width/2, height/2,10,10,10,10,10);
-        Zombies z3 =  new Zombies(250,400,10,width/2, height/2,10,10,10,10,10);
+        Image zombieImg = new Image("zombie1.gif");
+        Zombies z1 =  new Zombies(160,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
+        Zombies z2 =  new Zombies(100,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
+        Zombies z3 =  new Zombies(250,400,10,width/2, height/2,10,10,10,10,10, zombieImg);
 
         Image img = new Image("fundo.png");
         ImageView fundo = new ImageView(img);
