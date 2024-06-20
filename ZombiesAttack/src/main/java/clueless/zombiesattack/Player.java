@@ -11,6 +11,7 @@ public class Player extends Characters {
     private String weapon;
 
 
+
     //Constructor
     public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength){
         super(height, width, positionX, positionY, life, speed, strength);

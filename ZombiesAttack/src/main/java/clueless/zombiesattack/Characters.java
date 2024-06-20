@@ -1,15 +1,12 @@
 package clueless.zombiesattack;
 
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
-import com.almasb.fxgl.physics.PhysicsComponent;
+
 
 import java.util.Objects;
 
@@ -17,7 +14,6 @@ import java.util.Objects;
 public abstract class Characters extends ImageView {
 
     // Properties
-    private PhysicsComponent physics;
     private int height;
     private int width;
     private int positionX;
@@ -25,6 +21,7 @@ public abstract class Characters extends ImageView {
     private int life;
     private int speed;
     private int strength;
+  //  private ImageView sprite;
     BooleanProperty isJumping = new SimpleBooleanProperty(false);
 
     // Constructor
@@ -40,17 +37,19 @@ public abstract class Characters extends ImageView {
     }
 
     // Methods
+    /* refactore */
     public void move(String direction) {
+
         if (Objects.equals(direction, "Left")) {
-            positionX -= 10;
+
         }
         else {
-            positionX += 10;
+            positionX += 1;
         }
     }
-
+    /* refactore */
     public void jump() {
-        physics.setVelocityY(-400);
+
     }
 
     // Getters

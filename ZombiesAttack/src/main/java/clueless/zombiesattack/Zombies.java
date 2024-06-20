@@ -1,6 +1,7 @@
 package clueless.zombiesattack;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Zombies extends Characters{
     // Attributes
