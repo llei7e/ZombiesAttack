@@ -1,32 +1,39 @@
 package clueless.zombiesattack;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 public class Player extends Characters {
     //Attributes
-    private ImageView sprite;
     private String name;
     private int points;
     private int timeSurvived;
     private String weapon;
+    private boolean isJumping;
 
 
     //Constructor
-    public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength){
-        super(height, width, positionX, positionY, life, speed, strength);
-        Image img = new Image("brick.png");
+    public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength, Image img){
+        super(height, width, positionX, positionY, life, speed, strength, img);
         this.sprite = new ImageView(img);
-        sprite.setX(0);
-        sprite.setY(390);
-        sprite.setFitWidth(100);
-        sprite.setFitHeight(100);
+        this.sprite.setX(0);
+        this.sprite.setY(390);
+        this.sprite.setFitWidth(100);
+        this.sprite.setFitHeight(100);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
         this.weapon = "knife";
+        this.isJumping = false;
     }
-
+    
 
     //Methods
     public int dash(int positionX, int positionY, boolean doubleClick){
@@ -35,13 +42,38 @@ public class Player extends Characters {
         return 0;
     }
 
-    public void attack(int positionX, int positionY){
-        Image attack = new Image("");
-        Image hit = new Image("");
+    public void attack(String dir){
+        Circle bullet = new Circle(3, Color.BLACK);
+
+        //Image attack = new Image("");
+        //Image hit = new Image("");
     }
 
+    public void jump() {
+        if(!isJumping) {
+            this.isJumping = true;
+
+            Timeline timeline = new Timeline();
+            timeline.setCycleCount(2);
+            timeline.setAutoReverse(true);
+
+            // Up effect
+            KeyValue kvUp = new KeyValue(sprite.yProperty(), sprite.getY() - 150, Interpolator.EASE_BOTH);
+            KeyFrame kfUp = new KeyFrame(Duration.millis(300), kvUp);
+            // Down effect
+            KeyValue kvDn = new KeyValue(sprite.yProperty(), sprite.getY(), Interpolator.EASE_BOTH);
+            KeyFrame kfDn = new KeyFrame(Duration.millis(300), kvDn);
+
+            // add keyframes
+            timeline.getKeyFrames().addAll(kfUp, kfDn);
+
+            timeline.setOnFinished(e -> isJumping = false);
+            timeline.play();
+        }
+    }
 
     //Getters and Setters
+
 
     public String getName() {
         return name;

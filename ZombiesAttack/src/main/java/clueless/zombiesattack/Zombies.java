@@ -6,15 +6,12 @@ import javafx.scene.image.ImageView;
 public class Zombies extends Characters{
     // Attributes
     private int type;
-    private ImageView sprite;
 
     // Contructor
 
-    public Zombies (int x,int y,int type, int height, int width, int positionX, int positionY, int life, int speed, int strength){
-        super(height, width, positionX, positionY, life, speed, strength);
+    public Zombies (int x,int y,int type, int height, int width, int positionX, int positionY, int life, int speed, int strength, Image img){
+        super(height, width, positionX, positionY, life, speed, strength, img);
         this.type = type;
-        Image img = new Image("zombie1.gif");
-        this.sprite = new ImageView(img);
         sprite.setX(x);
         sprite.setY(y);
         sprite.setFitWidth(100);
@@ -41,4 +38,5 @@ public class Zombies extends Characters{
     public ImageView getSprite() {
         return sprite;
     }
+
 }
