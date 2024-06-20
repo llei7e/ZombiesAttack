@@ -30,7 +30,7 @@ public class Game extends Application {
 
         // Iniciar o loop de atualização
 
-        /* refactore */
+        /* refactor */
         new AnimationTimer() {
             
             @Override
@@ -42,6 +42,23 @@ public class Game extends Application {
                 });
             }
         }.start();
+
+        Player p1 = new Player(10,10,width/2, height/2,10,10,10);
+        Zombies z1 =  new Zombies(160,400,10,width/2, height/2,10,10,10,10,10);
+        Zombies z2 =  new Zombies(100,400,10,width/2, height/2,10,10,10,10,10);
+        Zombies z3 =  new Zombies(250,400,10,width/2, height/2,10,10,10,10,10);
+
+        Image img = new Image("fundo.png");
+        ImageView fundo = new ImageView(img);
+        fundo.setFitWidth(620);
+        fundo.setFitHeight(620);
+        pane.getChildren().add(fundo);
+
+        pane.getChildren().add(p1.getSprite());
+        pane.getChildren().add(z1.getSprite());
+        pane.getChildren().add(z2.getSprite());
+        pane.getChildren().add(z3.getSprite());
+
         // configurando "primaryStage"
         primaryStage.setTitle("Zombies Attack");
         primaryStage.setScene(scene);

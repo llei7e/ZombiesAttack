@@ -5,16 +5,22 @@ import javafx.scene.image.ImageView;
 
 public class Player extends Characters {
     //Attributes
+    private ImageView sprite;
     private String name;
     private int points;
     private int timeSurvived;
     private String weapon;
 
 
-
     //Constructor
     public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength){
         super(height, width, positionX, positionY, life, speed, strength);
+        Image img = new Image("brick.png");
+        this.sprite = new ImageView(img);
+        sprite.setX(0);
+        sprite.setY(390);
+        sprite.setFitWidth(100);
+        sprite.setFitHeight(100);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
@@ -25,7 +31,7 @@ public class Player extends Characters {
     //Methods
     public int dash(int positionX, int positionY, boolean doubleClick){
         int dashSize = 3;
-     //   int newX;
+        //   int newX;
         return 0;
     }
 
@@ -59,5 +65,9 @@ public class Player extends Characters {
 
     public int getTimeSurvived() {
         return timeSurvived;
+    }
+
+    public ImageView getSprite() {
+        return sprite;
     }
 }
