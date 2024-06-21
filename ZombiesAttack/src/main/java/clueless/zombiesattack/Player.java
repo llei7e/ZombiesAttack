@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import java.util.Objects;
+
 public class Player extends Characters {
     //Attributes
     private String name;
@@ -43,7 +45,25 @@ public class Player extends Characters {
     }
 
     public void attack(String dir){
-        Circle bullet = new Circle(3, Color.BLACK);
+        Timeline timeline = new Timeline();
+
+        Image projectile = new Image("brick.png"); // set image of bullet
+        ImageView bullet = new ImageView(projectile);
+        bullet.setY(sprite.getY() + sprite.getFitHeight()/2);
+        KeyFrame kf;
+        if(Objects.equals(dir, "right")) {
+            bullet.setX(sprite.getX()+50);
+            KeyValue kv = new KeyValue(bullet.xProperty(),620, Interpolator.EASE_BOTH);
+            kf = new KeyFrame(Duration.millis(1500), kv);
+
+        }
+        else {
+            bullet.setX(sprite.getX()+50);
+            KeyValue kv = new KeyValue(bullet.xProperty(),0, Interpolator.EASE_BOTH);
+            kf = new KeyFrame(Duration.millis(1500), kv);
+        }
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
 
         //Image attack = new Image("");
         //Image hit = new Image("");
