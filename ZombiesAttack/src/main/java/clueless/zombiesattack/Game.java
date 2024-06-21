@@ -19,7 +19,7 @@ public class Game extends Application {
         Menu screen = new Menu();
 
 
-        screen.homeScreen(scene, pane, primaryStage);
+        screen.game(scene, pane, primaryStage);
 
         // configurando "primaryStage"
         primaryStage.setTitle("Zombies Attack");

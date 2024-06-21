@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class Menu {
     private boolean right = false;
     private boolean left = false;
-    private boolean shotting = false;
+    private boolean shooting = false;
     private String direction = "right";
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
@@ -160,17 +160,24 @@ public class Menu {
     }
 
     public void game(Scene scene, Pane pane, Stage stage) {
-        Image img = new Image("fundo.png");
-        ImageView background = new ImageView(img);
+        ImageView background = new ImageView(new Image("fundo.png"));
         background.setFitHeight(620);
         background.setFitWidth(620);
-        Image playerImg = new Image("brick.png");
+
+        Image playerImg = new Image("rickAnda-2.png");
         Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
 
         new AnimationTimer() {
-
+            private long lastUpdate = 0;
+            private int currentFrame = 0;
             @Override
             public void handle(long now) {
+                // define nanoTime
+                if (now - lastUpdate >= 200000000) { // 200ms
+                    lastUpdate = now; // update lastUpdate
+                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
+                }
+
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.D) {
@@ -186,30 +193,34 @@ public class Menu {
                     if (event.getCode() == KeyCode.SPACE)
                         p1.jump();
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction);
-                        shotting = true;
-                        System.out.println("tiro apertado");
-
+                        p1.attack(direction, pane, shooting);
+                        shooting = true;
                     }
                 });
+
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
-                    if (event.getCode() == KeyCode.D)
+                    if (event.getCode() == KeyCode.D) {
                         right = false;
-                    if (event.getCode() == KeyCode.A)
-                        left = false;
-                    if (event.getCode() == KeyCode.J) {
-                        shotting = false;
-                        System.out.println("tiro liberado");
+                        p1.setSprite(new Image("rickAnda-2.png"));
                     }
-
+                    if (event.getCode() == KeyCode.A) {
+                        left = false;
+                    }
+                    if (event.getCode() == KeyCode.J) {
+                        shooting = false; // end of shooting
+                    }
                 });
+
                 p1.move(right, left);
+                // refactor - move may receive setSprite
+                if (right)
+                    p1.setSprite(currentFrame);
 
             }
         }.start();
 
-
+        // define p1 position and width/height
         p1.setX(100);
         p1.setY(300);
         p1.setFitWidth(80);
