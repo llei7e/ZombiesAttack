@@ -1,17 +1,26 @@
 package clueless.zombiesattack;
 
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class Menu {
+    private boolean right = false;
+    private boolean left = false;
+    private boolean shotting = false;
+    private String direction = "right";
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
 
@@ -125,7 +134,7 @@ public class Menu {
         scene.getStylesheets().add(css);
     }
 
-    public void gameKeys(Scene scene, Pane pane, Stage stage){
+    public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
         Image img = new Image("gamekeys.png");
         ImageView gameKeys = new ImageView(img);
@@ -135,17 +144,79 @@ public class Menu {
 
         //adding root on pane
         pane.getChildren().add(gameKeys);
+
+        gameKeys.setOnMouseReleased(e -> game(scene, pane, stage));
     }
 
-    public void gameOver(Scene scene, Pane pane, Stage stage){
+    public void gameOver(Scene scene, Pane pane, Stage stage) {
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);
-
         gameOver.setFitWidth(620);
         gameOver.setFitHeight(620);
 
         //adding root on pane
         pane.getChildren().add(gameOver);
     }
+
+    public void game(Scene scene, Pane pane, Stage stage) {
+        Image img = new Image("fundo.png");
+        ImageView background = new ImageView(img);
+        background.setFitHeight(620);
+        background.setFitWidth(620);
+        Image playerImg = new Image("brick.png");
+        Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
+
+        new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                // check if keyboard has been pressed
+                scene.setOnKeyPressed(event -> {
+                    if (event.getCode() == KeyCode.D) {
+                        right = true;
+                        left = false;
+                        direction = "right";
+                    }
+                    if (event.getCode() == KeyCode.A) {
+                        right = false;
+                        left = true;
+                        direction = "left";
+                    }
+                    if (event.getCode() == KeyCode.SPACE)
+                        p1.jump();
+                    if (event.getCode() == KeyCode.J) {
+                        p1.attack(direction);
+                        shotting = true;
+                        System.out.println("tiro apertado");
+
+                    }
+                });
+                // check if keyboard has been released
+                scene.setOnKeyReleased(event -> {
+                    if (event.getCode() == KeyCode.D)
+                        right = false;
+                    if (event.getCode() == KeyCode.A)
+                        left = false;
+                    if (event.getCode() == KeyCode.J) {
+                        shotting = false;
+                        System.out.println("tiro liberado");
+                    }
+
+                });
+                p1.move(right, left);
+
+            }
+        }.start();
+
+
+        p1.setX(100);
+        p1.setY(300);
+        p1.setFitWidth(80);
+        p1.setFitHeight(100);
+
+        pane.getChildren().addAll(background, p1.getSprite());
+
+    }
+
 }
