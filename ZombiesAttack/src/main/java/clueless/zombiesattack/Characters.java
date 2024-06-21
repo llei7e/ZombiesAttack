@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -24,6 +25,7 @@ public abstract class Characters extends ImageView {
     private int speed;
     private int strength;
     protected ImageView sprite;
+    protected Image [] walking = new Image[3];
 
 
     // Constructor
@@ -53,10 +55,10 @@ public abstract class Characters extends ImageView {
             speed *= -1;
 
         if(r||l) {
-            double desloc = sprite.xProperty().get() + speed;
+            double displacement = sprite.xProperty().get() + speed;
 
             // define KeyValue used in KeyFrame
-            KeyValue kv = new KeyValue(sprite.xProperty(), desloc, Interpolator.EASE_BOTH);
+            KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
             KeyFrame kf = new KeyFrame(Duration.millis(30), kv);
             // added KeyFrame to timeline object
             timeline.getKeyFrames().add(kf);
@@ -65,14 +67,6 @@ public abstract class Characters extends ImageView {
     }
 
     // Getters
-
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
-    }
 
     public int getLife() {
         return life;
@@ -85,15 +79,10 @@ public abstract class Characters extends ImageView {
     public int getStrength() {
         return strength;
     }
+
+    public ImageView getSprite() {return sprite;}
     
     // Setters
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
 
     public void setLife(int life) {
         this.life = life;
@@ -107,6 +96,17 @@ public abstract class Characters extends ImageView {
         this.strength = strength;
     }
 
+    public void setSprite(Image img) {
+        this.sprite.setImage(img);
+        this.sprite.setFitWidth(80);
+        this.sprite.setFitHeight(100);
+    }
+    public void setSprite(int frame) {
+        // define new sprite considering time
+        this.sprite.setImage(walking[frame]);
+        this.sprite.setFitWidth(80);
+        this.sprite.setFitHeight(100);
+    }
 }
 
 
