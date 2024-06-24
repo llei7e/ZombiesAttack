@@ -25,7 +25,7 @@ public abstract class Characters extends ImageView {
     private int speed;
     private int strength;
     protected ImageView sprite;
-    protected Image [] walking = new Image[3];
+    protected Image [] walking = new Image[6];
 
 
     // Constructor
@@ -43,7 +43,7 @@ public abstract class Characters extends ImageView {
 
     // Methods
 
-    public void move(boolean r, boolean l) {
+    public void move(boolean r, boolean l, int frame) {
         // Timeline declaration and set a cycle
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
@@ -55,8 +55,12 @@ public abstract class Characters extends ImageView {
             speed *= -1;
 
         if(r||l) {
+            // check sprite direction and setSprite
+            if(r)
+                setSprite(walking[frame]);
+            else
+                setSprite(walking[frame+3]);
             double displacement = sprite.xProperty().get() + speed;
-
             // define KeyValue used in KeyFrame
             KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
             KeyFrame kf = new KeyFrame(Duration.millis(30), kv);
@@ -98,14 +102,15 @@ public abstract class Characters extends ImageView {
 
     public void setSprite(Image img) {
         this.sprite.setImage(img);
-        this.sprite.setFitWidth(80);
-        this.sprite.setFitHeight(100);
+        this.sprite.setFitWidth(60);
+        this.sprite.setFitHeight(80);
     }
+
     public void setSprite(int frame) {
         // define new sprite considering time
         this.sprite.setImage(walking[frame]);
-        this.sprite.setFitWidth(80);
-        this.sprite.setFitHeight(100);
+        this.sprite.setFitWidth(60);
+        this.sprite.setFitHeight(80);
     }
 }
 
