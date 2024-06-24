@@ -7,6 +7,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class KeyEvent {
     private boolean right = false;
     private boolean left = false;
@@ -51,20 +53,23 @@ public class KeyEvent {
                 scene.setOnKeyReleased(event -> {
                     if (event.getCode() == KeyCode.D) {
                         right = false;
-                        p1.setSprite(new Image("rickAnda-2.png"));
+                        p1.setSprite(new Image("rickwalk2-right.png"));
                     }
                     if (event.getCode() == KeyCode.A) {
                         left = false;
+                        p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
                         shooting = false; // end of shooting
+                        if (Objects.equals(direction, "right"))
+                            p1.setSprite(new Image("rickwalk2-right.png"));
+                        else
+                            p1.setSprite(new Image("rickwalk2-left.png"));
+
                     }
                 });
 
-                p1.move(right, left);
-                // refactor - move may receive setSprite
-                if (right)
-                    p1.setSprite(currentFrame);
+                p1.move(right, left, currentFrame);
 
             }
         }.start();

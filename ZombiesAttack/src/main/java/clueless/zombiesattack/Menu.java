@@ -160,7 +160,7 @@ public class Menu {
         background.setFitHeight(620);
         background.setFitWidth(620);
 
-        Image playerImg = new Image("rickAnda-2.png");
+        Image playerImg = new Image("rickwalk2-right.png");
         Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
 
         // Time and Points

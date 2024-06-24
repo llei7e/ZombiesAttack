@@ -25,19 +25,23 @@ public class Player extends Characters {
     //Constructor
     public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength, Image img){
         super(height, width, positionX, positionY, life, speed, strength, img);
-        this.sprite = new ImageView(img);
         this.sprite.setX(0);
         this.sprite.setY(390);
-        this.sprite.setFitWidth(80);
-        this.sprite.setFitHeight(100);
+        setSprite(img);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
         this.weapon = "knife";
         this.isJumping = false;
-        this.walking[0] = new Image("rickAnda-1.png");
-        this.walking[1] = new Image("rickAnda-2.png");
-        this.walking[2] = new Image("rickAnda-3.png");
+        // right
+        this.walking[0] = new Image("rickwalk1-right.png");
+        this.walking[1] = new Image("rickwalk2-right.png");
+        this.walking[2] = new Image("rickwalk3-right.png");
+        // left
+        this.walking[3] = new Image("rickwalk1-left.png");
+        this.walking[4] = new Image("rickwalk2-left.png");
+        this.walking[5] = new Image("rickwalk3-left.png");
+
 
     }
     
@@ -49,44 +53,45 @@ public class Player extends Characters {
         return 0;
     }
 
-    public void attack(String dir, Pane pane){
-        // Bullet instance and settings
-        ImageView bullet = new ImageView(new Image("bullet1.png"));
-        bullet.setFitHeight(25);
-        bullet.setFitWidth(25);
-        bullet.setY(sprite.getY() + sprite.getFitHeight()/2-20);
-
-        // Timeline instance
-        Timeline timeline = new Timeline();
-
-        // define KeyFrame direction
-        KeyFrame kf;
-        if(Objects.equals(dir, "right")) {
-            bullet.setX(sprite.getX()+50);
-            KeyValue kv = new KeyValue(bullet.xProperty(),620);
-            kf = new KeyFrame(Duration.millis(500), kv);
-        }
-        else {
-            bullet.setX(sprite.getX()+50);
-            KeyValue kv = new KeyValue(bullet.xProperty(),0);
-            kf = new KeyFrame(Duration.millis(500), kv);
-        }
-        // add keyFrame to timeline instance
-        timeline.getKeyFrames().add(kf);
-        // add bullet sprite to Pane
-        pane.getChildren().add(bullet);
-        // remove bullet
-        timeline.setOnFinished(e -> pane.getChildren().remove(bullet));
-        timeline.play();
-    }
-
-    //
-    public void attack (String dir, Pane pane, boolean shooting) {
+    // This method is the main one for attack
+    public void attack(String dir, Pane pane, boolean shooting){
         if (!shooting) {
-            // defines the sprite
-            this.setSprite(new Image("rickgrimes-shot.gif"));
-            // uses another function overload
-            attack(dir, pane);
+            // Bullet instance and settings
+            ImageView bullet = new ImageView(new Image("bullet1.png"));
+            bullet.setFitHeight(25);
+            bullet.setFitWidth(25);
+            bullet.setY(sprite.getY() + sprite.getFitHeight() / 2 - 20);
+            // Timeline instance
+            Timeline timeline = new Timeline();
+
+            // define KeyFrame direction
+            KeyFrame kf;
+            if (Objects.equals(dir, "right")) {
+                // player sprite right
+                this.setSprite(new Image("pistolShooting1-right.png"));
+                // define bullet X
+                bullet.setX(sprite.getX() + 50);
+                KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);
+                kf = new KeyFrame(Duration.millis(400), kv);
+            } else {
+                // player sprite left
+                this.setSprite(new Image("pistolShooting1-left.png"));
+                bullet.setX(sprite.getX());
+                KeyValue kv = new KeyValue(bullet.xProperty(),sprite.getX() - 300);
+                kf = new KeyFrame(Duration.millis(400), kv);
+            }
+            // add keyFrame to timeline instance
+            timeline.getKeyFrames().add(kf);
+
+            // add bullet sprite to Pane
+            pane.getChildren().add(bullet);
+
+            // remove bullet
+            timeline.setOnFinished(e -> {
+                pane.getChildren().remove(bullet);
+            });
+
+            timeline.play();
         }
     }
 
