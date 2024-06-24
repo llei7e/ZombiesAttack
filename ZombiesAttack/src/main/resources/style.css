@@ -49,3 +49,18 @@
 .back:hover{
     -fx-text-fill: yellow;
 }
+
+.points{
+    -fx-fill: white;
+    -fx-font-size: 35px;
+}
+
+.time{
+    -fx-fill:white;
+    -fx-font-size: 35px;
+}
+
+.timePoints{
+    -fx-padding: 15px;
+    -fx-spacing: 5px;
+}

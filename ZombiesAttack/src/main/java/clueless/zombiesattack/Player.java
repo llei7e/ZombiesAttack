@@ -79,11 +79,12 @@ public class Player extends Characters {
         timeline.setOnFinished(e -> pane.getChildren().remove(bullet));
         timeline.play();
     }
+
     //
     public void attack (String dir, Pane pane, boolean shooting) {
         if (!shooting) {
             // defines the sprite
-            this.setSprite(new Image(""));
+            this.setSprite(new Image("rickgrimes-shot.gif"));
             // uses another function overload
             attack(dir, pane);
         }
@@ -138,5 +139,13 @@ public class Player extends Characters {
 
     public int getTimeSurvived() {
         return timeSurvived;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setTimeSurvived(int timeSurvived) {
+        this.timeSurvived = timeSurvived;
     }
 }
