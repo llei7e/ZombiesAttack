@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -17,10 +16,6 @@ import javafx.stage.Stage;
 
 
 public class Menu {
-    private boolean right = false;
-    private boolean left = false;
-    private boolean shooting = false;
-    private String direction = "right";
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
 
@@ -161,64 +156,29 @@ public class Menu {
 
     public void game(Scene scene, Pane pane, Stage stage) {
         ImageView background = new ImageView(new Image("fundo.png"));
+        KeyEvent keys = new KeyEvent();
         background.setFitHeight(620);
         background.setFitWidth(620);
 
         Image playerImg = new Image("rickAnda-2.png");
         Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
 
-        new AnimationTimer() {
-            private long lastUpdate = 0;
-            private int currentFrame = 0;
-            @Override
-            public void handle(long now) {
-                // define nanoTime
-                if (now - lastUpdate >= 200000000) { // 200ms
-                    lastUpdate = now; // update lastUpdate
-                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
-                }
+        // Time and Points
+        VBox timePoints =  new VBox();
+        timePoints.setAlignment(Pos.TOP_LEFT);
+        HBox pointsBox = new HBox();
+        pointsBox.setAlignment(Pos.TOP_LEFT);
 
-                // check if keyboard has been pressed
-                scene.setOnKeyPressed(event -> {
-                    if (event.getCode() == KeyCode.D) {
-                        right = true;
-                        left = false;
-                        direction = "right";
-                    }
-                    if (event.getCode() == KeyCode.A) {
-                        right = false;
-                        left = true;
-                        direction = "left";
-                    }
-                    if (event.getCode() == KeyCode.SPACE)
-                        p1.jump();
-                    if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, shooting);
-                        shooting = true;
-                    }
-                });
+        //life and weapon
+        p1.setPoints(p1.getPoints() + 777);
+        p1.setTimeSurvived(95);
+        Text points = new Text(String.valueOf(p1.getPoints()));
+        Image img2 = new Image("coin2.png");
+        ImageView coin = new ImageView(img2);
+        Text time = new Text("time: " + String.valueOf(p1.getTimeSurvived()) + "s");
 
-                // check if keyboard has been released
-                scene.setOnKeyReleased(event -> {
-                    if (event.getCode() == KeyCode.D) {
-                        right = false;
-                        p1.setSprite(new Image("rickAnda-2.png"));
-                    }
-                    if (event.getCode() == KeyCode.A) {
-                        left = false;
-                    }
-                    if (event.getCode() == KeyCode.J) {
-                        shooting = false; // end of shooting
-                    }
-                });
+        keys.keyEvent(scene, pane, p1);
 
-                p1.move(right, left);
-                // refactor - move may receive setSprite
-                if (right)
-                    p1.setSprite(currentFrame);
-
-            }
-        }.start();
 
         // define p1 position and width/height
         p1.setX(100);
@@ -226,7 +186,18 @@ public class Menu {
         p1.setFitWidth(80);
         p1.setFitHeight(100);
 
-        pane.getChildren().addAll(background, p1.getSprite());
+        pointsBox.getChildren().addAll(coin, points);
+        timePoints.getChildren().addAll(time ,pointsBox);
+
+        pane.getChildren().addAll(background, timePoints, p1.getSprite());
+
+        points.getStyleClass().add("points");
+        pointsBox.getStyleClass().add("pointsbox");
+        timePoints.getStyleClass().add("timePoints");
+        time.getStyleClass().add("time");
+
+        String css = getClass().getResource("/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
 
     }
 
