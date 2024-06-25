@@ -46,9 +46,9 @@ public class Menu {
         root.getStyleClass().add("vbox");
 
         //set action on click
-        start.setOnAction(e -> gameKeys(scene, pane, stage));
-        ranking.setOnAction(e -> rankingScreen(scene, pane, stage));
-        exit.setOnAction(e -> stage.close());
+        start.setOnMouseReleased(e -> gameKeys(scene, pane, stage));
+        ranking.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
+        exit.setOnMouseReleased(e -> stage.close());
 
         //adding root on pane
         pane.getChildren().add(root);
@@ -122,7 +122,7 @@ public class Menu {
         pane.getChildren().add(root);
 
         //set action on click
-        back.setOnAction(e -> homeScreen(scene, pane, stage));
+        back.setOnMouseReleased(e -> homeScreen(scene, pane, stage));
 
         //using css
         String css = getClass().getResource("/style.css").toExternalForm();
@@ -163,6 +163,7 @@ public class Menu {
         Image playerImg = new Image("rickwalk2-right.png");
         Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
 
+
         // Time and Points
         VBox timePoints =  new VBox();
         timePoints.setAlignment(Pos.TOP_LEFT);
@@ -179,13 +180,12 @@ public class Menu {
 
         keys.keyEvent(scene, pane, p1);
 
-
         // define p1 position and width/height
         p1.setX(100);
         p1.setY(300);
-        p1.setFitWidth(80);
-        p1.setFitHeight(100);
-
+        p1.setFitWidth(60);
+        p1.setFitHeight(80);
+        
         pointsBox.getChildren().addAll(coin, points);
         timePoints.getChildren().addAll(time ,pointsBox);
 
@@ -198,6 +198,7 @@ public class Menu {
 
         String css = getClass().getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
+
 
     }
 
