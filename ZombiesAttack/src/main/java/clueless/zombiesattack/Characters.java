@@ -8,7 +8,7 @@ import javafx.util.Duration;
 
 
 public abstract class Characters extends ImageView {
-    
+
     // Properties
     private int height;
     private int width;
