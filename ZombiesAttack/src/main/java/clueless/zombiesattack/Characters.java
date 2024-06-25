@@ -1,26 +1,21 @@
 package clueless.zombiesattack;
 
-import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.animation.*;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 
-import java.util.List;
-import java.util.Objects;
-
-
 public abstract class Characters extends ImageView {
-
+    
     // Properties
     private int height;
     private int width;
     private int positionX;
     private int positionY;
+    private boolean right = false;
+    private boolean left = false;
     private int life;
     private int speed;
     private int strength;
@@ -43,23 +38,45 @@ public abstract class Characters extends ImageView {
 
     // Methods
 
-    public void move(boolean r, boolean l, int frame) {
+    public void move(int frame) {
         // Timeline declaration and set a cycle
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
 
         // it checks which direction to move and it reverses if diff.
-        if (r && speed < 0)
+        if (right && speed < 0)
             speed *= -1;
-        else if (l && speed > 0)
+        else if (left && speed > 0)
             speed *= -1;
 
-        if(r||l) {
+        if(right||left) {
             // check sprite direction and setSprite
-            if(r)
+            if(right)
                 setSprite(walking[frame]);
             else
                 setSprite(walking[frame+3]);
+            double displacement = sprite.xProperty().get() + speed;
+            // define KeyValue used in KeyFrame
+            KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
+            KeyFrame kf = new KeyFrame(Duration.millis(30), kv);
+            // added KeyFrame to timeline object
+            timeline.getKeyFrames().add(kf);
+            timeline.play();
+        }
+    }
+
+    public void move() {
+        // Timeline declaration and set a cycle
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+
+        // it checks which direction to move and it reverses if diff.
+        if (right && speed < 0)
+            speed *= -1;
+        else if (left && speed > 0)
+            speed *= -1;
+
+        if(right||left) {
             double displacement = sprite.xProperty().get() + speed;
             // define KeyValue used in KeyFrame
             KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
@@ -98,6 +115,22 @@ public abstract class Characters extends ImageView {
 
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
     }
 
     public void setSprite(Image img) {

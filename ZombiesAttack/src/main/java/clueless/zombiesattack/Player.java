@@ -27,7 +27,7 @@ public class Player extends Characters {
         super(height, width, positionX, positionY, life, speed, strength, img);
         this.sprite.setX(0);
         this.sprite.setY(390);
-        setSprite(img);
+        this.setSprite(img);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
@@ -41,7 +41,6 @@ public class Player extends Characters {
         this.walking[3] = new Image("rickwalk1-left.png");
         this.walking[4] = new Image("rickwalk2-left.png");
         this.walking[5] = new Image("rickwalk3-left.png");
-
 
     }
     
@@ -89,6 +88,10 @@ public class Player extends Characters {
             // remove bullet
             timeline.setOnFinished(e -> {
                 pane.getChildren().remove(bullet);
+                if (Objects.equals(dir, "right"))
+                    this.setSprite(new Image("rickwalk2-right.png"));
+                else
+                    this.setSprite(new Image("rickwalk2-left.png"));
             });
 
             timeline.play();
