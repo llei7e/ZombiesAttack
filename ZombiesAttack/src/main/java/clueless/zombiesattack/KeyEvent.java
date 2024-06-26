@@ -7,8 +7,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 
-public class KeyEvent{
-    private boolean shooting = false;
+public class KeyEvent {
+    private boolean right = false;
+    private boolean left = false;
+    private boolean isShooting = false;
     private String direction = "right";
 
 
@@ -41,8 +43,9 @@ public class KeyEvent{
                         p1.jump();
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, shooting);
-                        shooting = true;
+                        p1.attack(direction, pane, isShooting, right);
+                        isShooting = true;
+
                     }
                 });
 
@@ -57,11 +60,11 @@ public class KeyEvent{
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        shooting = false; // end of shooting
+                        isShooting = false; // end of shooting
                     }
                 });
-
-                p1.move(currentFrame);
+                if (!isShooting)
+                    p1.move(right, left, currentFrame);
                 z1.chasing(p1,z1, currentFrame);
 
             }

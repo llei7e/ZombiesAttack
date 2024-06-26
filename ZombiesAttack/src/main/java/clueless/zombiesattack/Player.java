@@ -20,6 +20,7 @@ public class Player extends Characters {
     private int timeSurvived;
     private String weapon;
     private boolean isJumping;
+    private Image [] shooting = new Image[4];
 
 
     //Constructor
@@ -41,6 +42,12 @@ public class Player extends Characters {
         this.walking[3] = new Image("rickwalk1-left.png");
         this.walking[4] = new Image("rickwalk2-left.png");
         this.walking[5] = new Image("rickwalk3-left.png");
+        // shooting
+        this.shooting[0] = new Image("pistolShooting1-right.png");
+        this.shooting[1] = new Image("pistol-shot-walk-right.png");
+       // this.shooting[2] = new Image("pistolShooting1-right.png");
+       // this.shooting[3] = new Image("pistolShooting1-right.png");
+
 
     }
     
@@ -53,8 +60,8 @@ public class Player extends Characters {
     }
 
     // This method is the main one for attack
-    public void attack(String dir, Pane pane, boolean shooting){
-        if (!shooting) {
+    public void attack(String dir, Pane pane, boolean isShooting, boolean isWalking){
+        if (!isShooting) {
             // Bullet instance and settings
             ImageView bullet = new ImageView(new Image("bullet1.png"));
             bullet.setFitHeight(25);
@@ -68,7 +75,10 @@ public class Player extends Characters {
             KeyFrame kf;
             if (Objects.equals(dir, "right")) {
                 // player sprite right
-                this.setSprite(new Image("pistolShooting1-right.png"));
+                if (isWalking) {
+                    this.setSprite(new Image("pistol-shot-walk-right.png"));
+                }else
+                    this.setSprite(new Image("pistolShooting1-right.png"));
                 // define bullet X
                 bullet.setX(sprite.getX() + 50);
                 KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);
