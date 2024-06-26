@@ -28,7 +28,7 @@ public class Zombies extends Characters{
 
 
             //define stats
-            setLife(1);
+            setLife(3);
             setSpeed(3);
             setStrength(2);
 
