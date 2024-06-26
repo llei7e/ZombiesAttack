@@ -1,9 +1,6 @@
 package clueless.zombiesattack;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -20,7 +17,8 @@ public class Player extends Characters {
     private int timeSurvived;
     private String weapon;
     private boolean isJumping;
-    private Image [] shooting = new Image[4];
+    private boolean isWalking = false;
+    private Image [] shooting = new Image[2];
 
 
     //Constructor
@@ -45,12 +43,9 @@ public class Player extends Characters {
         // shooting
         this.shooting[0] = new Image("pistolShooting1-right.png");
         this.shooting[1] = new Image("pistol-shot-walk-right.png");
-       // this.shooting[2] = new Image("pistolShooting1-right.png");
-       // this.shooting[3] = new Image("pistolShooting1-right.png");
 
 
     }
-    
 
     //Methods
     public int dash(int positionX, int positionY, boolean doubleClick){
@@ -60,8 +55,11 @@ public class Player extends Characters {
     }
 
     // This method is the main one for attack
-    public void attack(String dir, Pane pane, boolean isShooting, boolean isWalking){
+    public void attack(String dir, Pane pane, boolean isShooting, Zombies z1){
+
         if (!isShooting) {
+            // define isWalking
+            isWalking = isRight() || isLeft();
             // Bullet instance and settings
             ImageView bullet = new ImageView(new Image("bullet1.png"));
             bullet.setFitHeight(25);
@@ -70,9 +68,25 @@ public class Player extends Characters {
 
             // Timeline instance
             Timeline timeline = new Timeline();
-
+            // CollisionChecker
+            AnimationTimer collisionChecker = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    // check if bullet collide with zombie
+                    if (bullet.getBoundsInParent().intersects(z1.sprite.getBoundsInParent())) {
+                        if (Objects.equals(dir, "right"))
+                            setSprite(new Image("rickwalk2-right.png"));
+                        else
+                            setSprite(new Image("rickwalk2-left.png"));
+                        timeline.stop(); // stop timeline if yes
+                        pane.getChildren().remove(bullet); // remove bullet from pane
+                        this.stop(); // stop collisionChecker
+                    }
+                }
+            };
             // define KeyFrame direction
             KeyFrame kf;
+            // if right
             if (Objects.equals(dir, "right")) {
                 // player sprite right
                 if (isWalking) {
@@ -86,7 +100,7 @@ public class Player extends Characters {
             } else {
                 // player sprite left
                 this.setSprite(new Image("pistolShooting1-left.png"));
-
+                // define bullet X
                 bullet.setX(sprite.getX());
                 KeyValue kv = new KeyValue(bullet.xProperty(),sprite.getX() - 300);
                 kf = new KeyFrame(Duration.millis(400), kv);
@@ -96,7 +110,6 @@ public class Player extends Characters {
 
             // add bullet sprite to Pane
             pane.getChildren().add(bullet);
-
             // remove bullet
             timeline.setOnFinished(e -> {
                 pane.getChildren().remove(bullet);
@@ -104,9 +117,11 @@ public class Player extends Characters {
                     this.setSprite(new Image("rickwalk2-right.png"));
                 else
                     this.setSprite(new Image("rickwalk2-left.png"));
+                collisionChecker.stop();
             });
 
             timeline.play();
+            collisionChecker.start();
         }
     }
 

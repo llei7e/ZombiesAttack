@@ -3,13 +3,12 @@ package clueless.zombiesattack;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 
 public class KeyEvent {
-    private boolean right = false;
-    private boolean left = false;
     private boolean isShooting = false;
     private String direction = "right";
 
@@ -19,6 +18,11 @@ public class KeyEvent {
             private long lastUpdate = 0;
             private int currentFrame = 0;
 
+            // check collision between player and zombie
+            public boolean checkCollision (Characters Player, Characters Zombie ) {
+                return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
+            }
+            // game looping
             @Override
             public void handle(long now) {
                 // define nanoTime
@@ -43,7 +47,7 @@ public class KeyEvent {
                         p1.jump();
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, isShooting, right);
+                        p1.attack(direction, pane, isShooting, z1);
                         isShooting = true;
 
                     }
@@ -63,9 +67,12 @@ public class KeyEvent {
                         isShooting = false; // end of shooting
                     }
                 });
+                // chase only when there is no collision
+                if(!checkCollision(p1, z1))
+                    z1.chasing(p1,z1, currentFrame);
+                // only moves when it is no shot
                 if (!isShooting)
-                    p1.move(right, left, currentFrame);
-                z1.chasing(p1,z1, currentFrame);
+                    p1.move(currentFrame);
 
             }
         }.start();
