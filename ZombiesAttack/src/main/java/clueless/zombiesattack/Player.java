@@ -16,22 +16,19 @@ public class Player extends Characters {
     private int points;
     private int timeSurvived;
     private String weapon;
-    private boolean isJumping;
+    private boolean isJumping = false;
     private boolean isWalking = false;
     private Image [] shooting = new Image[2];
 
 
     //Constructor
-    public Player(int height, int width, int positionX, int positionY, int life, int speed, int strength, Image img){
-        super(height, width, positionX, positionY, life, speed, strength, img);
-        this.sprite.setX(0);
-        this.sprite.setY(390);
+    public Player(int height, int width, int positionX, int positionY, Image img){
+        super(height, width, positionX, positionY, img);
+        //define sprites
         this.setSprite(img);
-        this.name = "";
-        this.points = 0;
-        this.timeSurvived = 0;
-        this.weapon = "knife";
-        this.isJumping = false;
+        this.sprite.setX(0);
+        this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
+        System.out.println(sprite.getFitHeight());
         // right
         this.walking[0] = new Image("rickwalk1-right.png");
         this.walking[1] = new Image("rickwalk2-right.png");
@@ -44,7 +41,14 @@ public class Player extends Characters {
         this.shooting[0] = new Image("pistolShooting1-right.png");
         this.shooting[1] = new Image("pistol-shot-walk-right.png");
 
-
+        //define stats
+        this.name = "";
+        this.points = 0;
+        this.timeSurvived = 0;
+        this.weapon = "knife";
+        setLife(10);
+        setSpeed(5);
+        setStrength(1);
     }
 
     //Methods
@@ -89,10 +93,7 @@ public class Player extends Characters {
             // if right
             if (Objects.equals(dir, "right")) {
                 // player sprite right
-                if (isWalking) {
-                    this.setSprite(new Image("pistol-shot-walk-right.png"));
-                }else
-                    this.setSprite(new Image("pistolShooting1-right.png"));
+                this.setSprite(new Image("pistolShooting1-right.png"));
                 // define bullet X
                 bullet.setX(sprite.getX() + 50);
                 KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);

@@ -8,12 +8,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 
+
 public class KeyEvent {
     private boolean isShooting = false;
+
     private String direction = "right";
 
 
-    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1) {
+    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1, Zombies z2, Zombies z3 ) {
         new AnimationTimer() {
             private long lastUpdate = 0;
             private int currentFrame = 0;
@@ -49,7 +51,6 @@ public class KeyEvent {
                     if (event.getCode() == KeyCode.J) {
                         p1.attack(direction, pane, isShooting, z1);
                         isShooting = true;
-
                     }
                 });
 
@@ -64,15 +65,17 @@ public class KeyEvent {
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        isShooting = false; // end of shooting
+                        shooting = false; // end of shooting
                     }
                 });
-                // chase only when there is no collision
                 if(!checkCollision(p1, z1))
                     z1.chasing(p1,z1, currentFrame);
                 // only moves when it is no shot
                 if (!isShooting)
                     p1.move(currentFrame);
+
+                z2.chasing(p1,z2,currentFrame);
+                z3.chasing(p1,z3,currentFrame);
 
             }
         }.start();
