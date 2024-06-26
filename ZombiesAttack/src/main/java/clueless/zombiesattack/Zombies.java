@@ -8,21 +8,58 @@ public class Zombies extends Characters{
     private int type;
 
     // Contructor
-
-    public Zombies (int x,int y,int type, int height, int width, int positionX, int positionY, int life, int speed, int strength, Image img){
+    public Zombies (int height, int width, int positionX, int positionY, int life, int speed, int strength, int type, Image img){
         super(height, width, positionX, positionY, life, speed, strength, img);
-        this.type = type;
-        sprite.setX(x);
-        sprite.setY(y);
-        sprite.setFitWidth(100);
-        sprite.setFitHeight(100);
+        if(type == 1) {
+            img = new Image("zombieP.png");
+            this.setSprite(img);
+            // right
+            this.walking[0] = new Image("zombieP-walkright1.png");
+            this.walking[1] = new Image("zombieP-walkright2.png");
+            this.walking[2] = new Image("zombieP-walkright3.png");
+            // left
+            this.walking[3] = new Image("zombieP-walking1.png");
+            this.walking[4] = new Image("zombieP-walking2.png");
+            this.walking[5] = new Image("zombieP-walking3.png");
+        }else if(type == 3) {
+            img = new Image("zombieG.png");
+            this.setSprite(img);
+            // right
+            this.walking[0] = new Image("zombieP-walkright1.png");
+            this.walking[1] = new Image("zombieP-walkright2.png");
+            this.walking[2] = new Image("zombieP-walkright3.png");
+            // left
+            this.walking[3] = new Image("zombieP-walking1.png");
+            this.walking[4] = new Image("zombieP-walking2.png");
+            this.walking[5] = new Image("zombieP-walking3.png");
+        }else{
+            img = new Image("zombieM.png");
+            this.setSprite(img);
+            // right
+            this.walking[0] = new Image("zombieP-walkright1.png");
+            this.walking[1] = new Image("zombieP-walkright2.png");
+            this.walking[2] = new Image("zombieP-walkright3.png");
+            // left
+            this.walking[3] = new Image("zombieP-walking1.png");
+            this.walking[4] = new Image("zombieP-walking2.png");
+            this.walking[5] = new Image("zombieP-walking3.png");
+        }
+        this.sprite.setX(300);
+        this.sprite.setY(390);
     }
 
 
     //Methods
-
-    public void chasing(Object player, Object zombie){
-        //Create method to chase player (wating for moves to be ready);
+    public void chasing(Player player, Zombies zombie, int frame){
+        if((zombie.sprite.getX() - player.sprite.getX()) < 0){
+            setRight(true);
+            setLeft(false);
+        }
+        if (zombie.sprite.getX() - player.sprite.getX() > 0){
+            setRight(false);
+            setLeft(true);
+        }
+        zombie.move(frame);
     }
 
 
