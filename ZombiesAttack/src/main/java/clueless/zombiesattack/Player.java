@@ -60,6 +60,7 @@ public class Player extends Characters {
             bullet.setFitHeight(25);
             bullet.setFitWidth(25);
             bullet.setY(sprite.getY() + sprite.getFitHeight() / 2 - 20);
+
             // Timeline instance
             Timeline timeline = new Timeline();
 
@@ -75,6 +76,7 @@ public class Player extends Characters {
             } else {
                 // player sprite left
                 this.setSprite(new Image("pistolShooting1-left.png"));
+
                 bullet.setX(sprite.getX());
                 KeyValue kv = new KeyValue(bullet.xProperty(),sprite.getX() - 300);
                 kf = new KeyFrame(Duration.millis(400), kv);

@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-
 import java.util.Objects;
 
 public class KeyEvent{
@@ -38,8 +37,9 @@ public class KeyEvent{
                         p1.setLeft(true);
                         direction = "left";
                     }
-                    if (event.getCode() == KeyCode.SPACE)
+                    if (event.getCode() == KeyCode.W){
                         p1.jump();
+                    }
                     if (event.getCode() == KeyCode.J) {
                         p1.attack(direction, pane, shooting);
                         shooting = true;
