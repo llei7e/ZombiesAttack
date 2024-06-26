@@ -24,16 +24,12 @@ public abstract class Characters extends ImageView {
 
 
     // Constructor
-
-    public Characters(int height, int width, int positionX, int positionY, int life, int speed, int strength, Image sprite) {
+    public Characters(int height, int width, int positionX, int positionY, Image sprite) {
         this.sprite = new ImageView(sprite);
         this.height = height;
         this.width = width;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.life = life;
-        this.speed = speed;
-        this.strength = strength;
     }
 
     // Methods
@@ -65,7 +61,7 @@ public abstract class Characters extends ImageView {
         }
     }
 
-    public void move() {
+    public void move(int frame, int type) {
         // Timeline declaration and set a cycle
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
@@ -77,6 +73,11 @@ public abstract class Characters extends ImageView {
             speed *= -1;
 
         if(right||left) {
+            // check sprite direction and setSprite
+            if(right)
+                setSprite(walking[frame], type);
+            else
+                setSprite(walking[frame+3], type);
             double displacement = sprite.xProperty().get() + speed;
             // define KeyValue used in KeyFrame
             KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
@@ -86,6 +87,7 @@ public abstract class Characters extends ImageView {
             timeline.play();
         }
     }
+
 
     // Getters
 
@@ -102,7 +104,7 @@ public abstract class Characters extends ImageView {
     }
 
     public ImageView getSprite() {return sprite;}
-    
+
     // Setters
 
     public void setLife(int life) {
@@ -133,23 +135,35 @@ public abstract class Characters extends ImageView {
         this.left = left;
     }
 
+
     public void setSprite(Image img) {
         this.sprite.setImage(img);
         this.sprite.setFitWidth(60);
         this.sprite.setFitHeight(80);
     }
 
-    public void setSprite(int frame) {
-        // define new sprite considering time
-        this.sprite.setImage(walking[frame]);
-        this.sprite.setFitWidth(60);
-        this.sprite.setFitHeight(80);
-    }
-    // test
-    public void setSprite (int frame, Image [] frames) {
-        this.sprite.setImage(frames[frame]);
-        this.sprite.setFitWidth(60);
-        this.sprite.setFitHeight(80);
+    public void setSprite(Image img, int type) {
+        //Small Zombie
+        if(type == 1){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(50);
+            this.sprite.setFitHeight(65);
+        }
+
+        //Medium Zombie
+        if(type == 2){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(60);
+            this.sprite.setFitHeight(80);
+        }
+
+        //Great Zombie
+        if(type == 3){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(75);
+            this.sprite.setFitHeight(100);
+
+        }
     }
 }
 
