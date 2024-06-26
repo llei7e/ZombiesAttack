@@ -7,14 +7,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import java.util.Objects;
 
-public class KeyEvent {
-    private boolean right = false;
-    private boolean left = false;
-    private boolean isShooting = false;
+public class KeyEvent{
+    private boolean shooting = false;
     private String direction = "right";
 
 
-    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1) {
+    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1, Zombies z2, Zombies z3 ) {
         new AnimationTimer() {
             private long lastUpdate = 0;
             private int currentFrame = 0;
@@ -43,9 +41,8 @@ public class KeyEvent {
                         p1.jump();
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, isShooting, right);
-                        isShooting = true;
-
+                        p1.attack(direction, pane, shooting);
+                        shooting = true;
                     }
                 });
 
@@ -60,12 +57,14 @@ public class KeyEvent {
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        isShooting = false; // end of shooting
+                        shooting = false; // end of shooting
                     }
                 });
-                if (!isShooting)
-                    p1.move(right, left, currentFrame);
-                z1.chasing(p1,z1, currentFrame);
+
+                p1.move(currentFrame);
+                z1.chasing(p1, z1, currentFrame);
+                z2.chasing(p1,z2,currentFrame);
+                z3.chasing(p1,z3,currentFrame);
 
             }
         }.start();
