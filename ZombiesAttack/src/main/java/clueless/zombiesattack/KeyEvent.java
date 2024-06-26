@@ -65,11 +65,12 @@ public class KeyEvent {
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        shooting = false; // end of shooting
+                        isShooting = false; // end of shooting
                     }
                 });
-                if(!checkCollision(p1, z1))
-                    z1.chasing(p1,z1, currentFrame);
+                if (z1.getLife() > 0)
+                    if(!checkCollision(p1, z1))
+                        z1.chasing(p1,z1, currentFrame);
                 // only moves when it is no shot
                 if (!isShooting)
                     p1.move(currentFrame);

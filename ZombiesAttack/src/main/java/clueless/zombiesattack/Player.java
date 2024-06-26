@@ -82,6 +82,13 @@ public class Player extends Characters {
                             setSprite(new Image("rickwalk2-right.png"));
                         else
                             setSprite(new Image("rickwalk2-left.png"));
+                        // refactor
+                        z1.setLife(z1.getLife() - getStrength());
+                        if (z1.getLife() <= getStrength()) {
+                            pane.getChildren().remove(z1);
+                            pane.getChildren().remove(z1.sprite);
+
+                        }
                         timeline.stop(); // stop timeline if yes
                         pane.getChildren().remove(bullet); // remove bullet from pane
                         this.stop(); // stop collisionChecker
