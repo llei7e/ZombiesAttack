@@ -28,7 +28,7 @@ public class Player extends Characters {
         super(height, width, positionX, positionY, life, speed, strength, img);
         this.sprite.setX(0);
         this.sprite.setY(390);
-        setSprite(img);
+        this.setSprite(img);
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
@@ -47,6 +47,7 @@ public class Player extends Characters {
         this.shooting[1] = new Image("pistol-shot-walk-right.png");
        // this.shooting[2] = new Image("pistolShooting1-right.png");
        // this.shooting[3] = new Image("pistolShooting1-right.png");
+
 
     }
     

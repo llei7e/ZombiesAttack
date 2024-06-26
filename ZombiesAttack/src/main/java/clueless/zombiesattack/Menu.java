@@ -159,9 +159,10 @@ public class Menu {
         KeyEvent keys = new KeyEvent();
         background.setFitHeight(620);
         background.setFitWidth(620);
-
         Image playerImg = new Image("rickwalk2-right.png");
         Player p1 = new Player(10, 10, 0, 0, 10, 5, 10, playerImg);
+        Image img = new Image("zombieP.png");
+        Zombies z1 = new Zombies(10,10,10,0,10,2,10,1, img);
 
 
         // Time and Points
@@ -178,7 +179,7 @@ public class Menu {
         ImageView coin = new ImageView(img2);
         Text time = new Text("time: " + String.valueOf(p1.getTimeSurvived()) + "s");
 
-        keys.keyEvent(scene, pane, p1);
+        keys.keyEvent(scene, pane, p1, z1);
 
         // define p1 position and width/height
         p1.setX(100);
@@ -189,7 +190,9 @@ public class Menu {
         pointsBox.getChildren().addAll(coin, points);
         timePoints.getChildren().addAll(time ,pointsBox);
 
-        pane.getChildren().addAll(background, timePoints, p1.getSprite());
+
+        pane.getChildren().addAll(background, timePoints, p1.getSprite(), z1.getSprite());
+
 
         points.getStyleClass().add("points");
         pointsBox.getStyleClass().add("pointsbox");
@@ -201,5 +204,4 @@ public class Menu {
 
 
     }
-
 }

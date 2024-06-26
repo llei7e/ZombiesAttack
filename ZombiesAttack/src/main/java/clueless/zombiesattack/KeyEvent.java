@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import java.util.Objects;
 
 public class KeyEvent {
     private boolean right = false;
@@ -13,7 +14,7 @@ public class KeyEvent {
     private String direction = "right";
 
 
-    public void keyEvent(Scene scene, Pane pane, Player p1) {
+    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1) {
         new AnimationTimer() {
             private long lastUpdate = 0;
             private int currentFrame = 0;
@@ -29,13 +30,13 @@ public class KeyEvent {
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.D) {
-                        right = true;
-                        left = false;
+                        p1.setRight(true);
+                        p1.setLeft(false);
                         direction = "right";
                     }
                     if (event.getCode() == KeyCode.A) {
-                        right = false;
-                        left = true;
+                        p1.setRight(false);
+                        p1.setLeft(true);
                         direction = "left";
                     }
                     if (event.getCode() == KeyCode.W){
@@ -51,11 +52,11 @@ public class KeyEvent {
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (event.getCode() == KeyCode.D) {
-                        right = false;
+                        p1.setRight(false);
                         p1.setSprite(new Image("rickwalk2-right.png"));
                     }
                     if (event.getCode() == KeyCode.A) {
-                        left = false;
+                        p1.setLeft(false);
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
@@ -64,6 +65,7 @@ public class KeyEvent {
                 });
                 if (!isShooting)
                     p1.move(right, left, currentFrame);
+                z1.chasing(p1,z1, currentFrame);
 
             }
         }.start();
