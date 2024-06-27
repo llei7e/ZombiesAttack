@@ -9,15 +9,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class KeyEvent {
 
-    public void keyEvent(Scene scene, Pane pane, Player p1,ArrayList<Zombies> zombies,
+    public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies,
                          ImageView life, ImageView weapon, Text weaponName, Text points) {
-  
+
         new AnimationTimer() {
 
             private long lastUpdate = 0;
@@ -26,6 +27,7 @@ public class KeyEvent {
             Image lifeImage;
             Image weaponImg;
             private boolean hitBreak = false;
+
             // check collision between player and zombie
             public boolean checkCollision(Characters Player, Characters Zombie) {
 
@@ -91,13 +93,13 @@ public class KeyEvent {
                         delay.setOnFinished(event -> hitBreak = false);
                         delay.play();
 
-                }
+                    }
                 // check zombie collision
-                for (Zombies zombie : zombies){
-                    if(!checkCollision(p1, zombie))
-                        zombie.chasing(p1,zombie, currentFrame);
+                for (Zombies zombie : zombies) {
+                    if (!checkCollision(p1, zombie))
+                        zombie.chasing(p1, zombie, currentFrame);
                 }
-              
+
                 // only moves when it is no shot
                 if (!p1.getShooting())
                     p1.move(currentFrame);
@@ -106,8 +108,8 @@ public class KeyEvent {
                 //Define Life Image
                 lifeImage = new Image("life" + p1.getLife() + ".png");
                 life.setImage(lifeImage);
-                if (p1.getLife() == 0){
-                    Menu.gameOver(scene,pane);
+                if (p1.getLife() <= 0) {
+                    Menu.gameOver(scene, pane);
                     zombies.clear();
                 }
 
