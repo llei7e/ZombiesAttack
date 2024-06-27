@@ -2,6 +2,7 @@ package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
+import javafx.animation.Transition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class KeyEvent {
@@ -21,17 +24,24 @@ public class KeyEvent {
 
         new AnimationTimer() {
 
+            // Properties
             private long lastUpdate = 0;
             private int currentFrame = 0;
-
             Image lifeImage;
             Image weaponImg;
             private boolean hitBreak = false;
+            private boolean canSpawn = true;
 
             // check collision between player and zombie
             public boolean checkCollision(Characters Player, Characters Zombie) {
 
                 return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
+            }
+
+            //zombie factory
+            private Zombies zombieFactory(int type) {
+                Image img = new Image("zombieM-walking2.png");
+                return new Zombies(10,10,10,0, type, img);
             }
 
             // game looping
@@ -56,9 +66,6 @@ public class KeyEvent {
                     }
                     if (event.getCode() == KeyCode.W) {
                         p1.jump();
-                        p1.setLife(p1.getLife() - 1);
-                        p1.setPoints(p1.getPoints() + 100);
-                        p1.setWeapon("knife");
                     }
                     if (event.getCode() == KeyCode.J) {
                         p1.attack(pane, zombies);
@@ -81,12 +88,12 @@ public class KeyEvent {
                     }
                 });
 
+                // Player damage
                 // collision check between player end zombie
                 for (Zombies zombie : zombies)
                     if (checkCollision(p1, zombie) && !hitBreak) {
                         p1.setLife(p1.getLife() - zombie.getStrength());
                         hitBreak = true;
-                        System.out.println(p1.getLife());
 
                         // hit delay
                         PauseTransition delay = new PauseTransition(Duration.seconds(3));
@@ -123,6 +130,18 @@ public class KeyEvent {
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
+                // Add zombies
+                if (canSpawn) {
+                    canSpawn = false;
+                    // Define spawn zombie
+                    Zombies z = zombieFactory(1);
+                    zombies.add(z);
+                    pane.getChildren().add(z.getSprite());
+                    // Define delay (Wave)
+                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                    delay.setOnFinished(event -> canSpawn = true);
+                    delay.play();
+                }
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
             }
