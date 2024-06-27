@@ -222,7 +222,7 @@ public class Menu  {
         weapon.getStyleClass().add("weaponbox");
 
         //Actions
-        keys.keyEvent(scene, pane, p1, z1, z2, z3, life,weaponImg, weaponName, points);
+        keys.keyEvent(scene, pane, p1,zombies, life,weaponImg, weaponName, points);
 
     }
 }

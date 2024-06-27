@@ -85,8 +85,6 @@ public class KeyEvent {
                         p1.setLife(p1.getLife() - zombie.getStrength());
                         hitBreak = true;
                         System.out.println(p1.getLife());
-                        if(p1.getLife()<= zombie.getStrength())
-                            Menu.gameOver(scene,pane);
 
                         // hit delay
                         PauseTransition delay = new PauseTransition(Duration.seconds(3));
@@ -108,6 +106,10 @@ public class KeyEvent {
                 //Define Life Image
                 lifeImage = new Image("life" + p1.getLife() + ".png");
                 life.setImage(lifeImage);
+                if (p1.getLife() == 0){
+                    Menu.gameOver(scene,pane);
+                    zombies.clear();
+                }
 
                 //Define Weapon Image
                 weaponImg = new Image(p1.getWeapon() + ".png");
