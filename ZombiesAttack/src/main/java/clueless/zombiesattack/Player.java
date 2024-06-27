@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Characters {
@@ -61,7 +62,7 @@ public class Player extends Characters {
     }
 
     // This method is the main one for attack
-    public void attack(Pane pane, Zombies z1){
+    public void attack(Pane pane, ArrayList<Zombies> zombies){
 
         if (!isShooting) {
             // define isWalking
@@ -79,22 +80,24 @@ public class Player extends Characters {
                 @Override
                 public void handle(long now) {
                     // check if bullet collide with zombie
-                    if (bullet.getBoundsInParent().intersects(z1.sprite.getBoundsInParent())) {
-                        if (Objects.equals(direction, "right"))
-                            setSprite(new Image("rickwalk2-right.png"));
-                        else
-                            setSprite(new Image("rickwalk2-left.png"));
+                    for (Zombies z : zombies)
+                        if (bullet.getBoundsInParent().intersects(z.sprite.getBoundsInParent())) {
+                            // define direction
+                            if (Objects.equals(direction, "right"))
+                                setSprite(new Image("rickwalk2-right.png"));
+                            else
+                                setSprite(new Image("rickwalk2-left.png"));
+                        // Remove zombie from zombies ArrayList
                         // refactor
-                        z1.setLife(z1.getLife() - getStrength());
-                        if (z1.getLife() <= getStrength()) {
-                            pane.getChildren().remove(z1);
-                            pane.getChildren().remove(z1.sprite);
+                            z.setLife(z.getLife() - getStrength());
+                            if (z.getLife() <= getStrength()) {
+                                pane.getChildren().remove(z.sprite);
 
+                            }
+                            timeline.stop(); // stop timeline if yes
+                            pane.getChildren().remove(bullet);// remove bullet from pane
+                            this.stop(); // stop collisionChecker
                         }
-                        timeline.stop(); // stop timeline if yes
-                        pane.getChildren().remove(bullet);// remove bullet from pane
-                        this.stop(); // stop collisionChecker
-                    }
                 }
             };
             // define KeyFrame direction
