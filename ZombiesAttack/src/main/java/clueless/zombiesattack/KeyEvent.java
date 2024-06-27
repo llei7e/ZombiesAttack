@@ -7,23 +7,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class KeyEvent {
 
-    public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies) {
+    public void keyEvent(Scene scene, Pane pane, Player p1,ArrayList<Zombies> zombies,
+                         ImageView life, ImageView weapon, Text weaponName, Text points) {
+  
         new AnimationTimer() {
 
             private long lastUpdate = 0;
             private int currentFrame = 0;
-            private boolean hitBreak = false;
 
+            Image lifeImage;
+            Image weaponImg;
+            private boolean hitBreak = false;
             // check collision between player and zombie
-            public boolean checkCollision (Characters Player, Zombies Zombie ) {
+            public boolean checkCollision(Characters Player, Characters Zombie) {
+
                 return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
             }
 
@@ -47,8 +52,11 @@ public class KeyEvent {
                         p1.setLeft(true);
                         p1.setDirection("left");
                     }
-                    if (event.getCode() == KeyCode.W){
+                    if (event.getCode() == KeyCode.W) {
                         p1.jump();
+                        p1.setLife(p1.getLife() - 1);
+                        p1.setPoints(p1.getPoints() + 100);
+                        p1.setWeapon("knife");
                     }
                     if (event.getCode() == KeyCode.J) {
                         p1.attack(pane, zombies);
@@ -91,9 +99,25 @@ public class KeyEvent {
                     if(!checkCollision(p1, zombie))
                         zombie.chasing(p1,zombie, currentFrame);
                 }
+              
                 // only moves when it is no shot
                 if (!p1.getShooting())
                     p1.move(currentFrame);
+
+
+                //Define Life Image
+                lifeImage = new Image("life" + p1.getLife() + ".png");
+                life.setImage(lifeImage);
+
+                //Define Weapon Image
+                weaponImg = new Image(p1.getWeapon() + ".png");
+                weapon.setImage(weaponImg);
+
+                //Define Weapon Text
+                weaponName.setText(p1.getWeapon());
+
+                //Define Points
+                points.setText(String.valueOf(p1.getPoints()) + " pts");
 
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
