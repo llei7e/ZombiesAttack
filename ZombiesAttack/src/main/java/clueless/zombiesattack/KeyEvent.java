@@ -10,10 +10,6 @@ import java.util.Objects;
 
 
 public class KeyEvent {
-    private boolean isShooting = false;
-
-    private String direction = "right";
-
 
     public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1, Zombies z2, Zombies z3 ) {
         new AnimationTimer() {
@@ -38,19 +34,19 @@ public class KeyEvent {
                     if (event.getCode() == KeyCode.D) {
                         p1.setRight(true);
                         p1.setLeft(false);
-                        direction = "right";
+                        p1.setDirection("right");
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setRight(false);
                         p1.setLeft(true);
-                        direction = "left";
+                        p1.setDirection("left");
                     }
                     if (event.getCode() == KeyCode.W){
                         p1.jump();
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, isShooting, z1);
-                        isShooting = true;
+                        p1.attack(pane, z1);
+                        p1.setShooting(true);
                     }
                 });
 
@@ -65,14 +61,15 @@ public class KeyEvent {
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        isShooting = false; // end of shooting
+                        p1.setShooting(false); // end of shooting
                     }
                 });
                 if (z1.getLife() > 0)
                     if(!checkCollision(p1, z1))
                         z1.chasing(p1,z1, currentFrame);
+
                 // only moves when it is no shot
-                if (!isShooting)
+                if (!p1.getShooting())
                     p1.move(currentFrame);
 
                 z2.chasing(p1,z2,currentFrame);
