@@ -41,7 +41,6 @@ public class Player extends Characters {
         playerSprites(img);
         this.sprite.setX(0);
         this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
-        System.out.println(sprite.getFitHeight());
     }
 
     //Methods
