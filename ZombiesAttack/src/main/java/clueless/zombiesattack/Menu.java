@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class Menu {
+public class Menu  {
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
 
@@ -143,7 +143,7 @@ public class Menu {
         gameKeys.setOnMouseReleased(e -> game(scene, pane, stage));
     }
 
-    public void gameOver(Scene scene, Pane pane, Stage stage) {
+    public static void gameOver(Scene scene, Pane pane) {
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);

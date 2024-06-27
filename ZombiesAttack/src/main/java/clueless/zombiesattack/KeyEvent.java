@@ -67,10 +67,13 @@ public class KeyEvent {
                         p1.setShooting(false); // end of shooting
                     }
                 });
+                // collision check between player end zombie
                 if (checkCollision(p1, z1) && !hitBreak) {
                     p1.setLife(p1.getLife() - z1.getStrength());
                     hitBreak = true;
                     System.out.println(p1.getLife());
+                    if(p1.getLife()<= z1.getStrength())
+                       Menu.gameOver(scene,pane);
                     // hit delay
                     PauseTransition delay = new PauseTransition(Duration.seconds(5));
                     delay.setOnFinished(event -> hitBreak = false);
