@@ -1,11 +1,14 @@
 package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
+
 import java.util.Objects;
 
 
@@ -15,7 +18,7 @@ public class KeyEvent {
         new AnimationTimer() {
             private long lastUpdate = 0;
             private int currentFrame = 0;
-
+            private boolean hitBreak = false;
             // check collision between player and zombie
             public boolean checkCollision (Characters Player, Characters Zombie ) {
                 return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
@@ -64,6 +67,16 @@ public class KeyEvent {
                         p1.setShooting(false); // end of shooting
                     }
                 });
+                if (checkCollision(p1, z1) && !hitBreak) {
+                    p1.setLife(p1.getLife() - z1.getStrength());
+                    hitBreak = true;
+                    System.out.println(p1.getLife());
+                    // hit delay
+                    PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                    delay.setOnFinished(event -> hitBreak = false);
+                    delay.play();
+
+                }
                 if (z1.getLife() > 0)
                     if(!checkCollision(p1, z1))
                         z1.chasing(p1,z1, currentFrame);
