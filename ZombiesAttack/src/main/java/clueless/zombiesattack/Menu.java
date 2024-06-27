@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 
 public class Menu  {
 
@@ -162,11 +164,16 @@ public class Menu  {
         Image playerImg = new Image("rickwalk2-right.png");
         Player p1 = new Player(10, 10, 0, 0, playerImg);
         Image img = new Image("zombieM-walking2.png");
+        // Zombies Collection
+        ArrayList<Zombies> zombies = new ArrayList<>();
+
         Zombies z1 = new Zombies(10,10,10,0,1, img);
         Zombies z2 = new Zombies(10,10,10,0,2, img);
         Zombies z3 = new Zombies(10,10,10,0,3, img);
 
-
+        zombies.add(z1);
+        zombies.add(z2);
+        zombies.add(z3);
 
         // Time and Points
         VBox timePoints =  new VBox();
@@ -182,14 +189,15 @@ public class Menu  {
         ImageView coin = new ImageView(img2);
         Text time = new Text("time: " + String.valueOf(p1.getTimeSurvived()) + "s");
 
-        keys.keyEvent(scene, pane, p1, z1,z2,z3);
+        // keyEvent class definition
+        keys.keyEvent(scene, pane, p1, zombies);
 
         pointsBox.getChildren().addAll(coin, points);
         timePoints.getChildren().addAll(time ,pointsBox);
 
 
+        // start game
         pane.getChildren().addAll(background, timePoints, p1.getSprite(), z1.getSprite(), z2.getSprite(), z3.getSprite());
-
 
         points.getStyleClass().add("points");
         pointsBox.getStyleClass().add("pointsbox");

@@ -9,20 +9,24 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class KeyEvent {
 
-    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1, Zombies z2, Zombies z3 ) {
+    public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies) {
         new AnimationTimer() {
+
             private long lastUpdate = 0;
             private int currentFrame = 0;
             private boolean hitBreak = false;
+
             // check collision between player and zombie
-            public boolean checkCollision (Characters Player, Characters Zombie ) {
+            public boolean checkCollision (Characters Player, Zombies Zombie ) {
                 return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
             }
+
             // game looping
             @Override
             public void handle(long now) {
@@ -31,7 +35,6 @@ public class KeyEvent {
                     lastUpdate = now; // update lastUpdate
                     currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
                 }
-
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.D) {
@@ -48,7 +51,7 @@ public class KeyEvent {
                         p1.jump();
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(pane, z1);
+                        p1.attack(pane, zombies);
                         p1.setShooting(true);
                     }
                 });
@@ -67,30 +70,33 @@ public class KeyEvent {
                         p1.setShooting(false); // end of shooting
                     }
                 });
+
                 // collision check between player end zombie
-                if (checkCollision(p1, z1) && !hitBreak) {
-                    p1.setLife(p1.getLife() - z1.getStrength());
-                    hitBreak = true;
-                    System.out.println(p1.getLife());
-                    if(p1.getLife()<= z1.getStrength())
-                       Menu.gameOver(scene,pane);
-                    // hit delay
-                    PauseTransition delay = new PauseTransition(Duration.seconds(5));
-                    delay.setOnFinished(event -> hitBreak = false);
-                    delay.play();
+                for (Zombies zombie : zombies)
+                    if (checkCollision(p1, zombie) && !hitBreak) {
+                        p1.setLife(p1.getLife() - zombie.getStrength());
+                        hitBreak = true;
+                        System.out.println(p1.getLife());
+                        if(p1.getLife()<= zombie.getStrength())
+                            Menu.gameOver(scene,pane);
+
+                        // hit delay
+                        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                        delay.setOnFinished(event -> hitBreak = false);
+                        delay.play();
 
                 }
-                if (z1.getLife() > 0)
-                    if(!checkCollision(p1, z1))
-                        z1.chasing(p1,z1, currentFrame);
-
+                // check zombie collision
+                for (Zombies zombie : zombies){
+                    if(!checkCollision(p1, zombie))
+                        zombie.chasing(p1,zombie, currentFrame);
+                }
                 // only moves when it is no shot
                 if (!p1.getShooting())
                     p1.move(currentFrame);
 
-                z2.chasing(p1,z2,currentFrame);
-                z3.chasing(p1,z3,currentFrame);
-
+                // Remove zombies of ArrayList
+                zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
             }
         }.start();
     }
