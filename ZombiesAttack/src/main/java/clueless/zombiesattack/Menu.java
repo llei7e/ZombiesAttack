@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 
-public class Menu  {
+public class Menu {
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
 
@@ -165,14 +165,14 @@ public class Menu  {
         ImageView background = new ImageView(new Image("fundo.png"));
         background.setFitHeight(620);
         background.setFitWidth(620);
-      
+
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
 
-        Zombies z1 = new Zombies(10,10,10,0,1, img);
-        Zombies z2 = new Zombies(10,10,10,0,2, img);
-        Zombies z3 = new Zombies(10,10,10,0,3, img);
-      
+        Zombies z1 = new Zombies(10, 10, 10, 0, 1, img);
+        Zombies z2 = new Zombies(10, 10, 10, 0, 2, img);
+        Zombies z3 = new Zombies(10, 10, 10, 0, 3, img);
+
         zombies.add(z1);
         zombies.add(z2);
         zombies.add(z3);
@@ -222,7 +222,7 @@ public class Menu  {
         weapon.getStyleClass().add("weaponbox");
 
         //Actions
-        keys.keyEvent(scene, pane, p1, z1, z2, z3, life,weaponImg, weaponName, points);
+        keys.keyEvent(scene, pane, p1, zombies, life, weaponImg, weaponName, points);
 
     }
 }
