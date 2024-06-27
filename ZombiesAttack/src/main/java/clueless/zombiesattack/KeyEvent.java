@@ -1,32 +1,34 @@
 package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
+import javafx.util.Duration;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class KeyEvent {
-    private boolean isShooting = false;
 
-    private String direction = "right";
-
-
-    public void keyEvent(Scene scene, Pane pane, Player p1, Zombies z1, Zombies z2, Zombies z3,
+    public void keyEvent(Scene scene, Pane pane, Player p1,ArrayList<Zombies> zombies,
                          ImageView life, ImageView weapon, Text weaponName, Text points) {
+  
         new AnimationTimer() {
+
             private long lastUpdate = 0;
             private int currentFrame = 0;
+
             Image lifeImage;
             Image weaponImg;
-
+            private boolean hitBreak = false;
             // check collision between player and zombie
             public boolean checkCollision(Characters Player, Characters Zombie) {
+
                 return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
             }
 
@@ -38,18 +40,17 @@ public class KeyEvent {
                     lastUpdate = now; // update lastUpdate
                     currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
                 }
-
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.D) {
                         p1.setRight(true);
                         p1.setLeft(false);
-                        direction = "right";
+                        p1.setDirection("right");
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setRight(false);
                         p1.setLeft(true);
-                        direction = "left";
+                        p1.setDirection("left");
                     }
                     if (event.getCode() == KeyCode.W) {
                         p1.jump();
@@ -58,8 +59,8 @@ public class KeyEvent {
                         p1.setWeapon("knife");
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.attack(direction, pane, isShooting, z1);
-                        isShooting = true;
+                        p1.attack(pane, zombies);
+                        p1.setShooting(true);
                     }
                 });
 
@@ -74,18 +75,34 @@ public class KeyEvent {
                         p1.setSprite(new Image("rickwalk2-left.png"));
                     }
                     if (event.getCode() == KeyCode.J) {
-                        isShooting = false; // end of shooting
+                        p1.setShooting(false); // end of shooting
                     }
                 });
-                if (z1.getLife() > 0)
-                    if (!checkCollision(p1, z1))
-                        z1.chasing(p1, z1, currentFrame);
-                // only moves when it is no shot
-                if (!isShooting)
-                    p1.move(currentFrame);
 
-                z2.chasing(p1, z2, currentFrame);
-                z3.chasing(p1, z3, currentFrame);
+                // collision check between player end zombie
+                for (Zombies zombie : zombies)
+                    if (checkCollision(p1, zombie) && !hitBreak) {
+                        p1.setLife(p1.getLife() - zombie.getStrength());
+                        hitBreak = true;
+                        System.out.println(p1.getLife());
+                        if(p1.getLife()<= zombie.getStrength())
+                            Menu.gameOver(scene,pane);
+
+                        // hit delay
+                        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                        delay.setOnFinished(event -> hitBreak = false);
+                        delay.play();
+
+                }
+                // check zombie collision
+                for (Zombies zombie : zombies){
+                    if(!checkCollision(p1, zombie))
+                        zombie.chasing(p1,zombie, currentFrame);
+                }
+              
+                // only moves when it is no shot
+                if (!p1.getShooting())
+                    p1.move(currentFrame);
 
 
                 //Define Life Image
@@ -102,6 +119,8 @@ public class KeyEvent {
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
+                // Remove zombies of ArrayList
+                zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
             }
         }.start();
     }

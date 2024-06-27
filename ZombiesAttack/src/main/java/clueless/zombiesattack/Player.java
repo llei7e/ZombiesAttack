@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Characters {
@@ -18,6 +19,8 @@ public class Player extends Characters {
     private String weapon;
     private boolean isJumping = false;
     private boolean isWalking = false;
+    private boolean isShooting = false;
+    private String direction = "right";
     private Image [] shooting = new Image[2];
 
 
@@ -64,7 +67,7 @@ public class Player extends Characters {
     }
 
     // This method is the main one for attack
-    public void attack(String dir, Pane pane, boolean isShooting, Zombies z1){
+    public void attack(Pane pane, ArrayList<Zombies> zombies){
 
         if (!isShooting) {
             // define isWalking
@@ -82,28 +85,30 @@ public class Player extends Characters {
                 @Override
                 public void handle(long now) {
                     // check if bullet collide with zombie
-                    if (bullet.getBoundsInParent().intersects(z1.sprite.getBoundsInParent())) {
-                        if (Objects.equals(dir, "right"))
-                            setSprite(new Image("rickwalk2-right.png"));
-                        else
-                            setSprite(new Image("rickwalk2-left.png"));
+                    for (Zombies z : zombies)
+                        if (bullet.getBoundsInParent().intersects(z.sprite.getBoundsInParent())) {
+                            // define direction
+                            if (Objects.equals(direction, "right"))
+                                setSprite(new Image("rickwalk2-right.png"));
+                            else
+                                setSprite(new Image("rickwalk2-left.png"));
+                        // Remove zombie from zombies ArrayList
                         // refactor
-                        z1.setLife(z1.getLife() - getStrength());
-                        if (z1.getLife() <= getStrength()) {
-                            pane.getChildren().remove(z1);
-                            pane.getChildren().remove(z1.sprite);
+                            z.setLife(z.getLife() - getStrength());
+                            if (z.getLife() <= getStrength()) {
+                                pane.getChildren().remove(z.sprite);
 
+                            }
+                            timeline.stop(); // stop timeline if yes
+                            pane.getChildren().remove(bullet);// remove bullet from pane
+                            this.stop(); // stop collisionChecker
                         }
-                        timeline.stop(); // stop timeline if yes
-                        pane.getChildren().remove(bullet); // remove bullet from pane
-                        this.stop(); // stop collisionChecker
-                    }
                 }
             };
             // define KeyFrame direction
             KeyFrame kf;
             // if right
-            if (Objects.equals(dir, "right")) {
+            if (Objects.equals(direction, "right")) {
                 // player sprite right
                 this.setSprite(new Image("pistolShooting1-right.png"));
                 // define bullet X
@@ -126,7 +131,7 @@ public class Player extends Characters {
             // remove bullet
             timeline.setOnFinished(e -> {
                 pane.getChildren().remove(bullet);
-                if (Objects.equals(dir, "right"))
+                if (Objects.equals(direction, "right"))
                     this.setSprite(new Image("rickwalk2-right.png"));
                 else
                     this.setSprite(new Image("rickwalk2-left.png"));
@@ -195,5 +200,14 @@ public class Player extends Characters {
 
     public void setTimeSurvived(int timeSurvived) {
         this.timeSurvived = timeSurvived;
+    }
+    public void setDirection (String dir) {
+        this.direction = dir;
+    }
+    public void setShooting (boolean isShooting) {
+        this.isShooting = isShooting;
+    }
+    public boolean getShooting() {
+        return this.isShooting;
     }
 }
