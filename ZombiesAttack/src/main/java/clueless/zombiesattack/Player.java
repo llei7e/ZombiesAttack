@@ -24,11 +24,31 @@ public class Player extends Characters {
     //Constructor
     public Player(int height, int width, int positionX, int positionY, Image img){
         super(height, width, positionX, positionY, img);
+
+        //define stats
+        this.name = "";
+        this.points = 0;
+        this.timeSurvived = 0;
+        this.weapon = "pistol";
+        setLife(10);
+        setSpeed(5);
+        setStrength(1);
+
         //define sprites
-        this.setSprite(img);
+        playerSprites(img);
         this.sprite.setX(0);
         this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
         System.out.println(sprite.getFitHeight());
+    }
+
+    //Methods
+    public int dash(int positionX, int positionY, boolean doubleClick){
+        int dashSize = 3;
+        //   int newX;
+        return 0;
+    }
+
+    public void playerSprites(Image img){
         // right
         this.walking[0] = new Image("rickwalk1-right.png");
         this.walking[1] = new Image("rickwalk2-right.png");
@@ -40,22 +60,7 @@ public class Player extends Characters {
         // shooting
         this.shooting[0] = new Image("pistolShooting1-right.png");
         this.shooting[1] = new Image("pistol-shot-walk-right.png");
-
-        //define stats
-        this.name = "";
-        this.points = 0;
-        this.timeSurvived = 0;
-        this.weapon = "knife";
-        setLife(10);
-        setSpeed(5);
-        setStrength(1);
-    }
-
-    //Methods
-    public int dash(int positionX, int positionY, boolean doubleClick){
-        int dashSize = 3;
-        //   int newX;
-        return 0;
+        this.setSprite(img);
     }
 
     // This method is the main one for attack

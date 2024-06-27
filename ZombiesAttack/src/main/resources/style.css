@@ -52,15 +52,20 @@
 
 .points{
     -fx-fill: white;
-    -fx-font-size: 35px;
-}
-
-.time{
-    -fx-fill:white;
-    -fx-font-size: 35px;
+    -fx-font-size: 30px;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
 }
 
 .timePoints{
-    -fx-padding: 15px;
-    -fx-spacing: 5px;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+}
+
+.lifeweapon{
+     -fx-padding: 15px;
+     -fx-spacing: 10px;
+}
+
+.weaponbox{
+    -fx-spacing: 10px;
 }
