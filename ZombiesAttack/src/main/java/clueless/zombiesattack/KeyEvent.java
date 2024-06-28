@@ -124,8 +124,8 @@ public class KeyEvent {
                 lifeImage = new Image("life" + p1.getLife() + ".png");
                 life.setImage(lifeImage);
                 if (p1.getLife() <= 0) {
-                    Menu.gameOver(scene, pane);
                     zombies.clear();
+                    Menu.gameOver(scene, pane);
                 }
 
                 //Define Weapon Image
