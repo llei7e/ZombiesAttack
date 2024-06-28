@@ -136,7 +136,10 @@ public class KeyEvent {
 
             //HUD
                 //Define Life Image
-                lifeImage = new Image("life" + p1.getLife() + ".png");
+                if(p1.getLife() >= 0)
+                    lifeImage = new Image("life" + p1.getLife() + ".png");
+                else
+                    lifeImage = new Image("life0.png");
                 life.setImage(lifeImage);
                 if (p1.getLife() <= 0) {
                     canSpawn = false;
@@ -168,7 +171,7 @@ public class KeyEvent {
                     delay.play();
                 }
                 // Remove zombies of ArrayList
-                zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
+                zombies.removeIf(z -> z.getLife() <= 0);
             }
         }.start();
     }
