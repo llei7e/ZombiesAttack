@@ -39,7 +39,7 @@ public class Player extends Characters {
 
         //define sprites
         playerSprites(img);
-        this.sprite.setX(0);
+        this.sprite.setX(310);
         this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
     }
 
