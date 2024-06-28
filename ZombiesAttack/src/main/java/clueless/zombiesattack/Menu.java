@@ -2,7 +2,6 @@ package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -52,7 +51,7 @@ public class Menu {
         root.getStyleClass().add("vbox");
 
         //set action on click
-        start.setOnMouseReleased(e -> loading(scene, pane, stage));
+        start.setOnMouseReleased(e -> gameKeys(scene, pane, stage));
         ranking.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
         exit.setOnMouseReleased(e -> stage.close());
 
@@ -315,18 +314,11 @@ public class Menu {
 
         );
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(8));
         // Set the cycle counts and play the timelines
         backgroundTimeline.setCycleCount(Timeline.INDEFINITE);
         loadingTextTimeline.setCycleCount(Timeline.INDEFINITE);
 
-        delay.setOnFinished(e -> {
-            backgroundTimeline.stop();
-            loadingTextTimeline.stop();
-            gameKeys(scene, pane, stage);
-        });
         backgroundTimeline.play();
         loadingTextTimeline.play();
-        delay.play();
     }
 }
