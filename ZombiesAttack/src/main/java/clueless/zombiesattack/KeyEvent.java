@@ -11,10 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 public class KeyEvent {
@@ -39,9 +36,20 @@ public class KeyEvent {
             }
 
             //zombie factory
-            private Zombies zombieFactory(int type) {
+            private Zombies zombieFactory() {
+                // Define random value and type
+                Random r = new Random();
+                int X = r.nextInt(2)+1;
+                int type = r.nextInt(3)+1;
+                // Define positionX
+                int value = r.nextInt(3) + 1;
+                if (value == 1)
+                    X = 630;
+                else if(value == 2)
+                    X = -10;
+
                 Image img = new Image("zombieM-walking2.png");
-                return new Zombies(10,10,10,0, type, img);
+                return new Zombies(10,10,X,0, type, img);
             }
 
             // game looping
@@ -134,11 +142,11 @@ public class KeyEvent {
                 if (canSpawn) {
                     canSpawn = false;
                     // Define spawn zombie
-                    Zombies z = zombieFactory(1);
+                    Zombies z = zombieFactory();
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(2));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }

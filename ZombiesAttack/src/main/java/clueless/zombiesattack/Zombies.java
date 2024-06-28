@@ -15,7 +15,7 @@ public class Zombies extends Characters{
             //define sprites
             img = new Image("zombieP-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(500);
+            this.sprite.setX(positionX);
             this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
             // right
             this.walking[0] = new Image("zombieP-walkright1.png");
@@ -36,7 +36,7 @@ public class Zombies extends Characters{
             //define sprites
             img = new Image("zombieG-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(500);
+            this.sprite.setX(positionX);
             this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
             // right
             this.walking[0] = new Image("zombieG-walkright1.png");
@@ -56,7 +56,7 @@ public class Zombies extends Characters{
             //define sprites
             img = new Image("zombieM-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(500);
+            this.sprite.setX(positionX);
             this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
             // right
             this.walking[0] = new Image("zombieM-walkright1.png");
