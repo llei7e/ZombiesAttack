@@ -1,10 +1,7 @@
 package clueless.zombiesattack;
 
-import javafx.animation.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 

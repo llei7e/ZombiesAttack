@@ -48,8 +48,7 @@ public class KeyEvent {
                 else if(value == 2)
                     X = -10;
 
-                Image img = new Image("zombieM-walking2.png");
-                return new Zombies(10,10,X,0, type, img);
+                return new Zombies(10,10,X,0, type);
             }
 
             // game looping
@@ -85,11 +84,19 @@ public class KeyEvent {
                 scene.setOnKeyReleased(event -> {
                     if (event.getCode() == KeyCode.D) {
                         p1.setRight(false);
-                        p1.setSprite(new Image("rickwalk2-right.png"));
+                        if (Objects.equals(p1.getWeapon(), "knife")) {
+                            p1.setSprite(new Image("knifewalk-right2.png"), p1.getWeapon());
+                        } else {
+                            p1.setSprite(new Image("rickwalk2-right.png"), p1.getWeapon());
+                        }
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setLeft(false);
-                        p1.setSprite(new Image("rickwalk2-left.png"));
+                        if (Objects.equals(p1.getWeapon(), "knife")) {
+                            p1.setSprite(new Image("knifewalk-left2.png"), p1.getWeapon());
+                        } else {
+                            p1.setSprite(new Image("rickwalk2-left.png"), p1.getWeapon());
+                        }
                     }
                     if (event.getCode() == KeyCode.J) {
                         p1.setShooting(false); // end of shooting
@@ -117,7 +124,7 @@ public class KeyEvent {
 
                 // only moves when it is no shot
                 if (!p1.getShooting())
-                    p1.move(currentFrame);
+                    p1.move(currentFrame, p1.getWeapon());
 
 
                 //Define Life Image

@@ -21,58 +21,91 @@ public class Player extends Characters {
     private boolean isWalking = false;
     private boolean isShooting = false;
     private String direction = "right";
-    private Image [] shooting = new Image[2];
+    private Image[] shooting = new Image[2];
 
 
     //Constructor
-    public Player(int height, int width, int positionX, int positionY, Image img){
-        super(height, width, positionX, positionY, img);
+    public Player(int height, int width, int positionX, int positionY) {
+        super(height, width, positionX, positionY);
 
         //define stats
         this.name = "";
         this.points = 0;
         this.timeSurvived = 0;
-        this.weapon = "pistol";
+        this.weapon = "knife";
         setLife(10);
         setSpeed(5);
         setStrength(1);
 
         //define sprites
-        playerSprites(img);
+        playerWeapons();
         this.sprite.setX(310);
         this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
     }
 
     //Methods
-    public int dash(int positionX, int positionY, boolean doubleClick){
+    public int dash(int positionX, int positionY, boolean doubleClick) {
         int dashSize = 3;
         //   int newX;
         return 0;
     }
 
-    public void playerSprites(Image img){
-        // right
-        this.walking[0] = new Image("rickwalk1-right.png");
-        this.walking[1] = new Image("rickwalk2-right.png");
-        this.walking[2] = new Image("rickwalk3-right.png");
-        // left
-        this.walking[3] = new Image("rickwalk1-left.png");
-        this.walking[4] = new Image("rickwalk2-left.png");
-        this.walking[5] = new Image("rickwalk3-left.png");
-        // shooting
-        this.shooting[0] = new Image("pistolShooting1-right.png");
-        this.shooting[1] = new Image("pistol-shot-walk-right.png");
-        this.setSprite(img);
+    public void playerWeapons() {
+        Image img;
+
+        if (Objects.equals(this.getWeapon(), "knife")) {
+
+            // right
+            this.walking[0] = new Image("knifewalk-right1.png");
+            this.walking[1] = new Image("knifewalk-right2.png");
+            this.walking[2] = new Image("knifewalk-right3.png");
+            // left
+            this.walking[3] = new Image("knifewalk-left1.png");
+            this.walking[4] = new Image("knifewalk-left2.png");
+            this.walking[5] = new Image("knifewalk-left3.png");
+            // shooting
+            this.shooting[0] = new Image("knife-attack-right.png");
+            this.shooting[1] = new Image("knifewalk-right2.png");
+
+            img = new Image("knifewalk-right2.png");
+            this.setSprite(img, getWeapon());
+
+        }
+
+        if (Objects.equals(this.getWeapon(), "pistol")) {
+
+            // right
+            this.walking[0] = new Image("rickwalk1-right.png");
+            this.walking[1] = new Image("rickwalk2-right.png");
+            this.walking[2] = new Image("rickwalk3-right.png");
+            // left
+            this.walking[3] = new Image("rickwalk1-left.png");
+            this.walking[4] = new Image("rickwalk2-left.png");
+            this.walking[5] = new Image("rickwalk3-left.png");
+            // shooting
+            this.shooting[0] = new Image("pistolShooting1-right.png");
+            this.shooting[1] = new Image("pistol-shot-walk-right.png");
+
+            img = new Image("rickwalk2-right.png");
+            this.setSprite(img, getWeapon());
+        }
     }
 
+
     // This method is the main one for attack
-    public void attack(Pane pane, ArrayList<Zombies> zombies){
+    public void attack(Pane pane, ArrayList<Zombies> zombies) {
 
         if (!isShooting) {
             // define isWalking
             isWalking = isRight() || isLeft();
             // Bullet instance and settings
-            ImageView bullet = new ImageView(new Image("bullet1.png"));
+            ImageView bullet;
+            if (Objects.equals(getWeapon(), "knife")) {
+                bullet = new ImageView(new Image("slash.png"));
+            } else {
+                bullet = new ImageView(new Image("bullet1.png"));
+            }
+
             bullet.setFitHeight(25);
             bullet.setFitWidth(25);
             bullet.setY(sprite.getY() + sprite.getFitHeight() / 2 - 20);
@@ -87,12 +120,21 @@ public class Player extends Characters {
                     for (Zombies z : zombies)
                         if (bullet.getBoundsInParent().intersects(z.sprite.getBoundsInParent())) {
                             // define direction
-                            if (Objects.equals(direction, "right"))
-                                setSprite(new Image("rickwalk2-right.png"));
-                            else
-                                setSprite(new Image("rickwalk2-left.png"));
-                        // Remove zombie from zombies ArrayList
-                        // refactor
+                            if (Objects.equals(direction, "right")) {
+                                if (Objects.equals(getWeapon(), "knife")) {
+                                    setSprite(new Image("knifewalk-right2.png"), getWeapon());
+                                } else {
+                                    setSprite(new Image("rickwalk2-right.png"), getWeapon());
+                                }
+                            } else {
+                                if (Objects.equals(getWeapon(), "knife")) {
+                                    setSprite(new Image("knifewalk-left2.png"), getWeapon());
+                                } else {
+                                    setSprite(new Image("rickwalk2-left.png"), getWeapon());
+                                }
+                            }
+                            // Remove zombie from zombies ArrayList
+                            // refactor
                             z.setLife(z.getLife() - getStrength());
                             if (z.getLife() <= getStrength()) {
                                 pane.getChildren().remove(z.sprite);
@@ -109,18 +151,38 @@ public class Player extends Characters {
             // if right
             if (Objects.equals(direction, "right")) {
                 // player sprite right
-                this.setSprite(new Image("pistolShooting1-right.png"));
+                if (Objects.equals(getWeapon(), "knife")) {
+                    this.setSprite(new Image("knife-attack-right.png"), getWeapon(), this.isShooting);
+                } else {
+                    this.setSprite(new Image("pistolShooting1-right.png"), getWeapon(), this.isShooting);
+                }
                 // define bullet X
                 bullet.setX(sprite.getX() + 50);
-                KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);
-                kf = new KeyFrame(Duration.millis(400), kv);
+
+                if (Objects.equals(getWeapon(), "knife")) {
+                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 250);
+                    kf = new KeyFrame(Duration.millis(800), kv);
+                } else {
+                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);
+                    kf = new KeyFrame(Duration.millis(400), kv);
+                }
+
             } else {
                 // player sprite left
-                this.setSprite(new Image("pistolShooting1-left.png"));
+                if (Objects.equals(getWeapon(), "knife")) {
+                    this.setSprite(new Image("knife-attack-left.png"), getWeapon(), this.isShooting);
+                } else {
+                    this.setSprite(new Image("pistolShooting1-left.png"), getWeapon(), this.isShooting);
+                }
                 // define bullet X
                 bullet.setX(sprite.getX());
-                KeyValue kv = new KeyValue(bullet.xProperty(),sprite.getX() - 300);
-                kf = new KeyFrame(Duration.millis(400), kv);
+                if (Objects.equals(getWeapon(), "knife")) {
+                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() - 200);
+                    kf = new KeyFrame(Duration.millis(800), kv);
+                } else {
+                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() - 300);
+                    kf = new KeyFrame(Duration.millis(400), kv);
+                }
             }
             // add keyFrame to timeline instance
             timeline.getKeyFrames().add(kf);
@@ -130,10 +192,19 @@ public class Player extends Characters {
             // remove bullet
             timeline.setOnFinished(e -> {
                 pane.getChildren().remove(bullet);
-                if (Objects.equals(direction, "right"))
-                    this.setSprite(new Image("rickwalk2-right.png"));
-                else
-                    this.setSprite(new Image("rickwalk2-left.png"));
+                if (Objects.equals(direction, "right")) {
+                    if (Objects.equals(this.getWeapon(), "knife")) {
+                        this.setSprite(new Image("knifewalk-right2.png"), getWeapon());
+                    } else {
+                        this.setSprite(new Image("rickwalk2-right.png"), getWeapon());
+                    }
+                } else {
+                    if (Objects.equals(this.getWeapon(), "knife")) {
+                        this.setSprite(new Image("knifewalk-left2.png"), getWeapon());
+                    } else {
+                        this.setSprite(new Image("rickwalk2-left.png"), getWeapon());
+                    }
+                }
                 collisionChecker.stop();
             });
 
@@ -143,7 +214,7 @@ public class Player extends Characters {
     }
 
     public void jump() {
-        if(!isJumping) {
+        if (!isJumping) {
             // On jumping
             this.isJumping = true;
 
@@ -200,12 +271,15 @@ public class Player extends Characters {
     public void setTimeSurvived(int timeSurvived) {
         this.timeSurvived = timeSurvived;
     }
-    public void setDirection (String dir) {
+
+    public void setDirection(String dir) {
         this.direction = dir;
     }
-    public void setShooting (boolean isShooting) {
+
+    public void setShooting(boolean isShooting) {
         this.isShooting = isShooting;
     }
+
     public boolean getShooting() {
         return this.isShooting;
     }

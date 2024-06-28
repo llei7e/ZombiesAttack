@@ -158,9 +158,7 @@ public class Menu {
 
     public void game(Scene scene, Pane pane, Stage stage) {
         KeyEvent keys = new KeyEvent();
-        Image playerImg = new Image("rickwalk2-right.png");
-        Player p1 = new Player(10, 10, 0, 0, playerImg);
-        Image img = new Image("zombieM-walking2.png");
+        Player p1 = new Player(10, 10, 0, 0);
 
         ImageView background = new ImageView(new Image("fundo.png"));
         background.setFitHeight(620);
@@ -168,14 +166,6 @@ public class Menu {
 
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
-
-        Zombies z1 = new Zombies(10, 10, 10, 0, 1, img);
-        Zombies z2 = new Zombies(10, 10, 10, 0, 2, img);
-        Zombies z3 = new Zombies(10, 10, 10, 0, 3, img);
-
-        zombies.add(z1);
-        zombies.add(z2);
-        zombies.add(z3);
 
         //HUD
 
@@ -208,7 +198,7 @@ public class Menu {
 
 
         //Add objects at the pane (screen)
-        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite(), z1.getSprite(), z2.getSprite(), z3.getSprite());
+        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite());
 
         //Get css
         String css = getClass().getResource("/style.css").toExternalForm();
