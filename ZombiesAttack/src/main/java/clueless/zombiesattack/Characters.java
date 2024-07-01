@@ -3,7 +3,6 @@ package clueless.zombiesattack;
 import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.Objects;
@@ -12,27 +11,18 @@ import java.util.Objects;
 public abstract class Characters extends ImageView {
 
     // Properties
-    private int height;
-    private int width;
-    private int positionX;
-    private int positionY;
     private boolean right = false;
     private boolean left = false;
     private int life;
     private int speed;
     private int strength;
-    protected ImageView sprite;
+    private ImageView sprite;
     protected Image [] walking = new Image[6];
-
+//  private Image [] walking = new Image[6];
 
     // Constructor
-    public Characters(int height, int width, int positionX, int positionY) {
-        Image img = new Image("knifewalk-right2.png");
-        this.sprite = new ImageView(img);
-        this.height = height;
-        this.width = width;
-        this.positionX = positionX;
-        this.positionY = positionY;
+    public Characters() {
+        this.sprite = new ImageView();
     }
 
     // Methods
@@ -106,7 +96,15 @@ public abstract class Characters extends ImageView {
         return strength;
     }
 
-    public ImageView getSprite() {return sprite;}
+    public ImageView getSprite() { return sprite; }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
 
     // Setters
 
@@ -122,22 +120,13 @@ public abstract class Characters extends ImageView {
         this.strength = strength;
     }
 
-    public boolean isRight() {
-        return right;
-    }
-
     public void setRight(boolean right) {
         this.right = right;
-    }
-
-    public boolean isLeft() {
-        return left;
     }
 
     public void setLeft(boolean left) {
         this.left = left;
     }
-
 
     public void setSprite(Image img, String weapon) {
         if (Objects.equals(weapon, "knife")){
@@ -152,6 +141,7 @@ public abstract class Characters extends ImageView {
         }
     }
 
+    // Define zombie sprite according to the type
     public void setSprite(Image img, int type) {
         //Small Zombie
         if(type == 1){
@@ -172,7 +162,6 @@ public abstract class Characters extends ImageView {
             this.sprite.setImage(img);
             this.sprite.setFitWidth(75);
             this.sprite.setFitHeight(100);
-
         }
     }
 

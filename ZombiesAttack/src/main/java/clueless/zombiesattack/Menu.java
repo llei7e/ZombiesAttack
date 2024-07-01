@@ -1,10 +1,11 @@
 package clueless.zombiesattack;
 
-import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,7 +53,7 @@ public class Menu {
         root.getStyleClass().add("vbox");
 
         //set action on click
-        start.setOnMouseReleased(e -> gameKeys(scene, pane, stage));
+        start.setOnMouseReleased(e -> loading(scene, pane, stage));
         ranking.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
         exit.setOnMouseReleased(e -> stage.close());
 
@@ -136,11 +138,11 @@ public class Menu {
 
     public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gamekeys.png");
+        Image img = new Image("gamekeys.jpg");
         ImageView gameKeys = new ImageView(img);
 
-        gameKeys.setFitWidth(620);
-        gameKeys.setFitHeight(620);
+        gameKeys.setFitWidth(pane.getWidth());
+        gameKeys.setFitHeight(pane.getHeight());
 
         //adding root on pane
         pane.getChildren().add(gameKeys);
@@ -152,8 +154,8 @@ public class Menu {
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);
-        gameOver.setFitWidth(620);
-        gameOver.setFitHeight(620);
+        gameOver.setFitWidth(pane.getWidth());
+        gameOver.setFitHeight(pane.getHeight());
 
         //adding root on pane
         pane.getChildren().add(gameOver);
@@ -161,11 +163,12 @@ public class Menu {
 
     public void game(Scene scene, Pane pane, Stage stage) {
         KeyEvent keys = new KeyEvent();
-        Player p1 = new Player(10, 10, 0, 0);
+      
+        Player p1 = new Player(playerImg);
 
         ImageView background = new ImageView(new Image("fundo.png"));
-        background.setFitHeight(620);
-        background.setFitWidth(620);
+        background.setFitHeight(pane.getHeight());
+        background.setFitWidth(pane.getWidth());
 
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
@@ -338,5 +341,105 @@ public class Menu {
         //Actions
         keys.buyLoop(scene, pane, p1, life, weaponImg, weaponName, points);
 
+    }
+
+    public void loading(Scene scene, Pane pane, Stage stage){
+        //Creating elements
+        Image imgDark = new Image("loadEscuro2.jpeg");
+        ImageView loadingDark = new ImageView(imgDark);
+        loadingDark.setFitWidth(pane.getWidth());
+        loadingDark.setFitHeight(pane.getHeight());
+
+        Image imgLight = new Image("loadClaro.jpeg");
+        ImageView loadingLight = new ImageView(imgLight);
+        loadingLight.setFitWidth(pane.getWidth());
+        loadingLight.setFitHeight(pane.getHeight());
+
+        Image imgText1 = new Image("load1.png");
+        ImageView load1 = new ImageView(imgText1);
+        load1.setX(450);
+        load1.setY(30);
+        Image imgText2 = new Image("load2.png");
+        ImageView load2 = new ImageView(imgText2);
+        load2.setX(450);
+        load2.setY(30);
+        Image imgText3 = new Image("load3.png");
+        ImageView load3 = new ImageView(imgText3);
+        load3.setX(450);
+        load3.setY(30);
+        Image imgText4 = new Image("load4.png");
+        ImageView load4 = new ImageView(imgText4);
+        load4.setX(450);
+        load4.setY(30);
+
+        Image imgzombie1 = new Image("zombieG-walking2.png");
+        ImageView zombie1 = new ImageView(imgzombie1);
+        zombie1.setX(285);
+        zombie1.setY(535);
+        zombie1.setFitWidth(75);
+        zombie1.setFitHeight(86);
+        Image imgzombie2 = new Image("zombieM-walking2.png");
+        ImageView zombie2 = new ImageView(imgzombie2);
+        zombie2.setX(293);
+        zombie2.setY(550);
+        zombie2.setFitWidth(50);
+        zombie2.setFitHeight(67);
+
+        //adding root on pane
+        pane.getChildren().addAll(loadingDark);
+
+        Timeline backgroundTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), actionEvent -> {
+                    pane.getChildren().remove(loadingDark);
+                    pane.getChildren().addAll(loadingLight, zombie1);
+                }),
+                new KeyFrame(Duration.seconds(2), actionEvent -> {
+                    pane.getChildren().removeAll(loadingLight, zombie1);
+                    pane.getChildren().add(loadingDark);
+                }),
+                new KeyFrame(Duration.seconds(3), actionEvent -> {
+                    pane.getChildren().remove(loadingDark);
+                    pane.getChildren().addAll(loadingLight, zombie2);
+                }),
+                new KeyFrame(Duration.seconds(4), actionEvent -> {
+                    pane.getChildren().removeAll(loadingLight, zombie2);
+                    pane.getChildren().add(loadingDark);
+                })
+        );
+
+        // Create a separate Timeline to alternate between loading text images
+        Timeline loadingTextTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.25), actionEvent -> {
+                    pane.getChildren().remove(load4);
+                    pane.getChildren().add(load3);
+                }),
+                new KeyFrame(Duration.seconds(0.5), actionEvent -> {
+                    pane.getChildren().remove(load3);
+                    pane.getChildren().add(load2);
+                }),
+                new KeyFrame(Duration.seconds(0.75), actionEvent -> {
+                    pane.getChildren().remove(load2);
+                    pane.getChildren().add(load1);
+                }),
+                new KeyFrame(Duration.seconds(1), actionEvent -> {
+                    pane.getChildren().remove(load1);
+                    pane.getChildren().add(load4);
+                })
+
+        );
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(8));
+        // Set the cycle counts and play the timelines
+        backgroundTimeline.setCycleCount(Timeline.INDEFINITE);
+        loadingTextTimeline.setCycleCount(Timeline.INDEFINITE);
+
+        delay.setOnFinished(e -> {
+            backgroundTimeline.stop();
+            loadingTextTimeline.stop();
+            gameKeys(scene, pane, stage);
+        });
+        backgroundTimeline.play();
+        loadingTextTimeline.play();
+        delay.play();
     }
 }

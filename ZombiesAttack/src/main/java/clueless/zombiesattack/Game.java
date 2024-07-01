@@ -1,21 +1,18 @@
 package clueless.zombiesattack;
 
-import javafx.animation.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-    private int width = 620;
-    private int height = 620;
+    private final int WindowWidth = 620;
+    private final int WindowHeight = 620;
 
 
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
-        Scene scene = new Scene(pane, width, height);
+        Scene scene = new Scene(pane, WindowWidth, WindowHeight);
         Menu screen = new Menu();
 
         screen.homeScreen(scene, pane, primaryStage);

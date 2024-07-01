@@ -2,7 +2,6 @@ package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
-import javafx.animation.Transition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,21 +20,43 @@ public class KeyEvent {
 
         new AnimationTimer() {
 
-            // Properties
+        // Properties
+
+            // time for frames
             private long lastUpdate = 0;
             private int currentFrame = 0;
-            Image lifeImage;
-            Image weaponImg;
+
+            // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
 
-            // check collision between player and zombie
-            public boolean checkCollision(Characters Player, Characters Zombie) {
+            // HUD images
+            Image lifeImage;
+            Image weaponImg;
 
-                return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
+        // Methods
+
+            // Check if playerCanMove
+            private boolean canMove () {
+                // limit on the right side
+                double endScreen = pane.getWidth() - p1.getSprite().getFitWidth();
+
+                // check if exceed right limit of the screen
+                boolean rightLimit = p1.getSprite().getX() > endScreen && p1.isRight();
+
+                // check if exceed left limit of the screen (0)
+                boolean leftLimit = p1.getSprite().getX() < 0 && p1.isLeft();
+
+                return rightLimit || leftLimit;
             }
 
-            //zombie factory
+            // CheckCollision method
+            private boolean checkCollision(Characters Player, Characters Zombie) {
+                //check collision between player and zombie
+                return Player.getSprite().getBoundsInParent().intersects(Zombie.getSprite().getBoundsInParent());
+            }
+
+            // ZombieFactory method
             private Zombies zombieFactory() {
                 // Define random value and type
                 Random r = new Random();
@@ -46,39 +67,49 @@ public class KeyEvent {
                 if (value == 1)
                     X = 630;
                 else if(value == 2)
-                    X = -10;
+                    X = -15;
 
-                return new Zombies(10,10,X,0, type);
+                Image img = new Image("zombieM-walking2.png");
+                return new Zombies(X, type, img);
             }
 
-            // game looping
+            // GAME LOOPING
             @Override
             public void handle(long now) {
-                // define nanoTime
+                // Define nanoTime
                 if (now - lastUpdate >= 200000000) { // 200ms
                     lastUpdate = now; // update lastUpdate
-                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
+                    currentFrame = (currentFrame + 1) % 3; // change between three frames
                 }
+
+            // Keyboard Input
+
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
-                    if (event.getCode() == KeyCode.D) {
-                        p1.setRight(true);
-                        p1.setLeft(false);
-                        p1.setDirection("right");
-                    }
-                    if (event.getCode() == KeyCode.A) {
-                        p1.setRight(false);
-                        p1.setLeft(true);
-                        p1.setDirection("left");
-                    }
-                    if (event.getCode() == KeyCode.W) {
-                        p1.jump();
-                    }
-                    if (event.getCode() == KeyCode.J) {
-                        p1.attack(pane, zombies);
-                        p1.setShooting(true);
+                    switch (event.getCode()){
+                        case W:
+                            p1.jump();
+                            break;
+                        case J:
+                            p1.attack(pane, zombies);
+                            p1.setShooting(true);
+                            break;
+                        case D :
+                            p1.setRight(true);
+                            p1.setLeft(false);
+                            p1.setDirection("right");
+                            break;
+                        case A:
+                            p1.setRight(false);
+                            p1.setLeft(true);
+                            p1.setDirection("left");
+                            break;
                     }
                 });
+
+                // only moves when there is no shot
+                if (!p1.getShooting() && !canMove())
+                    p1.move(currentFrame);
 
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
@@ -103,7 +134,7 @@ public class KeyEvent {
                     }
                 });
 
-                // Player damage
+            // Player damage
                 // collision check between player end zombie
                 for (Zombies zombie : zombies)
                     if (checkCollision(p1, zombie) && !hitBreak) {
@@ -127,15 +158,19 @@ public class KeyEvent {
                     p1.move(currentFrame, p1.getWeapon());
 
 
+            //HUD
                 //Define Life Image
-                if (p1.getLife() <= 0) {
-                    zombies.clear();
-                    Menu.gameOver(scene, pane);
-                }else {
+                if(p1.getLife() >= 0)
                     lifeImage = new Image("life" + p1.getLife() + ".png");
-                    life.setImage(lifeImage);
-                }
+                else
+                    lifeImage = new Image("life0.png");
+                life.setImage(lifeImage);
+                if (p1.getLife() <= 0) {
+                    canSpawn = false;
+                    zombies.clear();
+                    Menu.gameOver(scene, pane); // End game
 
+                }
 
                 //Define Weapon Image
                 weaponImg = new Image(p1.getWeapon() + ".png");
@@ -147,6 +182,8 @@ public class KeyEvent {
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
+
+            // SPAWN ZOMBIES - REMOVE ZOMBIES
                 // Add zombies
                 if (canSpawn) {
                     canSpawn = false;
@@ -155,13 +192,13 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(2));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
 
                 // Remove zombies of ArrayList
-                zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
+                zombies.removeIf(z -> z.getLife() <= 0);
 
             }
         }.start();
@@ -205,7 +242,6 @@ public class KeyEvent {
                 p1.playerWeapons();
                 p1.sprite.setScaleX(1.5);
                 p1.sprite.setScaleY(1.5);
-
             }
         }.start();
     }

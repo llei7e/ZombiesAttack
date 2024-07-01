@@ -4,8 +4,6 @@ import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -19,15 +17,15 @@ public class Player extends Characters {
     private String weapon;
     private boolean isJumping = false;
     private boolean isWalking = false;
-    private boolean isShooting = false;
+    private boolean isAttacking = false;
     private String direction = "right";
     private Image[] shooting = new Image[2];
 
 
     //Constructor
-    public Player(int height, int width, int positionX, int positionY) {
-        super(height, width, positionX, positionY);
-
+    public Player(){
+        super();
+      
         //define stats
         this.name = "";
         this.points = 0;
@@ -95,30 +93,35 @@ public class Player extends Characters {
     // This method is the main one for attack
     public void attack(Pane pane, ArrayList<Zombies> zombies) {
 
-        if (!isShooting) {
+        if (!isAttacking) {
             // define isWalking
             isWalking = isRight() || isLeft();
-            // Bullet instance and settings
-            ImageView bullet;
+
+            // projectile instance and settings
+            ImageView projectile;
+          
             if (Objects.equals(getWeapon(), "knife")) {
-                bullet = new ImageView(new Image("slash.png"));
+                projectile = new ImageView(new Image("slash.png"));
             } else {
-                bullet = new ImageView(new Image("bullet1.png"));
+                projectile = new ImageView(new Image("bullet1.png"));
             }
+          
+            projectile.setFitHeight(25);
+            projectile.setFitWidth(25);
+            projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
 
-            bullet.setFitHeight(25);
-            bullet.setFitWidth(25);
-            bullet.setY(sprite.getY() + sprite.getFitHeight() / 2 - 20);
-
-            // Timeline instance
+            // Instances
             Timeline timeline = new Timeline();
+            KeyFrame kf;
+
             // CollisionChecker
             AnimationTimer collisionChecker = new AnimationTimer() {
+
                 @Override
                 public void handle(long now) {
-                    // check if bullet collide with zombie
+                    // check if  collide with zombie
                     for (Zombies z : zombies)
-                        if (bullet.getBoundsInParent().intersects(z.sprite.getBoundsInParent())) {
+                        if (projectile.getBoundsInParent().intersects(z.getSprite().getBoundsInParent())) {
                             // define direction
                             if (Objects.equals(direction, "right")) {
                                 if (Objects.equals(getWeapon(), "knife")) {
@@ -135,19 +138,19 @@ public class Player extends Characters {
                             }
                             // Remove zombie from zombies ArrayList
                             // refactor
+                          
                             z.setLife(z.getLife() - getStrength());
                             if (z.getLife() <= getStrength()) {
-                                pane.getChildren().remove(z.sprite);
-
+                                pane.getChildren().remove(z.getSprite());
                             }
+
                             timeline.stop(); // stop timeline if yes
-                            pane.getChildren().remove(bullet);// remove bullet from pane
+                            pane.getChildren().remove(projectile);// remove projectile from pane
                             this.stop(); // stop collisionChecker
                         }
                 }
             };
-            // define KeyFrame direction
-            KeyFrame kf;
+
             // if right
             if (Objects.equals(direction, "right")) {
                 // player sprite right
@@ -157,7 +160,7 @@ public class Player extends Characters {
                     this.setSprite(new Image("pistolShooting1-right.png"), getWeapon(), this.isShooting);
                 }
                 // define bullet X
-                bullet.setX(sprite.getX() + 50);
+                projectile.setX(sprite.getX() + 50);
 
                 if (Objects.equals(getWeapon(), "knife")) {
                     KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 250);
@@ -174,8 +177,8 @@ public class Player extends Characters {
                 } else {
                     this.setSprite(new Image("pistolShooting1-left.png"), getWeapon(), this.isShooting);
                 }
-                // define bullet X
-                bullet.setX(sprite.getX());
+                // define projectile X
+                projectile.setX(sprite.getX());
                 if (Objects.equals(getWeapon(), "knife")) {
                     KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() - 200);
                     kf = new KeyFrame(Duration.millis(800), kv);
@@ -187,11 +190,11 @@ public class Player extends Characters {
             // add keyFrame to timeline instance
             timeline.getKeyFrames().add(kf);
 
-            // add bullet sprite to Pane
-            pane.getChildren().add(bullet);
-            // remove bullet
+            // add projectile sprite to Pane
+            pane.getChildren().add(projectile);
+            // remove projectile
             timeline.setOnFinished(e -> {
-                pane.getChildren().remove(bullet);
+                pane.getChildren().remove(projectile);
                 if (Objects.equals(direction, "right")) {
                     if (Objects.equals(this.getWeapon(), "knife")) {
                         this.setSprite(new Image("knifewalk-right2.png"), getWeapon());
@@ -214,8 +217,8 @@ public class Player extends Characters {
     }
 
     public void jump() {
-        if (!isJumping) {
-            // On jumping
+        if(!isJumping) {
+            // Jumping
             this.isJumping = true;
 
             // define logic of gravity
@@ -224,44 +227,52 @@ public class Player extends Characters {
             timeline.setAutoReverse(true);
 
             // Up effect
-            KeyValue kvUp = new KeyValue(sprite.yProperty(), sprite.getY() - 150, Interpolator.EASE_BOTH);
+            KeyValue kvUp = new KeyValue(getSprite().yProperty(), getSprite().getY() - 150, Interpolator.EASE_BOTH);
             KeyFrame kfUp = new KeyFrame(Duration.millis(300), kvUp);
             // Down effect
-            KeyValue kvDn = new KeyValue(sprite.yProperty(), sprite.getY(), Interpolator.EASE_BOTH);
+            KeyValue kvDn = new KeyValue(getSprite().yProperty(), getSprite().getY(), Interpolator.EASE_BOTH);
             KeyFrame kfDn = new KeyFrame(Duration.millis(300), kvDn);
 
             // add keyframes
             timeline.getKeyFrames().addAll(kfUp, kfDn);
+
             // end of jump
             timeline.setOnFinished(e -> isJumping = false);
             timeline.play();
         }
     }
 
-    //Getters and Setters
+//    Getters
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getTimeSurvived() {
+        return timeSurvived;
     }
 
     public String getWeapon() {
         return weapon;
     }
 
-    public void setWeapon(String weapon) {
-        this.weapon = weapon;
-    }
-
     public int getPoints() {
         return points;
     }
 
-    public int getTimeSurvived() {
-        return timeSurvived;
+    public boolean getShooting() {
+        return this.isAttacking;
+    }
+
+
+//    Setters
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeapon(String weapon) {
+        this.weapon = weapon;
     }
 
     public void setPoints(int points) {
@@ -272,15 +283,11 @@ public class Player extends Characters {
         this.timeSurvived = timeSurvived;
     }
 
-    public void setDirection(String dir) {
+    public void setDirection (String dir) {
         this.direction = dir;
     }
 
-    public void setShooting(boolean isShooting) {
-        this.isShooting = isShooting;
-    }
-
-    public boolean getShooting() {
-        return this.isShooting;
+    public void setShooting (boolean isShooting) {
+        this.isAttacking = isShooting;
     }
 }
