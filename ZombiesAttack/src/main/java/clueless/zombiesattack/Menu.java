@@ -1,15 +1,13 @@
 package clueless.zombiesattack;
 
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -51,7 +49,7 @@ public class Menu {
         root.getStyleClass().add("vbox");
 
         //set action on click
-        start.setOnMouseReleased(e -> gameKeys(scene, pane, stage));
+        start.setOnMouseReleased(e -> loading(scene, pane, stage));
         ranking.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
         exit.setOnMouseReleased(e -> stage.close());
 
@@ -136,11 +134,11 @@ public class Menu {
 
     public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gamekeys.png");
+        Image img = new Image("gamekeys.jpg");
         ImageView gameKeys = new ImageView(img);
 
-        gameKeys.setFitWidth(620);
-        gameKeys.setFitHeight(620);
+        gameKeys.setFitWidth(pane.getWidth());
+        gameKeys.setFitHeight(pane.getHeight());
 
         //adding root on pane
         pane.getChildren().add(gameKeys);
@@ -152,8 +150,8 @@ public class Menu {
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);
-        gameOver.setFitWidth(620);
-        gameOver.setFitHeight(620);
+        gameOver.setFitWidth(pane.getWidth());
+        gameOver.setFitHeight(pane.getHeight());
 
         //adding root on pane
         pane.getChildren().add(gameOver);
@@ -162,23 +160,15 @@ public class Menu {
     public void game(Scene scene, Pane pane, Stage stage) {
         KeyEvent keys = new KeyEvent();
         Image playerImg = new Image("rickwalk2-right.png");
-        Player p1 = new Player(10, 10, 0, 0, playerImg);
+        Player p1 = new Player(playerImg);
         Image img = new Image("zombieM-walking2.png");
 
         ImageView background = new ImageView(new Image("fundo.png"));
-        background.setFitHeight(620);
-        background.setFitWidth(620);
+        background.setFitHeight(pane.getHeight());
+        background.setFitWidth(pane.getWidth());
 
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
-
-        Zombies z1 = new Zombies(10, 10, 10, 0, 1, img);
-        Zombies z2 = new Zombies(10, 10, 10, 0, 2, img);
-        Zombies z3 = new Zombies(10, 10, 10, 0, 3, img);
-
-        zombies.add(z1);
-        zombies.add(z2);
-        zombies.add(z3);
 
         //HUD
 
@@ -211,7 +201,7 @@ public class Menu {
 
 
         //Add objects at the pane (screen)
-        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite(), z1.getSprite(), z2.getSprite(), z3.getSprite());
+        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite());
 
         //Get css
         String css = getClass().getResource("/style.css").toExternalForm();
@@ -233,13 +223,13 @@ public class Menu {
         //Creating elements
         Image imgDark = new Image("loadEscuro2.jpeg");
         ImageView loadingDark = new ImageView(imgDark);
-        loadingDark.setFitWidth(620);
-        loadingDark.setFitHeight(620);
+        loadingDark.setFitWidth(pane.getWidth());
+        loadingDark.setFitHeight(pane.getHeight());
 
         Image imgLight = new Image("loadClaro.jpeg");
         ImageView loadingLight = new ImageView(imgLight);
-        loadingLight.setFitWidth(620);
-        loadingLight.setFitHeight(620);
+        loadingLight.setFitWidth(pane.getWidth());
+        loadingLight.setFitHeight(pane.getHeight());
 
         Image imgText1 = new Image("load1.png");
         ImageView load1 = new ImageView(imgText1);
@@ -314,11 +304,18 @@ public class Menu {
 
         );
 
+        PauseTransition delay = new PauseTransition(Duration.seconds(8));
         // Set the cycle counts and play the timelines
         backgroundTimeline.setCycleCount(Timeline.INDEFINITE);
         loadingTextTimeline.setCycleCount(Timeline.INDEFINITE);
 
+        delay.setOnFinished(e -> {
+            backgroundTimeline.stop();
+            loadingTextTimeline.stop();
+            gameKeys(scene, pane, stage);
+        });
         backgroundTimeline.play();
         loadingTextTimeline.play();
+        delay.play();
     }
 }
