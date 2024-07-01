@@ -164,7 +164,7 @@ public class Menu {
     public void game(Scene scene, Pane pane, Stage stage) {
         KeyEvent keys = new KeyEvent();
       
-        Player p1 = new Player(playerImg);
+        Player p1 = new Player();
 
         ImageView background = new ImageView(new Image("fundo.png"));
         background.setFitHeight(pane.getHeight());
@@ -232,11 +232,11 @@ public class Menu {
         background.setFitWidth(620);
 
         //player
-        Player p1 = new Player(10, 10, 0, 0);
-        p1.sprite.setX(100);
-        p1.sprite.setY(265);
-        p1.sprite.setFitWidth(85);
-        p1.sprite.setFitHeight(110);
+        Player p1 = new Player();
+        p1.getSprite().setX(100);
+        p1.getSprite().setY(265);
+        p1.getSprite().setFitWidth(85);
+        p1.getSprite().setFitHeight(110);
 
         //HUD - Points
         HBox pointsBox = new HBox();

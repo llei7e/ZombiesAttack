@@ -70,7 +70,7 @@ public class KeyEvent {
                     X = -15;
 
                 Image img = new Image("zombieM-walking2.png");
-                return new Zombies(X, type, img);
+                return new Zombies(X, type);
             }
 
             // GAME LOOPING
@@ -109,7 +109,7 @@ public class KeyEvent {
 
                 // only moves when there is no shot
                 if (!p1.getShooting() && !canMove())
-                    p1.move(currentFrame);
+                    p1.move(currentFrame, p1.getWeapon());
 
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
@@ -169,7 +169,6 @@ public class KeyEvent {
                     canSpawn = false;
                     zombies.clear();
                     Menu.gameOver(scene, pane); // End game
-
                 }
 
                 //Define Weapon Image
@@ -240,8 +239,8 @@ public class KeyEvent {
 
                 //Define player sprite
                 p1.playerWeapons();
-                p1.sprite.setScaleX(1.5);
-                p1.sprite.setScaleY(1.5);
+                p1.getSprite().setScaleX(1.5);
+                p1.getSprite().setScaleY(1.5);
             }
         }.start();
     }

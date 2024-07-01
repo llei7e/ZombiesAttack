@@ -37,8 +37,8 @@ public class Player extends Characters {
 
         //define sprites
         playerWeapons();
-        this.sprite.setX(310);
-        this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
+        this.getSprite().setX(310);
+        this.getSprite().setY(390 + 80 - this.getSprite().getFitHeight());
     }
 
     //Methods
@@ -155,35 +155,35 @@ public class Player extends Characters {
             if (Objects.equals(direction, "right")) {
                 // player sprite right
                 if (Objects.equals(getWeapon(), "knife")) {
-                    this.setSprite(new Image("knife-attack-right.png"), getWeapon(), this.isShooting);
+                    this.setSprite(new Image("knife-attack-right.png"), getWeapon(), this.isAttacking);
                 } else {
-                    this.setSprite(new Image("pistolShooting1-right.png"), getWeapon(), this.isShooting);
+                    this.setSprite(new Image("pistolShooting1-right.png"), getWeapon(), this.isAttacking);
                 }
                 // define bullet X
-                projectile.setX(sprite.getX() + 50);
+                projectile.setX(getSprite().getX() + 50);
 
                 if (Objects.equals(getWeapon(), "knife")) {
-                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 250);
+                    KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 250);
                     kf = new KeyFrame(Duration.millis(800), kv);
                 } else {
-                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() + 350);
+                    KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 350);
                     kf = new KeyFrame(Duration.millis(400), kv);
                 }
 
             } else {
                 // player sprite left
                 if (Objects.equals(getWeapon(), "knife")) {
-                    this.setSprite(new Image("knife-attack-left.png"), getWeapon(), this.isShooting);
+                    this.setSprite(new Image("knife-attack-left.png"), getWeapon(), this.isAttacking);
                 } else {
-                    this.setSprite(new Image("pistolShooting1-left.png"), getWeapon(), this.isShooting);
+                    this.setSprite(new Image("pistolShooting1-left.png"), getWeapon(), this.isAttacking);
                 }
                 // define projectile X
-                projectile.setX(sprite.getX());
+                projectile.setX(getSprite().getX());
                 if (Objects.equals(getWeapon(), "knife")) {
-                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() - 200);
+                    KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 200);
                     kf = new KeyFrame(Duration.millis(800), kv);
                 } else {
-                    KeyValue kv = new KeyValue(bullet.xProperty(), sprite.getX() - 300);
+                    KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 300);
                     kf = new KeyFrame(Duration.millis(400), kv);
                 }
             }
