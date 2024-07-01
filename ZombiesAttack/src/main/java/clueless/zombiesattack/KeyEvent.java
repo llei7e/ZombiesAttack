@@ -128,12 +128,14 @@ public class KeyEvent {
 
 
                 //Define Life Image
-                lifeImage = new Image("life" + p1.getLife() + ".png");
-                life.setImage(lifeImage);
                 if (p1.getLife() <= 0) {
                     zombies.clear();
                     Menu.gameOver(scene, pane);
+                }else {
+                    lifeImage = new Image("life" + p1.getLife() + ".png");
+                    life.setImage(lifeImage);
                 }
+
 
                 //Define Weapon Image
                 weaponImg = new Image(p1.getWeapon() + ".png");
@@ -157,8 +159,53 @@ public class KeyEvent {
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
+
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= p1.getStrength() && p1.getShooting());
+
+            }
+        }.start();
+    }
+
+    public void buyLoop(Scene scene, Pane pane, Player p1,
+                         ImageView life, ImageView weapon, Text weaponName, Text points) {
+
+        new AnimationTimer() {
+
+            // Properties
+            private long lastUpdate = 0;
+            private int currentFrame = 0;
+            Image lifeImage;
+            Image weaponImg;
+
+            // game looping
+            @Override
+            public void handle(long now) {
+                // define nanoTime
+                if (now - lastUpdate >= 200000000) { // 200ms
+                    lastUpdate = now; // update lastUpdate
+                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
+                }
+
+                //Define Life Image
+                lifeImage = new Image("life" + p1.getLife() + ".png");
+                life.setImage(lifeImage);
+
+                //Define Weapon Image
+                weaponImg = new Image(p1.getWeapon() + ".png");
+                weapon.setImage(weaponImg);
+
+                //Define Weapon Text
+                weaponName.setText(p1.getWeapon());
+
+                //Define Points
+                points.setText(String.valueOf(p1.getPoints()) + " pts");
+
+                //Define player sprite
+                p1.playerWeapons();
+                p1.sprite.setScaleX(1.5);
+                p1.sprite.setScaleY(1.5);
+
             }
         }.start();
     }

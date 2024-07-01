@@ -14,8 +14,8 @@
 
 .homeButtons:hover{
     -fx-text-fill: yellow;
-    -fx-scale-x: 1.5;
-    -fx-scale-y: 1.5;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
 }
 
 .vbox{
@@ -62,10 +62,44 @@
 }
 
 .lifeweapon{
-     -fx-padding: 15px;
-     -fx-spacing: 10px;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
 }
 
 .weaponbox{
     -fx-spacing: 10px;
+}
+
+.buttons {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
+    -fx-min-width: 100px;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+}
+
+.buttons:hover{
+    -fx-text-fill: yellow;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
+}
+
+.buyPlay{
+    -fx-background-color: transparent;
+    -fx-min-width: 100px;
+    -fx-max-height: 40px;
+    -fx-text-fill: yellow;
+    -fx-font-size: 40px;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
+}
+
+.buyPlay:hover{
+    -fx-text-fill: yellow;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
 }

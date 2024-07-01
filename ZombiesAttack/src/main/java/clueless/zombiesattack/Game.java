@@ -1,7 +1,10 @@
 package clueless.zombiesattack;
 
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -15,7 +18,7 @@ public class Game extends Application {
         Scene scene = new Scene(pane, width, height);
         Menu screen = new Menu();
 
-        screen.game(scene, pane, primaryStage);
+        screen.homeScreen(scene, pane, primaryStage);
 
         // configurando "primaryStage"
         primaryStage.setTitle("Zombies Attack");

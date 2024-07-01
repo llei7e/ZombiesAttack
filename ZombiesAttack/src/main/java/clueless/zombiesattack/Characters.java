@@ -139,10 +139,17 @@ public abstract class Characters extends ImageView {
     }
 
 
-    public void setSprite(Image img) {
-        this.sprite.setImage(img);
-        this.sprite.setFitWidth(60);
-        this.sprite.setFitHeight(80);
+    public void setSprite(Image img, String weapon) {
+        if (Objects.equals(weapon, "knife")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(55);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
     }
 
     public void setSprite(Image img, int type) {
@@ -168,18 +175,7 @@ public abstract class Characters extends ImageView {
 
         }
     }
-    public void setSprite(Image img, String weapon) {
-        if (Objects.equals(weapon, "knife")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(50);
-            this.sprite.setFitHeight(80);
-        }
-        if (Objects.equals(weapon, "pistol")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(70);
-            this.sprite.setFitHeight(80);
-        }
-    }
+
     public void setSprite(Image img, String weapon, boolean isShooting) {
         if (Objects.equals(weapon, "knife")){
             this.sprite.setImage(img);
