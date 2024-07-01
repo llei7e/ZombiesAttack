@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.util.Objects;
+
 
 public abstract class Characters extends ImageView {
 
@@ -19,13 +21,13 @@ public abstract class Characters extends ImageView {
 //  private Image [] walking = new Image[6];
 
     // Constructor
-    public Characters(Image sprite) {
-        this.sprite = new ImageView(sprite);
+    public Characters() {
+        this.sprite = new ImageView();
     }
 
     // Methods
 
-    public void move(int frame) {
+    public void move(int frame, String weapon) {
         // Timeline declaration and set a cycle
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
@@ -39,9 +41,9 @@ public abstract class Characters extends ImageView {
         if(right||left) {
             // check sprite direction and setSprite
             if(right)
-                setSprite(walking[frame]);
+                setSprite(walking[frame], weapon);
             else
-                setSprite(walking[frame+3]);
+                setSprite(walking[frame+3], weapon);
             double displacement = sprite.xProperty().get() + speed;
             // define KeyValue used in KeyFrame
             KeyValue kv = new KeyValue(sprite.xProperty(), displacement, Interpolator.EASE_BOTH);
@@ -126,11 +128,17 @@ public abstract class Characters extends ImageView {
         this.left = left;
     }
 
-    // Define sprite
-    public void setSprite(Image img) {
-        this.sprite.setImage(img);
-        this.sprite.setFitWidth(60);
-        this.sprite.setFitHeight(80);
+    public void setSprite(Image img, String weapon) {
+        if (Objects.equals(weapon, "knife")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(55);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
     }
 
     // Define zombie sprite according to the type
@@ -154,6 +162,19 @@ public abstract class Characters extends ImageView {
             this.sprite.setImage(img);
             this.sprite.setFitWidth(75);
             this.sprite.setFitHeight(100);
+        }
+    }
+
+    public void setSprite(Image img, String weapon, boolean isShooting) {
+        if (Objects.equals(weapon, "knife")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
         }
     }
 }

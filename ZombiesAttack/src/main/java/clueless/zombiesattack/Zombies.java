@@ -7,9 +7,10 @@ public class Zombies extends Characters{
     private final int type;
 
     // Contructor
-    public Zombies (int positionX, int type, Image img){
-        super(img);
+    public Zombies (int positionX, int type){
+        super();
         this.type = type;
+        Image img;
         if(type == 1) {
             //define sprites
             img = new Image("zombieP-walking2.png");

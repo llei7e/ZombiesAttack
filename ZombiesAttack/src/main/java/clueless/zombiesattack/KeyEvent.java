@@ -115,11 +115,19 @@ public class KeyEvent {
                 scene.setOnKeyReleased(event -> {
                     if (event.getCode() == KeyCode.D) {
                         p1.setRight(false);
-                        p1.setSprite(new Image("rickwalk2-right.png"));
+                        if (Objects.equals(p1.getWeapon(), "knife")) {
+                            p1.setSprite(new Image("knifewalk-right2.png"), p1.getWeapon());
+                        } else {
+                            p1.setSprite(new Image("rickwalk2-right.png"), p1.getWeapon());
+                        }
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setLeft(false);
-                        p1.setSprite(new Image("rickwalk2-left.png"));
+                        if (Objects.equals(p1.getWeapon(), "knife")) {
+                            p1.setSprite(new Image("knifewalk-left2.png"), p1.getWeapon());
+                        } else {
+                            p1.setSprite(new Image("rickwalk2-left.png"), p1.getWeapon());
+                        }
                     }
                     if (event.getCode() == KeyCode.J) {
                         p1.setShooting(false); // end of shooting
@@ -145,6 +153,11 @@ public class KeyEvent {
                         zombie.chasing(p1, zombie, currentFrame);
                 }
 
+                // only moves when it is no shot
+                if (!p1.getShooting())
+                    p1.move(currentFrame, p1.getWeapon());
+
+
             //HUD
                 //Define Life Image
                 if(p1.getLife() >= 0)
@@ -158,6 +171,7 @@ public class KeyEvent {
                     Menu.gameOver(scene, pane); // End game
 
                 }
+
                 //Define Weapon Image
                 weaponImg = new Image(p1.getWeapon() + ".png");
                 weapon.setImage(weaponImg);
@@ -182,8 +196,52 @@ public class KeyEvent {
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
+
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
+
+            }
+        }.start();
+    }
+
+    public void buyLoop(Scene scene, Pane pane, Player p1,
+                         ImageView life, ImageView weapon, Text weaponName, Text points) {
+
+        new AnimationTimer() {
+
+            // Properties
+            private long lastUpdate = 0;
+            private int currentFrame = 0;
+            Image lifeImage;
+            Image weaponImg;
+
+            // game looping
+            @Override
+            public void handle(long now) {
+                // define nanoTime
+                if (now - lastUpdate >= 200000000) { // 200ms
+                    lastUpdate = now; // update lastUpdate
+                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
+                }
+
+                //Define Life Image
+                lifeImage = new Image("life" + p1.getLife() + ".png");
+                life.setImage(lifeImage);
+
+                //Define Weapon Image
+                weaponImg = new Image(p1.getWeapon() + ".png");
+                weapon.setImage(weaponImg);
+
+                //Define Weapon Text
+                weaponName.setText(p1.getWeapon());
+
+                //Define Points
+                points.setText(String.valueOf(p1.getPoints()) + " pts");
+
+                //Define player sprite
+                p1.playerWeapons();
+                p1.sprite.setScaleX(1.5);
+                p1.sprite.setScaleY(1.5);
             }
         }.start();
     }
