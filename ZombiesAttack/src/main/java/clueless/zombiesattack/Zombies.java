@@ -1,22 +1,21 @@
 package clueless.zombiesattack;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Zombies extends Characters{
     // Attributes
-    private int type;
+    private final int type;
 
     // Contructor
-    public Zombies (int height, int width, int positionX, int positionY, int type, Image img){
-        super(height, width, positionX, positionY, img);
+    public Zombies (int positionX, int type, Image img){
+        super(img);
         this.type = type;
         if(type == 1) {
             //define sprites
             img = new Image("zombieP-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(positionX);
-            this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
+            this.getSprite().setX(positionX);
+            this.getSprite().setY(390 + 80 - this.getSprite().getFitHeight());
             // right
             this.walking[0] = new Image("zombieP-walkright1.png");
             this.walking[1] = new Image("zombieP-walkright2.png");
@@ -36,8 +35,8 @@ public class Zombies extends Characters{
             //define sprites
             img = new Image("zombieG-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(positionX);
-            this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
+            this.getSprite().setX(positionX);
+            this.getSprite().setY(390 + 80 - this.getSprite().getFitHeight());
             // right
             this.walking[0] = new Image("zombieG-walkright1.png");
             this.walking[1] = new Image("zombieG-walkright2.png");
@@ -56,8 +55,8 @@ public class Zombies extends Characters{
             //define sprites
             img = new Image("zombieM-walking2.png");
             this.setSprite(img, type);
-            this.sprite.setX(positionX);
-            this.sprite.setY(390 + 80 - this.sprite.getFitHeight());
+            this.getSprite().setX(positionX);
+            this.getSprite().setY(390 + 80 - this.getSprite().getFitHeight());
             // right
             this.walking[0] = new Image("zombieM-walkright1.png");
             this.walking[1] = new Image("zombieM-walkright2.png");
@@ -77,30 +76,20 @@ public class Zombies extends Characters{
 
     //Methods
     public void chasing(Player player, Zombies zombie, int frame){
-        if((zombie.sprite.getX() - player.sprite.getX()) < 0){
+        if((zombie.getSprite().getX() - player.getSprite().getX()) < 0){
             setRight(true);
             setLeft(false);
         }
-        if (zombie.sprite.getX() - player.sprite.getX() > 0){
+        if (zombie.getSprite().getX() - player.getSprite().getX() > 0){
             setRight(false);
             setLeft(true);
         }
         zombie.move(frame, this.getType());
     }
 
-
-    // Getters and Setters
+    // Getters
     public int getType() {
         return type;
     }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public ImageView getSprite() {
-        return sprite;
-    }
-
 
 }

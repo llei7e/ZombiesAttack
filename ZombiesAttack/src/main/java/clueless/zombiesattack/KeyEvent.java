@@ -2,7 +2,6 @@ package clueless.zombiesattack;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
-import javafx.animation.Transition;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,31 +20,40 @@ public class KeyEvent {
 
         new AnimationTimer() {
 
-            // Properties
+        // Properties
+
+            // time for frames
             private long lastUpdate = 0;
             private int currentFrame = 0;
-            Image lifeImage;
-            Image weaponImg;
+
+            // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
 
-            // Methods
+            // HUD images
+            Image lifeImage;
+            Image weaponImg;
+
+        // Methods
+
             // Check if playerCanMove
             private boolean canMove () {
                 // limit on the right side
-                double endScreen = pane.getWidth() - p1.sprite.getFitWidth();
+                double endScreen = pane.getWidth() - p1.getSprite().getFitWidth();
 
                 // check if exceed right limit of the screen
-                boolean rightLimit = p1.sprite.getX() > endScreen && p1.isRight();
+                boolean rightLimit = p1.getSprite().getX() > endScreen && p1.isRight();
+
                 // check if exceed left limit of the screen (0)
-                boolean leftLimit = p1.sprite.getX() < 0 && p1.isLeft();
+                boolean leftLimit = p1.getSprite().getX() < 0 && p1.isLeft();
+
                 return rightLimit || leftLimit;
             }
 
             // CheckCollision method
             private boolean checkCollision(Characters Player, Characters Zombie) {
                 //check collision between player and zombie
-                return Player.sprite.getBoundsInParent().intersects(Zombie.sprite.getBoundsInParent());
+                return Player.getSprite().getBoundsInParent().intersects(Zombie.getSprite().getBoundsInParent());
             }
 
             // ZombieFactory method
@@ -62,17 +70,20 @@ public class KeyEvent {
                     X = -15;
 
                 Image img = new Image("zombieM-walking2.png");
-                return new Zombies(10,10,X,0, type, img);
+                return new Zombies(X, type, img);
             }
 
             // GAME LOOPING
             @Override
             public void handle(long now) {
-                // define nanoTime
+                // Define nanoTime
                 if (now - lastUpdate >= 200000000) { // 200ms
                     lastUpdate = now; // update lastUpdate
-                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
+                    currentFrame = (currentFrame + 1) % 3; // change between three frames
                 }
+
+            // Keyboard Input
+
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
                     switch (event.getCode()){
@@ -115,7 +126,7 @@ public class KeyEvent {
                     }
                 });
 
-                // Player damage
+            // Player damage
                 // collision check between player end zombie
                 for (Zombies zombie : zombies)
                     if (checkCollision(p1, zombie) && !hitBreak) {
@@ -144,7 +155,7 @@ public class KeyEvent {
                 if (p1.getLife() <= 0) {
                     canSpawn = false;
                     zombies.clear();
-                    Menu.gameOver(scene, pane);
+                    Menu.gameOver(scene, pane); // End game
 
                 }
                 //Define Weapon Image
@@ -156,6 +167,7 @@ public class KeyEvent {
 
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
+
 
             // SPAWN ZOMBIES - REMOVE ZOMBIES
                 // Add zombies
