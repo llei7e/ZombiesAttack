@@ -23,9 +23,9 @@ public class Player extends Characters {
 
 
     //Constructor
-    public Player(){
+    public Player() {
         super();
-      
+
         //define stats
         this.name = "";
         this.points = 0;
@@ -99,13 +99,13 @@ public class Player extends Characters {
 
             // projectile instance and settings
             ImageView projectile;
-          
+
             if (Objects.equals(getWeapon(), "knife")) {
                 projectile = new ImageView(new Image("slash.png"));
             } else {
                 projectile = new ImageView(new Image("bullet1.png"));
             }
-          
+
             projectile.setFitHeight(25);
             projectile.setFitWidth(25);
             projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
@@ -138,7 +138,7 @@ public class Player extends Characters {
                             }
                             // Remove zombie from zombies ArrayList
                             // refactor
-                          
+
                             z.setLife(z.getLife() - getStrength());
                             if (z.getLife() <= getStrength()) {
                                 pane.getChildren().remove(z.getSprite());
@@ -217,7 +217,7 @@ public class Player extends Characters {
     }
 
     public void jump() {
-        if(!isJumping) {
+        if (!isJumping) {
             // Jumping
             this.isJumping = true;
 
@@ -241,6 +241,18 @@ public class Player extends Characters {
             timeline.play();
         }
     }
+    // check-healing
+
+    public void healing(ImageView cure, Pane pane) {
+        if (cure != null && cure.getBoundsInParent().intersects(this.getBoundsInParent())) {
+
+        }
+        pane.getChildren().remove(cure);
+        this.setLife(this.getLife() + 2);
+
+
+    }
+
 
 //    Getters
 
@@ -283,11 +295,11 @@ public class Player extends Characters {
         this.timeSurvived = timeSurvived;
     }
 
-    public void setDirection (String dir) {
+    public void setDirection(String dir) {
         this.direction = dir;
     }
 
-    public void setShooting (boolean isShooting) {
+    public void setShooting(boolean isShooting) {
         this.isAttacking = isShooting;
     }
 }
