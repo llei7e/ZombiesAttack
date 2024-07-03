@@ -1,14 +1,11 @@
 package clueless.zombiesattack;
 
 import javafx.animation.*;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -33,6 +30,7 @@ public class KeyEvent {
             // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
+            private boolean canSpawnHealing = true;
 
             // HUD images
             Image lifeImage;
@@ -73,9 +71,25 @@ public class KeyEvent {
                 else if(value == 2)
                     X = -15;
 
-                Image img = new Image("zombieM-walking2.png");
                 return new Zombies(X, type);
             }
+
+            private ImageView spawnHealing () {
+                canSpawnHealing = !canSpawnHealing;
+
+                ImageView cure = new ImageView(new Image("cure.png"));
+                Random r = new Random();
+
+                cure.setFitHeight(85);
+                cure.setFitWidth(60);
+                cure.setX(r.nextInt(400)+100);
+                cure.setY(410);
+
+                pane.getChildren().add(cure);
+
+                return cure;
+            }
+
 
             // GAME LOOPING
             @Override
@@ -205,6 +219,18 @@ public class KeyEvent {
                     delay.play();
                 }
 
+                // Spawn Healing
+                if (canSpawnHealing){
+                    ImageView spawnedCure = spawnHealing();
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(15));
+                    waitingHealing.setOnFinished(e -> {
+                        canSpawnHealing = !canSpawnHealing;
+                        pane.getChildren().remove(spawnedCure);
+                    });
+                    waitingHealing.play();
+                    p1.checkHealing(spawnedCure, pane);
+                }
+
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
@@ -213,6 +239,7 @@ public class KeyEvent {
         };
         gameLooping.start();
     }
+
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
