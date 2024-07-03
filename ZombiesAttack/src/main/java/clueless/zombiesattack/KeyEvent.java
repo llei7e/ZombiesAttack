@@ -1,12 +1,14 @@
 package clueless.zombiesattack;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
+import javafx.animation.*;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -15,12 +17,14 @@ import java.util.*;
 
 public class KeyEvent {
 
+    private boolean paused = false; // pause gameLooping
+
     public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies,
                          ImageView life, ImageView weapon, Text weaponName, Text points) {
 
-        new AnimationTimer() {
+        AnimationTimer gameLooping = new AnimationTimer() {
 
-        // Properties
+            // Properties
 
             // time for frames
             private long lastUpdate = 0;
@@ -86,6 +90,7 @@ public class KeyEvent {
 
                 // check if keyboard has been pressed
                 scene.setOnKeyPressed(event -> {
+                    if (paused) return; // disable input
                     switch (event.getCode()){
                         case W:
                             p1.jump();
@@ -104,15 +109,19 @@ public class KeyEvent {
                             p1.setLeft(true);
                             p1.setDirection("left");
                             break;
+                        case P:
+                            gamePaused(scene, pane, this);
+                            break;
                     }
                 });
-
                 // only moves when there is no shot
                 if (!p1.getShooting() && !canMove())
                     p1.move(currentFrame, p1.getWeapon());
 
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
+                    if (paused) return; // disable input
+
                     if (event.getCode() == KeyCode.D) {
                         p1.setRight(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
@@ -199,48 +208,41 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
-            }
-        }.start();
-    }
 
-    public void buyLoop(Scene scene, Pane pane, Player p1,
-                         ImageView life, ImageView weapon, Text weaponName, Text points) {
+            }
+        };
+        gameLooping.start();
+    }
+    private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
+        // stop gameLooping
+        paused = !paused;
+        gameLooping.stop();
+        // create pauseText
+        Text pauseText = new Text("Paused");
+        pauseText.setX(270);
+        pauseText.setY(360);
+        pauseText.getStyleClass().add("pauseText");
+
+        pane.getChildren().add(pauseText);
+
+        // pauseAnimation
+        KeyValue kv = new KeyValue(pauseText.yProperty(), 335, Interpolator.EASE_BOTH);
+        Timeline pauseAnimation = new Timeline(new KeyFrame(Duration.seconds(2), kv));
+        pauseAnimation.setAutoReverse(true);
+        pauseAnimation.setCycleCount(Timeline.INDEFINITE);
 
         new AnimationTimer() {
-
-            // Properties
-            private long lastUpdate = 0;
-            private int currentFrame = 0;
-            Image lifeImage;
-            Image weaponImg;
-
-            // game looping
             @Override
-            public void handle(long now) {
-                // define nanoTime
-                if (now - lastUpdate >= 200000000) { // 200ms
-                    lastUpdate = now; // update lastUpdate
-                    currentFrame = (currentFrame + 1) % 3; // troca entre os três frames(p1 walking)
-                }
-
-                //Define Life Image
-                lifeImage = new Image("life" + p1.getLife() + ".png");
-                life.setImage(lifeImage);
-
-                //Define Weapon Image
-                weaponImg = new Image(p1.getWeapon() + ".png");
-                weapon.setImage(weaponImg);
-
-                //Define Weapon Text
-                weaponName.setText(p1.getWeapon());
-
-                //Define Points
-                points.setText(String.valueOf(p1.getPoints()) + " pts");
-
-                //Define player sprite
-                p1.playerWeapons();
-                p1.getSprite().setScaleX(1.5);
-                p1.getSprite().setScaleY(1.5);
+            public void handle(long l) {
+                scene.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.P){
+                        paused = !paused; // set paused to false
+                        pane.getChildren().remove(pauseText); // remove pauseText
+                        this.stop(); // end of gamePause
+                        gameLooping.start(); // restart gameLooping
+                    }
+                });
+                pauseAnimation.play();
             }
         }.start();
     }
