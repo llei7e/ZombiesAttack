@@ -38,6 +38,12 @@
     -fx-text-fill: yellow;
 }
 
+.pauseText {
+    -fx-fill: yellow;
+    -fx-font-size: 35px;
+    -fx-border-color: black;
+}
+
 .back{
     -fx-background-color: black;
     -fx-min-width: 100px;

@@ -161,8 +161,9 @@ public class Menu {
         pane.getChildren().add(gameOver);
     }
 
+    KeyEvent keys = new KeyEvent();
     public void game(Scene scene, Pane pane, Stage stage) {
-        KeyEvent keys = new KeyEvent();
+
       
         Player p1 = new Player();
 
@@ -219,12 +220,9 @@ public class Menu {
 
         //Actions
         keys.keyEvent(scene, pane, p1, zombies, life, weaponImg, weaponName, points);
-
-        pane.setOnMouseReleased(e -> buyScreen(scene, pane, stage));
     }
 
-    public void buyScreen(Scene scene, Pane pane, Stage stage){
-        KeyEvent keys = new KeyEvent();
+    public void buyScreen(Scene scene, Pane pane){
 
         //background
         ImageView background = new ImageView(new Image("fundo.png"));
@@ -334,12 +332,6 @@ public class Menu {
         katana.setOnMouseReleased(e -> p1.setWeapon("katana"));
         pistol.setOnMouseReleased(e -> p1.setWeapon("pistol"));
         rifle.setOnMouseReleased(e -> p1.setWeapon("rifle"));
-
-        play.setOnMouseReleased(e -> game(scene,pane, stage));
-
-
-        //Actions
-        keys.buyLoop(scene, pane, p1, life, weaponImg, weaponName, points);
 
     }
 
