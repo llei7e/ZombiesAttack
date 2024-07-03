@@ -243,21 +243,24 @@ public class Player extends Characters {
     }
     // check-healing
 
-    public void checkHealing(ImageView cure, Pane pane) {
-        new AnimationTimer() {
+    public AnimationTimer checkHealing(ImageView healing, Pane pane) {
+        return new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if (cure.getBoundsInParent().intersects(getSprite().getBoundsInParent())) {
-                    pane.getChildren().remove(cure);
+                if (healing.getBoundsInParent().intersects(getSprite().getBoundsInParent())) {
+                    pane.getChildren().remove(healing);
 
-                    // verify
+                    // set new life
                     if (getLife() > 8)
                         setLife(10); // regenerates life
                     else
                         setLife(getLife()+2);
+
+                    this.stop();
+
                 }
             }
-        }.start();
+        };
 
 
 

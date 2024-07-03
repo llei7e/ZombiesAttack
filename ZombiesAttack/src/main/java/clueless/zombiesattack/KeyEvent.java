@@ -129,9 +129,9 @@ public class KeyEvent {
                     }
                 });
                 // only moves when there is no shot
-                if (!p1.getShooting() && !canMove())
+                if (!p1.getShooting() && !canMove()){
                     p1.move(currentFrame, p1.getWeapon());
-
+}
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (paused) return; // disable input
@@ -176,11 +176,6 @@ public class KeyEvent {
                         zombie.chasing(p1, zombie, currentFrame);
                 }
 
-                // only moves when it is no shot
-                if (!p1.getShooting())
-                    p1.move(currentFrame, p1.getWeapon());
-
-
             //HUD
                 //Define Life Image
                 if(p1.getLife() >= 0)
@@ -221,14 +216,17 @@ public class KeyEvent {
 
                 // Spawn Healing
                 if (canSpawnHealing){
-                    ImageView spawnedCure = spawnHealing();
-                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(15));
+                    ImageView spawnedHealing = spawnHealing();
+                    AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
+
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(2));
                     waitingHealing.setOnFinished(e -> {
                         canSpawnHealing = !canSpawnHealing;
-                        pane.getChildren().remove(spawnedCure);
+                        pane.getChildren().remove(spawnedHealing);
+                        check.stop();
                     });
                     waitingHealing.play();
-                    p1.checkHealing(spawnedCure, pane);
+                    check.start();
                 }
 
                 // Remove zombies of ArrayList
