@@ -1,14 +1,11 @@
 package clueless.zombiesattack;
 
 import javafx.animation.*;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -33,6 +30,7 @@ public class KeyEvent {
             // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
+            private boolean canSpawnHealing = true;
 
             // HUD images
             Image lifeImage;
@@ -73,9 +71,25 @@ public class KeyEvent {
                 else if(value == 2)
                     X = -15;
 
-                Image img = new Image("zombieM-walking2.png");
                 return new Zombies(X, type);
             }
+
+            private ImageView spawnHealing () {
+                canSpawnHealing = !canSpawnHealing;
+
+                ImageView cure = new ImageView(new Image("cure.png"));
+                Random r = new Random();
+
+                cure.setFitHeight(85);
+                cure.setFitWidth(60);
+                cure.setX(r.nextInt(400)+100);
+                cure.setY(410);
+
+                pane.getChildren().add(cure);
+
+                return cure;
+            }
+
 
             // GAME LOOPING
             @Override
@@ -115,9 +129,9 @@ public class KeyEvent {
                     }
                 });
                 // only moves when there is no shot
-                if (!p1.getShooting() && !canMove())
+                if (!p1.getShooting() && !canMove()){
                     p1.move(currentFrame, p1.getWeapon());
-
+}
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (paused) return; // disable input
@@ -162,11 +176,6 @@ public class KeyEvent {
                         zombie.chasing(p1, zombie, currentFrame);
                 }
 
-                // only moves when it is no shot
-                if (!p1.getShooting())
-                    p1.move(currentFrame, p1.getWeapon());
-
-
             //HUD
                 //Define Life Image
                 if(p1.getLife() >= 0)
@@ -205,6 +214,21 @@ public class KeyEvent {
                     delay.play();
                 }
 
+                // Spawn Healing
+                if (canSpawnHealing){
+                    ImageView spawnedHealing = spawnHealing();
+                    AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
+
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(2));
+                    waitingHealing.setOnFinished(e -> {
+                        canSpawnHealing = !canSpawnHealing;
+                        pane.getChildren().remove(spawnedHealing);
+                        check.stop();
+                    });
+                    waitingHealing.play();
+                    check.start();
+                }
+
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
@@ -213,6 +237,7 @@ public class KeyEvent {
         };
         gameLooping.start();
     }
+
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
