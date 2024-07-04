@@ -112,6 +112,7 @@ public class KeyEvent {
                         case J:
                             p1.attack(pane, zombies);
                             p1.setShooting(true);
+                            Sounds.getRifleSound(1).play();
                             break;
                         case D :
                             p1.setRight(true);
