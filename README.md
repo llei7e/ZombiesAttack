@@ -1,71 +1,58 @@
 <div align="center">
     
-![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/home%20screen.png)
+# Zombies Attack
+
+</div>  
+
+<div align="center">
+    
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/rickgrimes%20png.gif)
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombieP%20png.gif)
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombieP%20png.gif)
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombieM%20png.gif)
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombiG%20png%20.gif)
+    
 </div>
 
 ## Index
-- [About](#about)
-    - [Story](#-_story)
-    - [Game Objective](#-_game-objective)
-    - [Commands](#-_commands)
-- [Game Classes](#game-classes)
-- [Sound Effects](#sound-effects)
+- [About](#about)  
 - [Requirements](#requirements)
-- [Contribution](#contribution)
+- [Game Classes](#game-classes)
+- [User Flow](#user-flow) 
+- [Story](#story)  
+- [Game Objective](#game-objective)  
+- [Commands](#commands)  
+- [Sound Effects](#sound-effects)  
+- [Contribution](#contribution)  
 
 
-## About
+## Requirements
 
-This game project was developed from students coursing System Analisys and Development at Faculdade SENAI Gaspar Ricardo Junior, with 2rpnet support.
-It was developed using *java 22 and java.fx.*
-
-Start date: 06/10/2024.
-
-End date: to be defined.
-
-
-### - History
-
-During a zombie apocalypse, Indiana Grimes was the only one from his city that survived. Trying to find someone else or at least a single life, 
-he runs the world fighting lots of types of zombies using his knife and wapons that he finds along the way.  
-
-Zombies:  
-    - Short zombies are fast, have low life and a medium hit,
-    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/sprites/gifs%20png/zombieP%20png.gif)  
-    - Medium zombies have a medium speed, medium life and a weak hit,
-    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/sprites/gifs%20png/zombieM%20png.gif)  
-    - Tall zombies are the slowest one, have the biggest life and the strongest hit.
-    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/sprites/gifs%20png/zombiG%20png%20.gif)  
-
-
-Indiana Grimes:
-![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/sprites/gifs%20png/rickgrimes%20png.gif)  
-    - Inspired by Rick Grimes from The Walking Dead and Indiana Jones. Indiana Grimes fights to survive the zombie apocalypse using a variety of weapons.
-    
+- Java IDE like IntelliJ or Eclipse (used IntelliJ for development),  
+- java 22(jdk 22.0.1),  
+- java.fx,  
+- Libraries:  
+    - javafx.application.Application;  
+    - javafx.scene.Scene;  
+    - javafx.scene.layout.Pane;  
+    - javafx.stage.Stage;  
+    - javafx.animation.*;  
+    - javafx.scene.image.Image;  
+    - javafx.scene.image.ImageView;  
+    - javafx.util.Duration;  
+    - java.util.ArrayList;  
+    - java.util.Objects;  
+    - import javafx.animation.KeyFrame;  
+    - javafx.animation.PauseTransition;  
+    - javafx.geometry.Pos;  
+    - javafx.scene.control.Button;  
+    - javafx.scene.layout.HBox;  
+    - javafx.scene.layout.VBox;  
+    - javafx.scene.text.Text;  
+    - javafx.scene.input.KeyCode;  
 
 
-### - Game Objective
-
-The game works in rounds, at start the survivor have a knife to fight, he can get better weapons with the points he gets by killing zombies, the survivor score points by killing zombies, to get a better place at the ranking.
-
-Ranking:
-    - Each zombie has different point rewards from killing them,
-    - Player can buy weapons each 5 rounds based on your points,
-    - Indiana Grimes has 10 hits of life, if it turns 0 = GAME OVER,
-    - After GAME OVER screen, player can send his name to ranking, only the top 5 appears at ranking screen.
-
-
-### - Commands
-    - A = LEFT, and UP at menu,
-    - D = RIGHT, and DOWN at menu,
-
-    - F = ATTACK, and CONFIRM at menu.    
-<div align="center">
-    
-![commands IMAGE](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/game%20controls%20screen.png)
-</div>
 ## Game Classes
-
 ```mermaid
 ---
 title: Zombies Attack
@@ -128,6 +115,65 @@ class KeyEvent{
 }
 ```
 
+## User Flow
+<div align="center"> 
+    
+### Home Screen  
+![Home Screen2](https://github.com/Game-JAVA/Clueless/assets/148909506/8415a2df-daec-4dee-9848-8e68d29f439c)
+</div>
+
+
+
+
+## About
+
+This game project was developed by students coursing System Analisys and Development at Faculdade SENAI Gaspar Ricardo Junior, with 2rpnet support.
+
+Start date: 06/10/2024.
+
+End date: to be defined.
+
+
+## Story
+
+During a zombie apocalypse, Indiana Grimes was the only one from his city that survived. Trying to find someone else or at least a single life, 
+he runs the world fighting lots of types of zombies using his knife and wapons that he finds along the way.  
+
+Zombies:  
+    - Short zombies are fast, have low life and a medium hit,
+    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombieP%20png.gif)  
+    - Medium zombies have a medium speed, medium life and a weak hit,
+    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombieM%20png.gif)  
+    - Tall zombies are the slowest one, have the biggest life and the strongest hit.
+    ![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/zombiG%20png%20.gif)  
+
+
+Indiana Grimes:
+![image](https://github.com/Game-JAVA/Clueless/blob/develop/Images/gifs%20png/rickgrimes%20png.gif)  
+    - Inspired by Rick Grimes from The Walking Dead and Indiana Jones. Indiana Grimes fights to survive the zombie apocalypse using a variety of weapons.
+    
+
+
+## Game Objective
+
+The game works in rounds, at start the survivor has a knife to fight, by killing zombies he gets more points that allows him to use better weapons. Only the five best that reach more points can appear at the ranking.
+
+Ranking:  
+    - Each zombie has different point rewards from killing them,  
+    - Player weapon change by reaching especific points,  
+    - Indiana Grimes has 10 hits of life, if it turns 0 = GAME OVER,  
+    - After GAME OVER screen, player can send his name to ranking, only the top 5 appears at ranking screen.
+
+
+## Commands
+    - A = LEFT, and UP at menu,
+    - D = RIGHT, and DOWN at menu,
+
+    - F = ATTACK, and CONFIRM at menu.    
+<div align="center">
+    
+![commands IMAGE](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/game%20controls%20screen.png)
+</div>
 
 ## Sound Effects
 
@@ -137,13 +183,6 @@ Sources used to obtain the files:
 
 - [Pixabay](#https://pixabay.com/pt/sound-effects/)
 - [Mixkit](#https://mixkit.co/free-sound-effects/)
-
-
-## Requirements
-
-java 22,
-
-java.fx.
 
 
 ## Contribution
