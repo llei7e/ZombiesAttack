@@ -1,14 +1,11 @@
 package clueless.zombiesattack;
 
 import javafx.animation.*;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -94,6 +91,7 @@ public class KeyEvent {
                     switch (event.getCode()){
                         case W:
                             p1.jump();
+                            p1.setPoints(p1.getPoints()+100);
                             break;
                         case J:
                             p1.attack(pane, zombies);
@@ -208,6 +206,20 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+                switch (p1.getPoints()){
+                    case 200:
+                        p1.setWeapon("katana");
+                        p1.playerWeapons();
+                        break;
+                    case 400:
+                        p1.setWeapon("pistol");
+                        p1.playerWeapons();
+                        break;
+                    case 800:
+                        p1.setWeapon("rifle");
+                        p1.playerWeapons();
+                        break;
+                }
 
             }
         };

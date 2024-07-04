@@ -4,7 +4,6 @@ import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
 import java.util.Objects;
 
 
@@ -129,6 +128,7 @@ public abstract class Characters extends ImageView {
         this.left = left;
     }
 
+    //Define player move animations
     public void setSprite(Image img, String weapon) {
         if (Objects.equals(weapon, "knife")){
             this.sprite.setImage(img);
@@ -138,6 +138,18 @@ public abstract class Characters extends ImageView {
         if (Objects.equals(weapon, "pistol")){
             this.sprite.setImage(img);
             this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+
+        if (Objects.equals(weapon, "katana")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(55);
+            this.sprite.setFitHeight(80);
+        }
+
+        if (Objects.equals(weapon, "rifle")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(55);
             this.sprite.setFitHeight(80);
         }
     }
@@ -166,6 +178,7 @@ public abstract class Characters extends ImageView {
         }
     }
 
+    //Define player animations w/ each weapon
     public void setSprite(Image img, String weapon, boolean isShooting) {
         if (Objects.equals(weapon, "knife")){
             this.sprite.setImage(img);
@@ -173,6 +186,16 @@ public abstract class Characters extends ImageView {
             this.sprite.setFitHeight(80);
         }
         if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "katana")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "rifle")){
             this.sprite.setImage(img);
             this.sprite.setFitWidth(70);
             this.sprite.setFitHeight(80);

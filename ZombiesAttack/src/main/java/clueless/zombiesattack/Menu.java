@@ -8,18 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class Menu {
@@ -180,7 +175,6 @@ public class Menu {
         HBox pointsBox = new HBox();
         pointsBox.setAlignment(Pos.CENTER);
 
-        p1.setPoints(p1.getPoints() + 777);
         Text points = new Text(String.valueOf(p1.getPoints()) + " pts");
         Image img2 = new Image("coin2.png");
         ImageView coin = new ImageView(img2);
