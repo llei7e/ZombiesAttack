@@ -67,6 +67,7 @@ Ranking:
 ## Game Classes
 
 ```mermaid
+
 ---
 title: Zombies Attack
 ---
@@ -87,11 +88,14 @@ class ImageView{
 }
 class Characters{
 -int life
+-boolean right
+-boolean left
 -int speed
 -int strength
 -ImageView sprite
 -Image[] walking
-+move(int x, int y)
++move(int frame, String weapon)
++move(int frame, int type)
 }
 class Player{
 -String name
@@ -99,7 +103,13 @@ class Player{
 -int timeSurvived
 -String weapon
 -boolean isJumping
+-boolean isWalking
+-boolean isAttacking
+-String direction
+-Image[] shooting
 +dash()
++playerWeapons()
++checkHealing()
 +attack()
 +jump()
 }
@@ -117,14 +127,31 @@ class Menu{
 +gameKeys()
 +gameOver()
 +game()
++buyScreen()
++loading()
 }
 
 class KeyEvent{
--boolean right
--boolean left
--boolean shooting
--String direction
+-boolean paused
 +keyEvent()
+-gamePaused()
+}
+
+class Sounds{
+-MediaPlayer sound
++getSoundEffect()
++getRifle(int op)
++getPistol(int op)
++getKnife()
++getKatana()
++getWalking()
++getJumping()
++getZombieGrowl()
++getSmallPunch()
++getBigPunch()
++getGameOver()
++getOption()
++getHealing()
 }
 ```
 
