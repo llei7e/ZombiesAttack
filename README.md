@@ -144,7 +144,7 @@ class KeyEvent{
 <div align="center"> 
     
 ### Game Over 
-![GameOver Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/Game%20over%20screen.png)
+![GameOver Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/Game%20Over.png)
 </div>
 
 <div align="center"> 
