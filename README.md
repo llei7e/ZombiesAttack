@@ -20,37 +20,25 @@
 - [Game Classes](#game-classes)
 - [User Flow](#user-flow) 
 - [Story](#story)  
-- [Game Objective](#game-objective)  
-- [Commands](#commands)  
+- [Game Objective](#game-objective)   
 - [Sound Effects](#sound-effects)  
 - [Contribution](#contribution)  
+
+
+## About
+
+This game project was developed by students coursing System Analisys and Development at Faculdade SENAI Gaspar Ricardo Junior, with 2rpnet support.
+
+Start date: 06/10/2024.
+
+End date: to be defined.
 
 
 ## Requirements
 
 - Java IDE like IntelliJ or Eclipse (used IntelliJ for development),  
-- java 22(jdk 22.0.1),  
+- java 22(used jdk 22.0.1),  
 - java.fx,  
-- Libraries:  
-    - javafx.application.Application;  
-    - javafx.scene.Scene;  
-    - javafx.scene.layout.Pane;  
-    - javafx.stage.Stage;  
-    - javafx.animation.*;  
-    - javafx.scene.image.Image;  
-    - javafx.scene.image.ImageView;  
-    - javafx.util.Duration;  
-    - java.util.ArrayList;  
-    - java.util.Objects;  
-    - import javafx.animation.KeyFrame;  
-    - javafx.animation.PauseTransition;  
-    - javafx.geometry.Pos;  
-    - javafx.scene.control.Button;  
-    - javafx.scene.layout.HBox;  
-    - javafx.scene.layout.VBox;  
-    - javafx.scene.text.Text;  
-    - javafx.scene.input.KeyCode;  
-
 
 ## Game Classes
 ```mermaid
@@ -116,28 +104,59 @@ class KeyEvent{
 ```
 
 ## User Flow
+
 <div align="center"> 
     
-### Home Screen  
-![Home Screen2](https://github.com/Game-JAVA/Clueless/assets/148909506/8415a2df-daec-4dee-9848-8e68d29f439c)
+### Home  
+![Home Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/home%20screen.png)
 </div>
 
+<div align="center"> 
+    
+### Ranking 
+![Ranking Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/ranking%20screen.png)
+</div>
 
+<div align="center"> 
+    
+### Home 
+![Home Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/home%20screen.png)
+</div>
 
+<div align="center"> 
+    
+### Loading  
+![Loading Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/loading%20screen.png)
+</div>
 
-## About
+<div align="center"> 
+    
+### Controls 
+![Controls Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/GameKeys%20Screen.png)
+</div>
 
-This game project was developed by students coursing System Analisys and Development at Faculdade SENAI Gaspar Ricardo Junior, with 2rpnet support.
+<div align="center"> 
+    
+### Game 
+![Game Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/Game%20Screen.png)
+</div>
 
-Start date: 06/10/2024.
+<div align="center"> 
+    
+### Game Over 
+![GameOver Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/Game%20over%20screen.png)
+</div>
 
-End date: to be defined.
+<div align="center"> 
+    
+### Insert Ranking Name  
+![InsertName Screen](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/RankingName%20Screen.jpg)
+</div>
 
 
 ## Story
 
-During a zombie apocalypse, Indiana Grimes was the only one from his city that survived. Trying to find someone else or at least a single life, 
-he runs the world fighting lots of types of zombies using his knife and wapons that he finds along the way.  
+During a zombie apocalypse, Indiana Grimes was the only one from his city that survived. Trying to find someone else or at least a single life, he runs the world fighting lots of types of zombies using his knife and wapons that he finds along the way.  
 
 Zombies:  
     - Short zombies are fast, have low life and a medium hit,
@@ -163,17 +182,7 @@ Ranking:
     - Player weapon change by reaching especific points,  
     - Indiana Grimes has 10 hits of life, if it turns 0 = GAME OVER,  
     - After GAME OVER screen, player can send his name to ranking, only the top 5 appears at ranking screen.
-
-
-## Commands
-    - A = LEFT, and UP at menu,
-    - D = RIGHT, and DOWN at menu,
-
-    - F = ATTACK, and CONFIRM at menu.    
-<div align="center">
     
-![commands IMAGE](https://github.com/Game-JAVA/Clueless/blob/develop/Images/screens/game%20controls%20screen.png)
-</div>
 
 ## Sound Effects
 
