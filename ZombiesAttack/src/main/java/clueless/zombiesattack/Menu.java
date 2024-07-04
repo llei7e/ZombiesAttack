@@ -55,8 +55,15 @@ public class Menu {
         root.getStyleClass().add("vbox");
 
         //set action on click
-        start.setOnMouseReleased(e -> loading(scene, pane, stage));
-        ranking.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
+
+        start.setOnMouseReleased(e -> {
+            Sounds.getOption().play();
+            loading(scene, pane, stage);
+        });
+        ranking.setOnMouseReleased(e -> {
+            Sounds.getOption().play();
+            rankingScreen(scene, pane, stage);
+        });
         exit.setOnMouseReleased(e -> stage.close());
 
         //adding root on pane
@@ -131,7 +138,10 @@ public class Menu {
         pane.getChildren().add(root);
 
         //set action on click
-        back.setOnMouseReleased(e -> homeScreen(scene, pane, stage));
+        back.setOnMouseReleased(e -> {
+            Sounds.getOption().play();
+            homeScreen(scene, pane, stage);
+        });
 
         //using css
         String css = getClass().getResource("/style.css").toExternalForm();
@@ -422,7 +432,7 @@ public class Menu {
 
         );
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(8));
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
         // Set the cycle counts and play the timelines
         backgroundTimeline.setCycleCount(Timeline.INDEFINITE);
         loadingTextTimeline.setCycleCount(Timeline.INDEFINITE);

@@ -112,7 +112,6 @@ public class KeyEvent {
                         case J:
                             p1.attack(pane, zombies);
                             p1.setShooting(true);
-                            Sounds.getRifleSound(1).play();
                             break;
                         case D :
                             p1.setRight(true);
@@ -184,10 +183,15 @@ public class KeyEvent {
                 else
                     lifeImage = new Image("life0.png");
                 life.setImage(lifeImage);
+
+                // Player died
                 if (p1.getLife() <= 0) {
+                    //p1.animationEndGame(scene, pane);
+
                     canSpawn = false;
                     zombies.clear();
-                    Menu.gameOver(scene, pane); // End game
+                    // adicionar Menu.gameover em animationEndGame de player
+                    //Menu.gameOver(scene, pane); // End game
                 }
 
                 //Define Weapon Image
@@ -242,6 +246,7 @@ public class KeyEvent {
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
+        Sounds.getOption().play();
         gameLooping.stop();
         // create pauseText
         Text pauseText = new Text("Paused");
@@ -262,6 +267,7 @@ public class KeyEvent {
             public void handle(long l) {
                 scene.setOnKeyPressed(e -> {
                     if (e.getCode() == KeyCode.P){
+                        Sounds.getOption().play();
                         paused = !paused; // set paused to false
                         pane.getChildren().remove(pauseText); // remove pauseText
                         this.stop(); // end of gamePause
