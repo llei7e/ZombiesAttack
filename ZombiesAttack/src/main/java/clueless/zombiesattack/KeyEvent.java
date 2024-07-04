@@ -57,22 +57,22 @@ public class KeyEvent {
                 return Player.getSprite().getBoundsInParent().intersects(Zombie.getSprite().getBoundsInParent());
             }
 
-            // ZombieFactory method
-            private Zombies zombieFactory() {
-                // Define random value and type
-                Random r = new Random();
-                int X = r.nextInt(2)+1;
-                int type = r.nextInt(3)+1;
-                // Define positionX
-                int value = r.nextInt(3) + 1;
-                if (value == 1)
-                    X = 630;
-                else if(value == 2)
-                    X = -15;
-
-                Image img = new Image("zombieM-walking2.png");
-                return new Zombies(X, type);
-            }
+//             ZombieFactory method
+//            private Zombies zombieFactory() {
+//                // Define random value and type
+//                Random r = new Random();
+//                int X = r.nextInt(2)+1;
+//                int type = r.nextInt(3)+1;
+//                // Define positionX
+//                int value = r.nextInt(3) + 1;
+//                if (value == 1)
+//                    X = 630;
+//                else if(value == 2)
+//                    X = -15;
+//
+//                Image img = new Image("zombieM-walking2.png");
+//                return new Zombies(X, type);
+//            }
 
             // GAME LOOPING
             @Override
@@ -124,16 +124,26 @@ public class KeyEvent {
                         p1.setRight(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-right2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-right.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-right2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-right2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setLeft(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-left2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-left.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-left2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-left2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
@@ -190,18 +200,18 @@ public class KeyEvent {
 
 
             // SPAWN ZOMBIES - REMOVE ZOMBIES
-                // Add zombies
-                if (canSpawn) {
-                    canSpawn = false;
-                    // Define spawn zombie
-                    Zombies z = zombieFactory();
-                    zombies.add(z);
-                    pane.getChildren().add(z.getSprite());
-                    // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
-                    delay.setOnFinished(event -> canSpawn = true);
-                    delay.play();
-                }
+//                 Add zombies
+//                if (canSpawn) {
+//                    canSpawn = false;
+//                    // Define spawn zombie
+//                    Zombies z = zombieFactory();
+//                    zombies.add(z);
+//                    pane.getChildren().add(z.getSprite());
+//                    // Define delay (Wave)
+//                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
+//                    delay.setOnFinished(event -> canSpawn = true);
+//                    delay.play();
+//                }
 
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);

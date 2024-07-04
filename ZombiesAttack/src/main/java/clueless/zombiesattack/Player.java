@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -20,7 +21,6 @@ public class Player extends Characters {
     private String direction = "right";
     private Image[] shooting = new Image[2];
 
-
     //Constructor
     public Player() {
         super();
@@ -32,7 +32,7 @@ public class Player extends Characters {
         this.weapon = "knife";
         setLife(10);
         setSpeed(5);
-        setStrength(1);
+
 
         //define sprites
         playerWeapons();
@@ -64,6 +64,8 @@ public class Player extends Characters {
             img = new Image("knifewalk-right2.png");
             this.setSprite(img, getWeapon());
 
+            setStrength(1);
+
         }
 
         if (Objects.equals(this.getWeapon(), "katana")) {
@@ -77,8 +79,10 @@ public class Player extends Characters {
             this.walking[4] = new Image("katanawalk-left2.png");
             this.walking[5] = new Image("katanawalk-left3.png");
 
-            img = new Image("katanawalk-left2.png");
+            img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
+
+            setStrength(2);
 
         }
 
@@ -95,6 +99,8 @@ public class Player extends Characters {
 
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
+
+            setStrength(1);
         }
 
         if (Objects.equals(this.getWeapon(), "rifle")) {
@@ -110,6 +116,8 @@ public class Player extends Characters {
 
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
+
+            setStrength(3);
         }
     }
 
@@ -136,24 +144,30 @@ public class Player extends Characters {
 
                     projectile = new ImageView(new Image("slash.png"));
 
-                    projectile.setFitHeight(25);
+                    projectile.setFitHeight(20);
                     projectile.setFitWidth(25);
                     projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 8);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 250);
                     kf = new KeyFrame(Duration.millis(800), kv);
 
+                    // define bullet X
+                    projectile.setX(getSprite().getX() + 65);
+
                 } else if (Objects.equals(getWeapon(), "katana")) {
                     this.setSprite(new Image("katana-attack-right.png"), getWeapon(), this.isAttacking);
 
                     projectile = new ImageView(new Image("katana-slash.png"));
 
-                    projectile.setFitHeight(25);
-                    projectile.setFitWidth(25);
-                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
+                    projectile.setFitHeight(80);
+                    projectile.setFitWidth(50);
+                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 40);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 350);
                     kf = new KeyFrame(Duration.millis(600), kv);
+
+                    // define bullet X
+                    projectile.setX(getSprite().getX() + 60);
 
                 } else if (Objects.equals(getWeapon(), "pistol")) {
                     this.setSprite(new Image("pistolShooting1-right.png"), getWeapon(), this.isAttacking);
@@ -167,46 +181,56 @@ public class Player extends Characters {
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 350);
                     kf = new KeyFrame(Duration.millis(400), kv);
 
+                    // define bullet X
+                    projectile.setX(getSprite().getX() + 50);
+
                 } else {
                     this.setSprite(new Image("rifle-attack-right.png"), getWeapon(), this.isAttacking);
 
                     projectile = new ImageView(new Image("rifle-bullet.png"));
 
                     projectile.setFitHeight(25);
-                    projectile.setFitWidth(25);
-                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
+                    projectile.setFitWidth(50);
+                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 15);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() + 550);
-                    kf = new KeyFrame(Duration.millis(400), kv);
+                    kf = new KeyFrame(Duration.millis(800), kv);
+
+                    // define bullet X
+                    projectile.setX(getSprite().getX() + 75);
                 }
-                // define bullet X
-                projectile.setX(getSprite().getX() + 50);
 
             } else {
                 // player sprite left
                 if (Objects.equals(getWeapon(), "knife")) {
                     this.setSprite(new Image("knife-attack-left.png"), getWeapon(), this.isAttacking);
 
-                    projectile = new ImageView(new Image("slash.png"));
+                    projectile = new ImageView(new Image("slash-left.png"));
 
-                    projectile.setFitHeight(25);
+                    projectile.setFitHeight(20);
                     projectile.setFitWidth(25);
                     projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 8);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 200);
                     kf = new KeyFrame(Duration.millis(800), kv);
 
+                    // define projectile X
+                    projectile.setX(getSprite().getX() - 20);
+
                 } else if (Objects.equals(getWeapon(), "katana")) {
                     this.setSprite(new Image("katana-attack-left.png"), getWeapon(), this.isAttacking);
 
-                    projectile = new ImageView(new Image("katana-slash.png"));
+                    projectile = new ImageView(new Image("katana-slash-left.png"));
 
-                    projectile.setFitHeight(25);
-                    projectile.setFitWidth(25);
-                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
+                    projectile.setFitHeight(80);
+                    projectile.setFitWidth(50);
+                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 40);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 300);
                     kf = new KeyFrame(Duration.millis(600), kv);
+
+                    // define projectile X
+                    projectile.setX(getSprite().getX() - 20);
 
                 } else if (Objects.equals(getWeapon(), "pistol")) {
                     this.setSprite(new Image("pistolShooting1-left.png"), getWeapon(), this.isAttacking);
@@ -220,20 +244,23 @@ public class Player extends Characters {
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 300);
                     kf = new KeyFrame(Duration.millis(400), kv);
 
+                    // define projectile X
+                    projectile.setX(getSprite().getX());
+
                 } else {
                     this.setSprite(new Image("rifle-attack-left.png"), getWeapon(), this.isAttacking);
 
-                    projectile = new ImageView(new Image("rifle-bullet.png"));
+                    projectile = new ImageView(new Image("rifle-bullet-left.png"));
 
                     projectile.setFitHeight(25);
-                    projectile.setFitWidth(25);
-                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 20);
+                    projectile.setFitWidth(50);
+                    projectile.setY(getSprite().getY() + getSprite().getFitHeight() / 2 - 15);
 
                     KeyValue kv = new KeyValue(projectile.xProperty(), getSprite().getX() - 500);
-                    kf = new KeyFrame(Duration.millis(400), kv);
+                    kf = new KeyFrame(Duration.millis(800), kv);
+                    // define projectile X
+                    projectile.setX(getSprite().getX() - 25);
                 }
-                // define projectile X
-                projectile.setX(getSprite().getX());
             }
 
             // CollisionChecker
