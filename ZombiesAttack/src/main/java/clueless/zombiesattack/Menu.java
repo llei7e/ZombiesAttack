@@ -133,7 +133,7 @@ public class Menu {
 
     public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gamekeys.jpg");
+        Image img = new Image("gameKeys.jpeg");
         ImageView gameKeys = new ImageView(img);
 
         gameKeys.setFitWidth(pane.getWidth());
@@ -427,5 +427,37 @@ public class Menu {
         backgroundTimeline.play();
         loadingTextTimeline.play();
         delay.play();
+    }
+
+    public void rankingName (Scene scene, Pane pane, Stage stage) {
+        //Creating elements
+        Image moonImg = new Image("rankingbg.jpeg");
+        ImageView moon = new ImageView(moonImg);
+        moon.setFitWidth(620);
+        moon.setFitHeight(620);
+        Image hand = new Image("zombiehand.png");
+        ImageView zhand = new ImageView(hand);
+        zhand.setX(229);
+        zhand.setY(244);
+
+        TextField name = new TextField();
+        name.setLayoutX(165);
+        name.setLayoutY(264);
+        Button confirm = new Button("CONFIRM");
+        confirm.setLayoutX(250);
+        confirm.setLayoutY(500);
+
+        confirm.getStyleClass().add("homeButtons");
+        name.getStyleClass().add("text-field");
+
+        //using css
+        String css = getClass().getResource("/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
+        confirm.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
+
+
+        pane.getChildren().addAll(moon, confirm, name, zhand);
+
     }
 }

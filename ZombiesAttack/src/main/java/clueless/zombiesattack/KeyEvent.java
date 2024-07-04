@@ -30,6 +30,7 @@ public class KeyEvent {
             // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
+            private boolean canSpawnHealing = true;
 
             // HUD images
             Image lifeImage;
@@ -57,22 +58,38 @@ public class KeyEvent {
                 return Player.getSprite().getBoundsInParent().intersects(Zombie.getSprite().getBoundsInParent());
             }
 
-//             ZombieFactory method
-//            private Zombies zombieFactory() {
-//                // Define random value and type
-//                Random r = new Random();
-//                int X = r.nextInt(2)+1;
-//                int type = r.nextInt(3)+1;
-//                // Define positionX
-//                int value = r.nextInt(3) + 1;
-//                if (value == 1)
-//                    X = 630;
-//                else if(value == 2)
-//                    X = -15;
-//
-//                Image img = new Image("zombieM-walking2.png");
-//                return new Zombies(X, type);
-//            }
+            // ZombieFactory method
+            private Zombies zombieFactory() {
+                // Define random value and type
+                Random r = new Random();
+                int X = r.nextInt(2)+1;
+                int type = r.nextInt(3)+1;
+                // Define positionX
+                int value = r.nextInt(3) + 1;
+                if (value == 1)
+                    X = 630;
+                else if(value == 2)
+                    X = -15;
+
+                return new Zombies(X, type);
+            }
+
+            private ImageView spawnHealing () {
+                canSpawnHealing = !canSpawnHealing;
+
+                ImageView cure = new ImageView(new Image("cure.png"));
+                Random r = new Random();
+
+                cure.setFitHeight(85);
+                cure.setFitWidth(60);
+                cure.setX(r.nextInt(400)+100);
+                cure.setY(410);
+
+                pane.getChildren().add(cure);
+
+                return cure;
+            }
+
 
             // GAME LOOPING
             @Override
@@ -113,9 +130,9 @@ public class KeyEvent {
                     }
                 });
                 // only moves when there is no shot
-                if (!p1.getShooting() && !canMove())
+                if (!p1.getShooting() && !canMove()){
                     p1.move(currentFrame, p1.getWeapon());
-
+}
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (paused) return; // disable input
@@ -170,11 +187,6 @@ public class KeyEvent {
                         zombie.chasing(p1, zombie, currentFrame);
                 }
 
-                // only moves when it is no shot
-                if (!p1.getShooting())
-                    p1.move(currentFrame, p1.getWeapon());
-
-
             //HUD
                 //Define Life Image
                 if(p1.getLife() >= 0)
@@ -201,17 +213,32 @@ public class KeyEvent {
 
             // SPAWN ZOMBIES - REMOVE ZOMBIES
 //                 Add zombies
-//                if (canSpawn) {
-//                    canSpawn = false;
-//                    // Define spawn zombie
-//                    Zombies z = zombieFactory();
-//                    zombies.add(z);
-//                    pane.getChildren().add(z.getSprite());
-//                    // Define delay (Wave)
-//                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
-//                    delay.setOnFinished(event -> canSpawn = true);
-//                    delay.play();
-//                }
+                if (canSpawn) {
+                    canSpawn = false;
+                    // Define spawn zombie
+                    Zombies z = zombieFactory();
+                    zombies.add(z);
+                    pane.getChildren().add(z.getSprite());
+                    // Define delay (Wave)
+                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                    delay.setOnFinished(event -> canSpawn = true);
+                    delay.play();
+                }
+
+                // Spawn Healing
+                if (canSpawnHealing){
+                    ImageView spawnedHealing = spawnHealing();
+                    AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
+
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(2));
+                    waitingHealing.setOnFinished(e -> {
+                        canSpawnHealing = !canSpawnHealing;
+                        pane.getChildren().remove(spawnedHealing);
+                        check.stop();
+                    });
+                    waitingHealing.play();
+                    check.start();
+                }
 
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
@@ -233,6 +260,7 @@ public class KeyEvent {
         };
         gameLooping.start();
     }
+
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
