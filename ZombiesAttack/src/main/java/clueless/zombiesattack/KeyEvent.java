@@ -206,19 +206,17 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
-                switch (p1.getPoints()){
-                    case 200:
-                        p1.setWeapon("katana");
-                        p1.playerWeapons();
-                        break;
-                    case 400:
-                        p1.setWeapon("pistol");
-                        p1.playerWeapons();
-                        break;
-                    case 800:
-                        p1.setWeapon("rifle");
-                        p1.playerWeapons();
-                        break;
+                if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
+                    p1.setWeapon("katana");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 399 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
+                    p1.setWeapon("pistol");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 799 && Objects.equals(p1.getWeapon(), "pistol")) {
+                    p1.setWeapon("rifle");
+                    p1.playerWeapons();
                 }
 
             }

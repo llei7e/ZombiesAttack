@@ -143,13 +143,13 @@ public abstract class Characters extends ImageView {
 
         if (Objects.equals(weapon, "katana")){
             this.sprite.setImage(img);
-            this.sprite.setFitWidth(55);
+            this.sprite.setFitWidth(70);
             this.sprite.setFitHeight(80);
         }
 
         if (Objects.equals(weapon, "rifle")){
             this.sprite.setImage(img);
-            this.sprite.setFitWidth(55);
+            this.sprite.setFitWidth(70);
             this.sprite.setFitHeight(80);
         }
     }
@@ -178,7 +178,7 @@ public abstract class Characters extends ImageView {
         }
     }
 
-    //Define player animations w/ each weapon
+    //Define player animations w/ each weapon attack
     public void setSprite(Image img, String weapon, boolean isShooting) {
         if (Objects.equals(weapon, "knife")){
             this.sprite.setImage(img);
