@@ -108,6 +108,7 @@ public class KeyEvent {
                     switch (event.getCode()){
                         case W:
                             p1.jump();
+                            p1.setPoints(p1.getPoints()+100);
                             break;
                         case J:
                             p1.attack(pane, zombies);
@@ -140,16 +141,26 @@ public class KeyEvent {
                         p1.setRight(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-right2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-right.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-right2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-right2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setLeft(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-left2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-left.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-left2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-left2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
@@ -201,7 +212,7 @@ public class KeyEvent {
 
 
             // SPAWN ZOMBIES - REMOVE ZOMBIES
-                // Add zombies
+//                 Add zombies
                 if (canSpawn) {
                     canSpawn = false;
                     // Define spawn zombie
@@ -232,6 +243,18 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+                if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
+                    p1.setWeapon("katana");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 399 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
+                    p1.setWeapon("pistol");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 799 && Objects.equals(p1.getWeapon(), "pistol")) {
+                    p1.setWeapon("rifle");
+                    p1.playerWeapons();
+                }
 
             }
         };
