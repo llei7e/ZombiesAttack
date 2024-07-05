@@ -4,7 +4,6 @@ import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
 import java.util.Objects;
 
 
@@ -18,7 +17,6 @@ public abstract class Characters extends ImageView {
     private int strength;
     private ImageView sprite;
     protected Image [] walking = new Image[6];
-//  private Image [] walking = new Image[6];
 
     // Constructor
     public Characters() {
@@ -82,6 +80,87 @@ public abstract class Characters extends ImageView {
         }
     }
 
+    // Define zombie sprite according to the type
+    public void setSprite(Image img, int type) {
+        //Small Zombie
+        if(type == 1){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(50);
+            this.sprite.setFitHeight(65);
+        }
+
+        //Medium Zombie
+        if(type == 2){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(60);
+            this.sprite.setFitHeight(80);
+        }
+
+        //Great Zombie
+        if(type == 3){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(75);
+            this.sprite.setFitHeight(100);
+        }
+    }
+
+    //Define player move animations
+    public void setSprite(Image img, String weapon) {
+        if (Objects.equals(weapon, "knife")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(55);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+
+        if (Objects.equals(weapon, "katana")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(65);
+            this.sprite.setFitHeight(80);
+        }
+
+        if (Objects.equals(weapon, "rifle")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(80);
+            this.sprite.setFitHeight(80);
+        }
+    }
+
+    //Define player animations w/ each weapon attack
+    public void setSprite(Image img, String weapon, boolean isShooting) {
+        if (Objects.equals(weapon, "knife")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(75);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "pistol")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(70);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "katana")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(95);
+            this.sprite.setFitHeight(80);
+        }
+        if (Objects.equals(weapon, "rifle")){
+            this.sprite.setImage(img);
+            this.sprite.setFitWidth(95);
+            this.sprite.setFitHeight(78);
+        }
+    }
+
+    // just define new sprite
+    public void setSprite(Image img) {
+        this.sprite.setImage(img);
+        this.sprite.setFitWidth(95);
+        this.sprite.setFitHeight(78);
+    }
+
 
     // Getters
 
@@ -127,56 +206,6 @@ public abstract class Characters extends ImageView {
 
     public void setLeft(boolean left) {
         this.left = left;
-    }
-
-    public void setSprite(Image img, String weapon) {
-        if (Objects.equals(weapon, "knife")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(55);
-            this.sprite.setFitHeight(80);
-        }
-        if (Objects.equals(weapon, "pistol")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(70);
-            this.sprite.setFitHeight(80);
-        }
-    }
-
-    // Define zombie sprite according to the type
-    public void setSprite(Image img, int type) {
-        //Small Zombie
-        if(type == 1){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(50);
-            this.sprite.setFitHeight(65);
-        }
-
-        //Medium Zombie
-        if(type == 2){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(60);
-            this.sprite.setFitHeight(80);
-        }
-
-        //Great Zombie
-        if(type == 3){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(75);
-            this.sprite.setFitHeight(100);
-        }
-    }
-
-    public void setSprite(Image img, String weapon, boolean isShooting) {
-        if (Objects.equals(weapon, "knife")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(70);
-            this.sprite.setFitHeight(80);
-        }
-        if (Objects.equals(weapon, "pistol")){
-            this.sprite.setImage(img);
-            this.sprite.setFitWidth(70);
-            this.sprite.setFitHeight(80);
-        }
     }
 }
 

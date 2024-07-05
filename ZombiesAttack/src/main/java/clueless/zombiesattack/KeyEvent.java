@@ -1,14 +1,11 @@
 package clueless.zombiesattack;
 
 import javafx.animation.*;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -33,6 +30,7 @@ public class KeyEvent {
             // booleans
             private boolean hitBreak = false;
             private boolean canSpawn = true;
+            private boolean canSpawnHealing = true;
 
             // HUD images
             Image lifeImage;
@@ -73,9 +71,26 @@ public class KeyEvent {
                 else if(value == 2)
                     X = -15;
 
-                Image img = new Image("zombieM-walking2.png");
                 return new Zombies(X, type);
             }
+
+            // Spawn Healing method
+            private ImageView spawnHealing () {
+                canSpawnHealing = !canSpawnHealing;
+
+                ImageView cure = new ImageView(new Image("cure.png"));
+                Random r = new Random();
+
+                cure.setFitHeight(85);
+                cure.setFitWidth(60);
+                cure.setX(r.nextInt(400)+100);
+                cure.setY(410);
+
+                pane.getChildren().add(cure);
+
+                return cure;
+            }
+
 
             // GAME LOOPING
             @Override
@@ -96,6 +111,7 @@ public class KeyEvent {
                             p1.jump();
                             break;
                         case J:
+                            p1.weaponSfx();
                             p1.attack(pane, zombies);
                             p1.setShooting(true);
                             break;
@@ -115,9 +131,9 @@ public class KeyEvent {
                     }
                 });
                 // only moves when there is no shot
-                if (!p1.getShooting() && !canMove())
+                if (!p1.getShooting() && !canMove()){
                     p1.move(currentFrame, p1.getWeapon());
-
+}
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (paused) return; // disable input
@@ -126,16 +142,26 @@ public class KeyEvent {
                         p1.setRight(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-right2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-right.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-right2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-right2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.A) {
                         p1.setLeft(false);
                         if (Objects.equals(p1.getWeapon(), "knife")) {
                             p1.setSprite(new Image("knifewalk-left2.png"), p1.getWeapon());
-                        } else {
+                        } else if(Objects.equals(p1.getWeapon(), "pistol")) {
                             p1.setSprite(new Image("rickwalk2-left.png"), p1.getWeapon());
+                        }
+                        else if(Objects.equals(p1.getWeapon(), "katana")) {
+                            p1.setSprite(new Image("katanawalk-left2.png"), p1.getWeapon());
+                        } else{
+                            p1.setSprite(new Image("riflewalk-left2.png"), p1.getWeapon());
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
@@ -162,11 +188,6 @@ public class KeyEvent {
                         zombie.chasing(p1, zombie, currentFrame);
                 }
 
-                // only moves when it is no shot
-                if (!p1.getShooting())
-                    p1.move(currentFrame, p1.getWeapon());
-
-
             //HUD
                 //Define Life Image
                 if(p1.getLife() >= 0)
@@ -174,10 +195,19 @@ public class KeyEvent {
                 else
                     lifeImage = new Image("life0.png");
                 life.setImage(lifeImage);
+
+                // Player died
                 if (p1.getLife() <= 0) {
+                    //p1.animationEndGame(scene, pane);
+
                     canSpawn = false;
+                    for (Zombies z : zombies)
+                        pane.getChildren().remove(z.getSprite());
                     zombies.clear();
-                    Menu.gameOver(scene, pane); // End game
+                    this.stop();
+                    paused = !paused;
+                    p1.animationEndgame(scene, pane);
+                     // End game
                 }
 
                 //Define Weapon Image
@@ -191,7 +221,7 @@ public class KeyEvent {
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
 
-            // SPAWN ZOMBIES - REMOVE ZOMBIES
+                // SPAWN ZOMBIES - REMOVE ZOMBIES
                 // Add zombies
                 if (canSpawn) {
                     canSpawn = false;
@@ -205,17 +235,47 @@ public class KeyEvent {
                     delay.play();
                 }
 
+                // Spawn Healing
+                if (canSpawnHealing){
+                    ImageView spawnedHealing = spawnHealing();
+                    AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
+
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(10));
+                    waitingHealing.setOnFinished(e -> {
+                        canSpawnHealing = !canSpawnHealing;
+                        pane.getChildren().remove(spawnedHealing);
+                        check.stop();
+                    });
+                    waitingHealing.play();
+                    check.start();
+                }
+
                 // Remove zombies of ArrayList
+
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+                if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
+                    p1.setWeapon("katana");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 399 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
+                    p1.setWeapon("pistol");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 799 && Objects.equals(p1.getWeapon(), "pistol")) {
+                    p1.setWeapon("rifle");
+                    p1.playerWeapons();
+                }
 
             }
         };
         gameLooping.start();
     }
+
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
+        Sounds.getOption().play();
         gameLooping.stop();
         // create pauseText
         Text pauseText = new Text("Paused");
@@ -236,6 +296,7 @@ public class KeyEvent {
             public void handle(long l) {
                 scene.setOnKeyPressed(e -> {
                     if (e.getCode() == KeyCode.P){
+                        Sounds.getOption().play();
                         paused = !paused; // set paused to false
                         pane.getChildren().remove(pauseText); // remove pauseText
                         this.stop(); // end of gamePause
