@@ -4,6 +4,7 @@ import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Player extends Characters {
         this.points = 0;
         this.timeSurvived = 0;
         this.weapon = "knife";
+        //this.weaponSfx = Sounds.getKnife();
         setLife(10);
         setSpeed(5);
 
@@ -60,6 +62,7 @@ public class Player extends Characters {
             this.walking[3] = new Image("knifewalk-left1.png");
             this.walking[4] = new Image("knifewalk-left2.png");
             this.walking[5] = new Image("knifewalk-left3.png");
+
 
             img = new Image("knifewalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -97,6 +100,8 @@ public class Player extends Characters {
             this.walking[4] = new Image("rickwalk2-left.png");
             this.walking[5] = new Image("rickwalk3-left.png");
 
+            Sounds.getPistol(0).play();
+
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
@@ -113,6 +118,8 @@ public class Player extends Characters {
             this.walking[3] = new Image("riflewalk-left1.png");
             this.walking[4] = new Image("riflewalk-left2.png");
             this.walking[5] = new Image("riflewalk-left3.png");
+
+            Sounds.getRifle(0).play();
 
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -325,10 +332,9 @@ public class Player extends Characters {
             // remove projectile
             timeline.setOnFinished(e -> {
                 pane.getChildren().remove(projectile);
-
-
                 collisionChecker.stop();
             });
+
 
             timeline.play();
             collisionChecker.start();
@@ -357,6 +363,7 @@ public class Player extends Characters {
 
             // end of jump
             timeline.setOnFinished(e -> isJumping = false);
+            Sounds.getJumping().play();
             timeline.play();
         }
     }
@@ -376,7 +383,6 @@ public class Player extends Characters {
                         setLife(getLife()+2);
 
                     this.stop();
-
                 }
             }
         };
@@ -384,7 +390,23 @@ public class Player extends Characters {
 
 
     }
-
+// WeaponSfx
+    public void weaponSfx () {
+        switch (getWeapon()){
+            case "knife":
+                Sounds.getKnife().play();
+                break;
+            case "katana":
+                Sounds.getKatana().play();
+                break;
+            case "pistol":
+                Sounds.getPistol(1).play();
+                break;
+            default:
+                Sounds.getRifle(1).play();
+                break;
+        }
+    }
 
 //    Getters
 

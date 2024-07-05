@@ -111,6 +111,7 @@ public class KeyEvent {
                             p1.setPoints(p1.getPoints()+100);
                             break;
                         case J:
+                            p1.weaponSfx();
                             p1.attack(pane, zombies);
                             p1.setShooting(true);
                             break;
@@ -225,7 +226,7 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(1000));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
@@ -235,7 +236,7 @@ public class KeyEvent {
                     ImageView spawnedHealing = spawnHealing();
                     AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
 
-                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(2));
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(30));
                     waitingHealing.setOnFinished(e -> {
                         canSpawnHealing = !canSpawnHealing;
                         pane.getChildren().remove(spawnedHealing);
