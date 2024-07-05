@@ -1,6 +1,7 @@
 package clueless.zombiesattack;
 
 import javafx.animation.*;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -390,7 +391,7 @@ public class Player extends Characters {
             public void handle(long l) {
                 if (healing.getBoundsInParent().intersects(getSprite().getBoundsInParent())) {
                     pane.getChildren().remove(healing);
-
+                    Sounds.getHealing().play();
                     // set new life
                     if (getLife() > 8)
                         setLife(10); // regenerates life
@@ -402,12 +403,21 @@ public class Player extends Characters {
             }
         };
 
-
     }
 
-    // WeaponSfx
-    public void weaponSfx() {
-        switch (getWeapon()) {
+//    Animation End Game
+    public void animationEndgame(Scene scene, Pane pane) {
+        PauseTransition endGame = new PauseTransition(Duration.millis(1700));
+
+        Sounds.getGameOver().play();
+        setSprite(new Image("rickEndGame.gif"));
+        endGame.setOnFinished(e -> Menu.gameOver(scene, pane));
+        endGame.play();
+    }
+
+// WeaponSfx
+    public void weaponSfx () {
+        switch (getWeapon()){
             case "knife":
                 Sounds.getKnife().play();
                 break;

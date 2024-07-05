@@ -93,4 +93,13 @@ public class Sounds {
         return new MediaPlayer(new Media(Sounds.class.getResource(path).toString()));
     }
 
+    public static MediaPlayer getLoading () {
+        String path = "/sounds/loading.mp3";
+        return new MediaPlayer(new Media(Sounds.class.getResource(path).toString()));
+    }
+    public static MediaPlayer getHome() {
+        String path = "/sounds/homescreen.mp3";
+        return new MediaPlayer(new Media(Sounds.class.getResource(path).toString()));
+    }
+
 }

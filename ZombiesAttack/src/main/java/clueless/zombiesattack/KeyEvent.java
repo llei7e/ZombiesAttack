@@ -201,8 +201,13 @@ public class KeyEvent {
                     //p1.animationEndGame(scene, pane);
 
                     canSpawn = false;
+                    for (Zombies z : zombies)
+                        pane.getChildren().remove(z.getSprite());
                     zombies.clear();
-
+                    this.stop();
+                    paused = !paused;
+                    p1.animationEndgame(scene, pane);
+                     // End game
                 }
 
                 //Define Weapon Image
@@ -246,6 +251,7 @@ public class KeyEvent {
                 }
 
                 // Remove zombies of ArrayList
+
                 zombies.removeIf(z -> z.getLife() <= 0);
 
                 if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {

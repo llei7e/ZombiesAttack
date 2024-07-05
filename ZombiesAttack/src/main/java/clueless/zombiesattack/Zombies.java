@@ -30,7 +30,7 @@ public class Zombies extends Characters{
             //define stats
             setLife(3);
             setSpeed(3);
-            setStrength(2);
+            setStrength(3);
 
         }else if(type == 3) {
             //define sprites
@@ -48,9 +48,9 @@ public class Zombies extends Characters{
             this.walking[5] = new Image("zombieG-walking3.png");
 
             //define stats
-            setLife(3);
+            setLife(8);
             setSpeed(1);
-            setStrength(3);
+            setStrength(5);
 
         }else{
             //define sprites
@@ -68,9 +68,9 @@ public class Zombies extends Characters{
             this.walking[5] = new Image("zombieM-walking3.png");
 
             //define stats
-            setLife(2);
+            setLife(4);
             setSpeed(2);
-            setStrength(1);
+            setStrength(3);
         }
     }
 
