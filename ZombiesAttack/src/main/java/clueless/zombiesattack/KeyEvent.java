@@ -74,6 +74,7 @@ public class KeyEvent {
                 return new Zombies(X, type);
             }
 
+            // Spawn Healing method
             private ImageView spawnHealing () {
                 canSpawnHealing = !canSpawnHealing;
 
@@ -108,7 +109,6 @@ public class KeyEvent {
                     switch (event.getCode()){
                         case W:
                             p1.jump();
-                            p1.setPoints(p1.getPoints()+100);
                             break;
                         case J:
                             p1.weaponSfx();
@@ -202,8 +202,7 @@ public class KeyEvent {
 
                     canSpawn = false;
                     zombies.clear();
-                    // adicionar Menu.gameover em animationEndGame de player
-                    //Menu.gameOver(scene, pane); // End game
+
                 }
 
                 //Define Weapon Image
@@ -217,8 +216,8 @@ public class KeyEvent {
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
 
-            // SPAWN ZOMBIES - REMOVE ZOMBIES
-//                 Add zombies
+                // SPAWN ZOMBIES - REMOVE ZOMBIES
+                // Add zombies
                 if (canSpawn) {
                     canSpawn = false;
                     // Define spawn zombie
@@ -226,7 +225,7 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1000));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
@@ -236,7 +235,7 @@ public class KeyEvent {
                     ImageView spawnedHealing = spawnHealing();
                     AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
 
-                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(30));
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(10));
                     waitingHealing.setOnFinished(e -> {
                         canSpawnHealing = !canSpawnHealing;
                         pane.getChildren().remove(spawnedHealing);
