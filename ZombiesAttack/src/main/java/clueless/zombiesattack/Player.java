@@ -9,6 +9,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Player extends Characters {
@@ -276,50 +277,64 @@ public class Player extends Characters {
 
                 @Override
                 public void handle(long now) {
-                    // check if  collide with zombie
-                    for (Zombies z : zombies)
+                    // List of zomies to remove
+                    List<Zombies> toRemove = new ArrayList<>();
+
+                    // check if collide with zombie
+                    for (Zombies z : zombies) {
                         if (projectile.getBoundsInParent().intersects(z.getSprite().getBoundsInParent())) {
                             // define direction
                             if (Objects.equals(direction, "right")) {
                                 if (Objects.equals(getWeapon(), "knife")) {
                                     setSprite(new Image("knifewalk-right2.png"), getWeapon());
-
                                 } else if (Objects.equals(getWeapon(), "katana")) {
                                     setSprite(new Image("katanawalk-right2.png"), getWeapon());
-
                                 } else if (Objects.equals(getWeapon(), "pistol")) {
                                     setSprite(new Image("rickwalk2-right.png"), getWeapon());
-
                                 } else {
                                     setSprite(new Image("riflewalk-right2.png"), getWeapon());
                                 }
                             } else {
                                 if (Objects.equals(getWeapon(), "knife")) {
                                     setSprite(new Image("knifewalk-left2.png"), getWeapon());
-
                                 } else if (Objects.equals(getWeapon(), "katana")) {
                                     setSprite(new Image("katanawalk-left2.png"), getWeapon());
-
                                 } else if (Objects.equals(getWeapon(), "pistol")) {
                                     setSprite(new Image("rickwalk2-left.png"), getWeapon());
-
                                 } else {
                                     setSprite(new Image("riflewalk-left2.png"), getWeapon());
                                 }
                             }
-                            // Remove zombie from zombies ArrayList
-                            // refactor
 
+                            // Set zombie life
                             z.setLife(z.getLife() - getStrength());
+
                             if (z.getLife() <= getStrength()) {
-                                pane.getChildren().remove(z.getSprite());
+                                // Update points
+                                if (z.getType() == 1) {
+                                    setPoints(getPoints() + 20);
+                                } else if (z.getType() == 3) {
+                                    setPoints(getPoints() + 30);
+                                } else if (z.getType() == 2) {
+                                    setPoints(getPoints() + 10);
+                                }
+
+                                // Add zombie to remove List
+                                toRemove.add(z);
                             }
 
-                            timeline.stop(); // stop timeline if yes
-                            pane.getChildren().remove(projectile);// remove projectile from pane
-
-                            this.stop(); // stop collisionChecker
+                            // Stop timeline and remove projectile
+                            timeline.stop();
+                            pane.getChildren().remove(projectile);
+                            this.stop();
                         }
+                    }
+
+                    // Remove zombies collected after loop
+                    for (Zombies z : toRemove) {
+                        pane.getChildren().remove(z.getSprite());
+                        zombies.remove(z);
+                    }
                 }
             };
 
@@ -381,7 +396,7 @@ public class Player extends Characters {
                     if (getLife() > 8)
                         setLife(10); // regenerates life
                     else
-                        setLife(getLife()+2);
+                        setLife(getLife() + 2);
 
                     this.stop();
                 }

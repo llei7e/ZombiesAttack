@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 
 public class Menu {
+    KeyEvent keys = new KeyEvent();
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
 
@@ -151,7 +152,7 @@ public class Menu {
 
     public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gameKeys.jpeg");
+        Image img = new Image("gameKeys.png");
         ImageView gameKeys = new ImageView(img);
 
         gameKeys.setFitWidth(pane.getWidth());
@@ -174,13 +175,11 @@ public class Menu {
         pane.getChildren().add(gameOver);
     }
 
-    KeyEvent keys = new KeyEvent();
     public void game(Scene scene, Pane pane, Stage stage) {
 
-      
         Player p1 = new Player();
 
-        ImageView background = new ImageView(new Image("fundo.png"));
+        ImageView background = new ImageView(new Image("background.png"));
         background.setFitHeight(pane.getHeight());
         background.setFitWidth(pane.getWidth());
 
@@ -232,119 +231,6 @@ public class Menu {
 
         //Actions
         keys.keyEvent(scene, pane, p1, zombies, life, weaponImg, weaponName, points);
-    }
-
-    public void buyScreen(Scene scene, Pane pane){
-
-        //background
-        ImageView background = new ImageView(new Image("fundo.png"));
-        background.setFitHeight(620);
-        background.setFitWidth(620);
-
-        //player
-        Player p1 = new Player();
-        p1.getSprite().setX(100);
-        p1.getSprite().setY(265);
-        p1.getSprite().setFitWidth(85);
-        p1.getSprite().setFitHeight(110);
-
-        //HUD - Points
-        HBox pointsBox = new HBox();
-        pointsBox.setAlignment(Pos.CENTER);
-
-        p1.setPoints(p1.getPoints() + 777);
-        Text points = new Text(String.valueOf(p1.getPoints()) + " pts");
-        Image img2 = new Image("coin2.png");
-        ImageView coin = new ImageView(img2);
-
-        pointsBox.getChildren().addAll(coin, points);
-
-        //HUD - life and weapon
-        VBox lifeWeapon = new VBox();
-        lifeWeapon.setAlignment(Pos.TOP_RIGHT);
-        Image img3 = new Image("life" + p1.getLife() + ".png");
-        ImageView life = new ImageView(img3);
-        HBox weapon = new HBox();
-        weapon.setAlignment(Pos.CENTER_RIGHT);
-        Text weaponName = new Text(p1.getWeapon());
-        Image img4 = new Image(p1.getWeapon() + ".png");
-        ImageView weaponImg = new ImageView(img4);
-
-        weapon.getChildren().addAll(weaponName, weaponImg);
-        lifeWeapon.getChildren().addAll(life, weapon);
-        lifeWeapon.setLayoutX(300);
-        pointsBox.setLayoutX(-10);
-
-        //Buy Options
-        VBox options = new VBox();
-        options.setAlignment(Pos.CENTER);
-        Text weaponsOp = new Text("Weapons:");
-
-
-        HBox knifeBox = new HBox();
-        knifeBox.setAlignment(Pos.CENTER_LEFT);
-        Button knife = new Button("0   knife");
-        ImageView coin2 = new ImageView(img2);
-
-        HBox swordBox = new HBox();
-        swordBox.setAlignment(Pos.CENTER_LEFT);
-        Button katana = new Button("200 sword");
-        ImageView coin3 = new ImageView(img2);
-
-        HBox pistolBox = new HBox();
-        pistolBox.setAlignment(Pos.CENTER_LEFT);
-        Button pistol = new Button("400 pistol");
-        ImageView coin4 = new ImageView(img2);
-
-        HBox rifleBox = new HBox();
-        rifleBox.setAlignment(Pos.CENTER_LEFT);
-        Button rifle = new Button("800 rifle");
-        ImageView coin5 = new ImageView(img2);
-
-
-        knifeBox.getChildren().addAll(coin2, knife);
-        swordBox.getChildren().addAll(coin3, katana);
-        pistolBox.getChildren().addAll(coin4, pistol);
-        rifleBox.getChildren().addAll(coin5, rifle);
-
-        options.getChildren().addAll(weaponsOp, knifeBox, swordBox, pistolBox, rifleBox);
-
-        options.setLayoutX(300);
-        options.setLayoutY(200);
-
-        //Play
-        Button play = new Button("PLAY");
-        play.setLayoutX(250);
-        play.setLayoutY(530);
-
-
-        //Add objects at the pane (screen)
-        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite(), options, play);
-
-        //Get css
-        String css = getClass().getResource("/style.css").toExternalForm();
-        scene.getStylesheets().add(css);
-
-        //Get css class
-        points.getStyleClass().add("points");
-        pointsBox.getStyleClass().add("timePoints");
-        weaponName.getStyleClass().add("points");
-        lifeWeapon.getStyleClass().add("lifeweapon");
-        weapon.getStyleClass().add("weaponbox");
-
-        knife.getStyleClass().add("buttons");
-        katana.getStyleClass().add("buttons");
-        pistol.getStyleClass().add("buttons");
-        rifle.getStyleClass().add("buttons");
-        play.getStyleClass().add("buyPlay");
-
-        weaponsOp.getStyleClass().add("points");
-
-        knife.setOnMouseReleased(e -> p1.setWeapon("knife"));
-        katana.setOnMouseReleased(e -> p1.setWeapon("katana"));
-        pistol.setOnMouseReleased(e -> p1.setWeapon("pistol"));
-        rifle.setOnMouseReleased(e -> p1.setWeapon("rifle"));
-
     }
 
     public void loading(Scene scene, Pane pane, Stage stage){
@@ -482,6 +368,119 @@ public class Menu {
 
 
         pane.getChildren().addAll(moon, confirm, name, zhand);
+
+    }
+
+    public void buyScreen(Scene scene, Pane pane){
+
+        //background
+        ImageView background = new ImageView(new Image("fundo.png"));
+        background.setFitHeight(620);
+        background.setFitWidth(620);
+
+        //player
+        Player p1 = new Player();
+        p1.getSprite().setX(100);
+        p1.getSprite().setY(265);
+        p1.getSprite().setFitWidth(85);
+        p1.getSprite().setFitHeight(110);
+
+        //HUD - Points
+        HBox pointsBox = new HBox();
+        pointsBox.setAlignment(Pos.CENTER);
+
+        p1.setPoints(p1.getPoints() + 777);
+        Text points = new Text(String.valueOf(p1.getPoints()) + " pts");
+        Image img2 = new Image("coin2.png");
+        ImageView coin = new ImageView(img2);
+
+        pointsBox.getChildren().addAll(coin, points);
+
+        //HUD - life and weapon
+        VBox lifeWeapon = new VBox();
+        lifeWeapon.setAlignment(Pos.TOP_RIGHT);
+        Image img3 = new Image("life" + p1.getLife() + ".png");
+        ImageView life = new ImageView(img3);
+        HBox weapon = new HBox();
+        weapon.setAlignment(Pos.CENTER_RIGHT);
+        Text weaponName = new Text(p1.getWeapon());
+        Image img4 = new Image(p1.getWeapon() + ".png");
+        ImageView weaponImg = new ImageView(img4);
+
+        weapon.getChildren().addAll(weaponName, weaponImg);
+        lifeWeapon.getChildren().addAll(life, weapon);
+        lifeWeapon.setLayoutX(300);
+        pointsBox.setLayoutX(-10);
+
+        //Buy Options
+        VBox options = new VBox();
+        options.setAlignment(Pos.CENTER);
+        Text weaponsOp = new Text("Weapons:");
+
+
+        HBox knifeBox = new HBox();
+        knifeBox.setAlignment(Pos.CENTER_LEFT);
+        Button knife = new Button("0   knife");
+        ImageView coin2 = new ImageView(img2);
+
+        HBox swordBox = new HBox();
+        swordBox.setAlignment(Pos.CENTER_LEFT);
+        Button katana = new Button("200 sword");
+        ImageView coin3 = new ImageView(img2);
+
+        HBox pistolBox = new HBox();
+        pistolBox.setAlignment(Pos.CENTER_LEFT);
+        Button pistol = new Button("400 pistol");
+        ImageView coin4 = new ImageView(img2);
+
+        HBox rifleBox = new HBox();
+        rifleBox.setAlignment(Pos.CENTER_LEFT);
+        Button rifle = new Button("800 rifle");
+        ImageView coin5 = new ImageView(img2);
+
+
+        knifeBox.getChildren().addAll(coin2, knife);
+        swordBox.getChildren().addAll(coin3, katana);
+        pistolBox.getChildren().addAll(coin4, pistol);
+        rifleBox.getChildren().addAll(coin5, rifle);
+
+        options.getChildren().addAll(weaponsOp, knifeBox, swordBox, pistolBox, rifleBox);
+
+        options.setLayoutX(300);
+        options.setLayoutY(200);
+
+        //Play
+        Button play = new Button("PLAY");
+        play.setLayoutX(250);
+        play.setLayoutY(530);
+
+
+        //Add objects at the pane (screen)
+        pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite(), options, play);
+
+        //Get css
+        String css = getClass().getResource("/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
+        //Get css class
+        points.getStyleClass().add("points");
+        pointsBox.getStyleClass().add("timePoints");
+        weaponName.getStyleClass().add("points");
+        lifeWeapon.getStyleClass().add("lifeweapon");
+        weapon.getStyleClass().add("weaponbox");
+
+        knife.getStyleClass().add("buttons");
+        katana.getStyleClass().add("buttons");
+        pistol.getStyleClass().add("buttons");
+        rifle.getStyleClass().add("buttons");
+        play.getStyleClass().add("buyPlay");
+
+        weaponsOp.getStyleClass().add("points");
+
+        knife.setOnMouseReleased(e -> p1.setWeapon("knife"));
+        katana.setOnMouseReleased(e -> p1.setWeapon("katana"));
+        pistol.setOnMouseReleased(e -> p1.setWeapon("pistol"));
+        rifle.setOnMouseReleased(e -> p1.setWeapon("rifle"));
 
     }
 }

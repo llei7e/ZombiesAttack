@@ -17,7 +17,6 @@ public abstract class Characters extends ImageView {
     private int strength;
     private ImageView sprite;
     protected Image [] walking = new Image[6];
-//  private Image [] walking = new Image[6];
 
     // Constructor
     public Characters() {

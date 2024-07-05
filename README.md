@@ -51,6 +51,7 @@ Characters <|-- Player
 Characters <|-- Zombies
 ImageView <|-- Characters
 ImageView <|-- Scenario
+Application <|-- Game
 
 class Game{
 -int width
@@ -127,6 +128,9 @@ class Sounds{
 +getGameOver()
 +getOption()
 +getHealing()
+}
+class Application{
++launch()
 }
 ```
 
