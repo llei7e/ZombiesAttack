@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,6 +22,11 @@ import java.util.ArrayList;
 public class Menu {
 
     public void homeScreen(Scene scene, Pane pane, Stage stage) {
+
+        // backgroundSound - homeScreen
+        MediaPlayer backgroundSound = Sounds.getHome();
+        backgroundSound.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundSound.play();
 
         //Creating elements
         VBox root = new VBox();
@@ -51,6 +57,7 @@ public class Menu {
         //set action on click
 
         start.setOnMouseReleased(e -> {
+            backgroundSound.stop();
             Sounds.getOption().play();
             loading(scene, pane, stage);
         });
@@ -341,6 +348,11 @@ public class Menu {
     }
 
     public void loading(Scene scene, Pane pane, Stage stage){
+
+        // backgroundSound - loading
+        MediaPlayer backgroundSound = Sounds.getLoading();
+        backgroundSound.play();
+
         //Creating elements
         Image imgDark = new Image("loadEscuro2.jpeg");
         ImageView loadingDark = new ImageView(imgDark);
@@ -425,12 +437,13 @@ public class Menu {
 
         );
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        PauseTransition delay = new PauseTransition(Duration.seconds(7));
         // Set the cycle counts and play the timelines
         backgroundTimeline.setCycleCount(Timeline.INDEFINITE);
         loadingTextTimeline.setCycleCount(Timeline.INDEFINITE);
 
         delay.setOnFinished(e -> {
+            backgroundSound.stop();
             backgroundTimeline.stop();
             loadingTextTimeline.stop();
             gameKeys(scene, pane, stage);

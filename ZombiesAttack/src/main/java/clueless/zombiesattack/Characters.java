@@ -155,6 +155,13 @@ public abstract class Characters extends ImageView {
         }
     }
 
+    // just define new sprite
+    public void setSprite(Image img) {
+        this.sprite.setImage(img);
+        this.sprite.setFitWidth(95);
+        this.sprite.setFitHeight(78);
+    }
+
 
     // Getters
 

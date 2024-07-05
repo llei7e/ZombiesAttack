@@ -108,7 +108,6 @@ public class KeyEvent {
                     switch (event.getCode()){
                         case W:
                             p1.jump();
-                            p1.setPoints(p1.getPoints()+100);
                             break;
                         case J:
                             p1.weaponSfx();
@@ -201,9 +200,13 @@ public class KeyEvent {
                     //p1.animationEndGame(scene, pane);
 
                     canSpawn = false;
+                    for (Zombies z : zombies)
+                        pane.getChildren().remove(z.getSprite());
                     zombies.clear();
-                    // adicionar Menu.gameover em animationEndGame de player
-                    //Menu.gameOver(scene, pane); // End game
+                    this.stop();
+                    paused = !paused;
+                    p1.animationEndgame(scene, pane);
+                     // End game
                 }
 
                 //Define Weapon Image
@@ -226,7 +229,7 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1000));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
