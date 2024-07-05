@@ -5,9 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,13 +14,11 @@ public class Player extends Characters {
     //Attributes
     private String name;
     private int points;
-    private int timeSurvived;
     private String weapon;
     private boolean isJumping = false;
-    private boolean isWalking = false;
     private boolean isAttacking = false;
     private String direction = "right";
-    private Image[] shooting = new Image[2];
+    private final Image[] shooting = new Image[2];
 
     //Constructor
     public Player() {
@@ -31,9 +27,7 @@ public class Player extends Characters {
         //define stats
         this.name = "";
         this.points = 0;
-        this.timeSurvived = 0;
         this.weapon = "knife";
-        //this.weaponSfx = Sounds.getKnife();
         setLife(10);
         setSpeed(5);
 
@@ -45,11 +39,6 @@ public class Player extends Characters {
     }
 
     //Methods
-    public int dash(int positionX, int positionY, boolean doubleClick) {
-        int dashSize = 3;
-        //   int newX;
-        return 0;
-    }
 
     public void playerWeapons() {
         Image img;
@@ -83,6 +72,8 @@ public class Player extends Characters {
             this.walking[3] = new Image("katanawalk-left1.png");
             this.walking[4] = new Image("katanawalk-left2.png");
             this.walking[5] = new Image("katanawalk-left3.png");
+
+            Sounds.getKatana().play();
 
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -138,8 +129,6 @@ public class Player extends Characters {
         KeyFrame kf;
 
         if (!isAttacking) {
-            // define isWalking
-            isWalking = isRight() || isLeft();
 
             // projectile instance and settings
             ImageView projectile;
@@ -277,7 +266,7 @@ public class Player extends Characters {
 
                 @Override
                 public void handle(long now) {
-                    // List of zomies to remove
+                    // List of zombies to remove
                     List<Zombies> toRemove = new ArrayList<>();
 
                     // check if collide with zombie
@@ -318,6 +307,9 @@ public class Player extends Characters {
                                 } else if (z.getType() == 2) {
                                     setPoints(getPoints() + 10);
                                 }
+
+                                // zombie sound
+                                Sounds.getZombieGrowl().play();
 
                                 // Add zombie to remove List
                                 toRemove.add(z);
@@ -422,7 +414,7 @@ public class Player extends Characters {
                 Sounds.getKnife().play();
                 break;
             case "katana":
-                Sounds.getKatana().play();
+                Sounds.getKatana(isRight()).play();
                 break;
             case "pistol":
                 Sounds.getPistol(1).play();
@@ -433,14 +425,31 @@ public class Player extends Characters {
         }
     }
 
+//  Dash
+    public void hit (Zombies zombie){
+        KeyValue kv;
+        int hit;
+
+        // hit type
+        if (zombie.getType() == 3)
+            hit = 75;
+        else
+            hit = 50;
+
+        // attack displacement
+        if (zombie.isLeft())
+            hit *= -1;
+
+        kv = new KeyValue(this.getSprite().xProperty(), this.getSprite().getX()+hit, Interpolator.EASE_BOTH);
+        Timeline hitDisplac = new Timeline(new KeyFrame(Duration.millis(170), kv));
+        hitDisplac.play();
+
+    }
+
 //    Getters
 
     public String getName() {
         return name;
-    }
-
-    public int getTimeSurvived() {
-        return timeSurvived;
     }
 
     public String getWeapon() {
@@ -468,10 +477,6 @@ public class Player extends Characters {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public void setTimeSurvived(int timeSurvived) {
-        this.timeSurvived = timeSurvived;
     }
 
     public void setDirection(String dir) {
