@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Menu {
     KeyEvent keys = new KeyEvent();
 
-    public void homeScreen(Scene scene, Pane pane, Stage stage) {
+    public void homeScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
 
         // backgroundSound - homeScreen
         MediaPlayer backgroundSound = Sounds.getHome();
@@ -36,14 +36,14 @@ public class Menu {
 
         //Buttons Instances
         Button start = new Button("START GAME");
-        Button ranking = new Button("RANKING");
+        Button rankingB = new Button("RANKING");
         Button exit = new Button("EXIT");
         ImageView logo = new ImageView("logo.png");
 
 
         //adding nodes on root
         //sprites.getChildren().addAll(indiana, zombieM,zombieS,zombieG);
-        root.getChildren().addAll(logo, start, ranking, exit, sprites);
+        root.getChildren().addAll(logo, start, rankingB, exit, sprites);
         logo.setFitWidth(620);
         logo.setFitHeight(250);
 
@@ -51,11 +51,9 @@ public class Menu {
         start.getStyleClass().add("homeButtons");
         start.setId("start");
 
-        ranking.getStyleClass().add("homeButtons");
+        rankingB.getStyleClass().add("homeButtons");
         exit.getStyleClass().add("homeButtons");
         root.getStyleClass().add("vbox");
-
-        //set action on click
 
         start.setOnMouseReleased(e -> {
             backgroundSound.stop();
@@ -64,8 +62,9 @@ public class Menu {
         });
         ranking.setOnMouseReleased(e -> {
             Sounds.getOption().play();
-            rankingScreen(scene, pane, stage);
+            rankingScreen(scene, pane, stage, ranking);
         });
+      
         exit.setOnMouseReleased(e -> stage.close());
 
         //adding root on pane
@@ -76,8 +75,8 @@ public class Menu {
         scene.getStylesheets().add(css);
     }
 
-    public void rankingScreen(Scene scene, Pane pane, Stage stage) {
-        //Creating elements
+    public void rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
+        // Creating elements
         VBox root = new VBox();
         root.setAlignment(Pos.TOP_CENTER);
 
@@ -86,69 +85,54 @@ public class Menu {
         rankingSpace.setMinWidth(400);
         rankingSpace.setSpacing(180);
 
-        VBox points = new VBox();
-        points.setAlignment(Pos.CENTER_LEFT);
-        points.setSpacing(10);
-        VBox names = new VBox();
-        names.setAlignment(Pos.CENTER_RIGHT);
-        names.setSpacing(10);
+        VBox pointsBox = new VBox();
+        pointsBox.setAlignment(Pos.CENTER_LEFT);
+        pointsBox.setSpacing(10);
+        VBox namesBox = new VBox();
+        namesBox.setAlignment(Pos.CENTER_RIGHT);
+        namesBox.setSpacing(10);
 
-        Text points1 = new Text("1170");
-        Text name1 = new Text("law");
+        // Load winners from ranking
+        ArrayList<Winner> winners = ranking.getWinners();
+        for (Winner winner : winners) {
+            Text pointsText = new Text(String.valueOf(winner.getPoints()));
+            Text nameText = new Text(winner.getName());
 
-        Text points2 = new Text("1075");
-        Text name2 = new Text("mwlaofr");
+            pointsBox.getChildren().add(pointsText);
+            namesBox.getChildren().add(nameText);
 
-        Text points3 = new Text("777");
-        Text name3 = new Text("llei7e");
-
-        Text points4 = new Text("675");
-        Text name4 = new Text("grodrigues");
-
-        Text points5 = new Text("-");
-        Text name5 = new Text("-");
+            pointsText.getStyleClass().add("rankingText");
+            nameText.getStyleClass().add("rankingText");
+        }
 
         ImageView logo = new ImageView("ranking.png");
 
         Button back = new Button("back");
 
-        //adding nodes on root
-        points.getChildren().addAll(points1, points2, points3, points4, points5);
-        names.getChildren().addAll(name1, name2, name3, name4, name5);
-        rankingSpace.getChildren().addAll(points, names);
-
+        // Adding nodes on root
+        rankingSpace.getChildren().addAll(pointsBox, namesBox);
         root.getChildren().addAll(logo, rankingSpace, back);
         logo.setFitWidth(620);
         logo.setFitHeight(270);
 
-        //defining css path
-        name1.getStyleClass().add("rankingText");
-        name2.getStyleClass().add("rankingText");
-        name3.getStyleClass().add("rankingText");
-        name4.getStyleClass().add("rankingText");
-        name5.getStyleClass().add("rankingText");
-        points1.getStyleClass().add("rankingText");
-        points2.getStyleClass().add("rankingText");
-        points3.getStyleClass().add("rankingText");
-        points4.getStyleClass().add("rankingText");
-        points5.getStyleClass().add("rankingText");
+        // Defining css path
         root.getStyleClass().add("vbox");
         back.getStyleClass().add("back");
 
-
-        //adding root on pane
+        // Adding root on pane
         pane.getChildren().add(root);
 
         //set action on click
         back.setOnMouseReleased(e -> {
             Sounds.getOption().play();
-            homeScreen(scene, pane, stage);
+            homeScreen(scene, pane, stage, ranking);
         });
 
-        //using css
+        // Using css
         String css = getClass().getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
     }
+
 
     public void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
@@ -339,8 +323,8 @@ public class Menu {
         delay.play();
     }
 
-    public void rankingName (Scene scene, Pane pane, Stage stage) {
-        //Creating elements
+    public void rankingName(Scene scene, Pane pane, Stage stage) {
+        // Creating elements
         Image moonImg = new Image("rankingbg.jpeg");
         ImageView moon = new ImageView(moonImg);
         moon.setFitWidth(620);
@@ -350,25 +334,43 @@ public class Menu {
         zhand.setX(229);
         zhand.setY(244);
 
-        TextField name = new TextField();
-        name.setLayoutX(165);
-        name.setLayoutY(264);
+        TextField nameField = new TextField();
+        nameField.setLayoutX(165);
+        nameField.setLayoutY(264);
         Button confirm = new Button("CONFIRM");
         confirm.setLayoutX(250);
         confirm.setLayoutY(500);
 
         confirm.getStyleClass().add("homeButtons");
-        name.getStyleClass().add("text-field");
+        nameField.getStyleClass().add("text-field");
 
-        //using css
+        //limit characters
+        final int maxCharacters = 10;
+        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > maxCharacters) {
+                nameField.setText(newValue.substring(0, maxCharacters));
+            }
+        });
+
+
+        // Using css
         String css = getClass().getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
 
-        confirm.setOnMouseReleased(e -> rankingScreen(scene, pane, stage));
+        // Update confirm button action
+        confirm.setOnMouseReleased(e -> {
+            String playerName = nameField.getText();
+            // Assume points are calculated elsewhere in the game
+            int playerPoints = playerPoints();
 
+            //add the new winner and save it to the file
+            Ranking ranking = new Ranking();
+            ranking.saveWinner(playerName, playerPoints);
 
-        pane.getChildren().addAll(moon, confirm, name, zhand);
+            rankingScreen(scene, pane, stage, ranking);
+        });
 
+        pane.getChildren().addAll(moon, confirm, nameField, zhand);
     }
 
     public void buyScreen(Scene scene, Pane pane){
