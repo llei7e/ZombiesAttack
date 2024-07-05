@@ -16,13 +16,14 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 
 
 public class Menu {
-    KeyEvent keys = new KeyEvent();
+    static KeyEvent keys = new KeyEvent();
 
-    public void homeScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
+    public static void homeScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
 
         // backgroundSound - homeScreen
         MediaPlayer backgroundSound = Sounds.getHome();
@@ -60,22 +61,22 @@ public class Menu {
             Sounds.getOption().play();
             loading(scene, pane, stage);
         });
-        ranking.setOnMouseReleased(e -> {
+        rankingB.setOnMouseReleased(e -> {
             Sounds.getOption().play();
             rankingScreen(scene, pane, stage, ranking);
         });
-      
+
         exit.setOnMouseReleased(e -> stage.close());
 
         //adding root on pane
         pane.getChildren().add(root);
 
         //using css
-        String css = getClass().getResource("/style.css").toExternalForm();
+        String css = Menu.class.getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
     }
 
-    public void rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
+    public static void rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
         // Creating elements
         VBox root = new VBox();
         root.setAlignment(Pos.TOP_CENTER);
@@ -129,12 +130,12 @@ public class Menu {
         });
 
         // Using css
-        String css = getClass().getResource("/style.css").toExternalForm();
+        String css = Menu.class.getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
     }
 
 
-    public void gameKeys(Scene scene, Pane pane, Stage stage) {
+    public static void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
         Image img = new Image("gameKeys.png");
         ImageView gameKeys = new ImageView(img);
@@ -148,7 +149,7 @@ public class Menu {
         gameKeys.setOnMouseReleased(e -> game(scene, pane, stage));
     }
 
-    public static void gameOver(Scene scene, Pane pane) {
+    public static void gameOver(Scene scene, Pane pane, Stage stage, Player p1) {
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);
@@ -157,9 +158,16 @@ public class Menu {
 
         //adding root on pane
         pane.getChildren().add(gameOver);
+
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+
+        delay.setOnFinished(e -> rankingName(scene, pane, stage, p1));
+
+        delay.play();
     }
 
-    public void game(Scene scene, Pane pane, Stage stage) {
+    public static void game(Scene scene, Pane pane, Stage stage) {
 
         Player p1 = new Player();
 
@@ -203,7 +211,7 @@ public class Menu {
         pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite());
 
         //Get css
-        String css = getClass().getResource("/style.css").toExternalForm();
+        String css = Menu.class.getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         //Get css class
@@ -214,10 +222,10 @@ public class Menu {
         weapon.getStyleClass().add("weaponbox");
 
         //Actions
-        keys.keyEvent(scene, pane, p1, zombies, life, weaponImg, weaponName, points);
+        keys.keyEvent(scene, pane, p1, zombies, life, weaponImg, weaponName, points, stage);
     }
 
-    public void loading(Scene scene, Pane pane, Stage stage){
+    public static void loading(Scene scene, Pane pane, Stage stage) {
 
         // backgroundSound - loading
         MediaPlayer backgroundSound = Sounds.getLoading();
@@ -323,7 +331,7 @@ public class Menu {
         delay.play();
     }
 
-    public void rankingName(Scene scene, Pane pane, Stage stage) {
+    public static void rankingName(Scene scene, Pane pane, Stage stage, Player p1) {
         // Creating elements
         Image moonImg = new Image("rankingbg.jpeg");
         ImageView moon = new ImageView(moonImg);
@@ -354,14 +362,14 @@ public class Menu {
 
 
         // Using css
-        String css = getClass().getResource("/style.css").toExternalForm();
+        String css = Menu.class.getResource("/style.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         // Update confirm button action
         confirm.setOnMouseReleased(e -> {
             String playerName = nameField.getText();
             // Assume points are calculated elsewhere in the game
-            int playerPoints = playerPoints();
+            int playerPoints = p1.getPoints();
 
             //add the new winner and save it to the file
             Ranking ranking = new Ranking();
@@ -373,7 +381,7 @@ public class Menu {
         pane.getChildren().addAll(moon, confirm, nameField, zhand);
     }
 
-    public void buyScreen(Scene scene, Pane pane){
+    public void buyScreen(Scene scene, Pane pane) {
 
         //background
         ImageView background = new ImageView(new Image("fundo.png"));
