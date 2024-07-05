@@ -388,8 +388,6 @@ public class Player extends Characters {
             }
         };
 
-
-
     }
 
 //    Animation End Game

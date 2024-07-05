@@ -250,6 +250,7 @@ public class KeyEvent {
                 }
 
                 // Remove zombies of ArrayList
+
                 zombies.removeIf(z -> z.getLife() <= 0);
 
                 if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
