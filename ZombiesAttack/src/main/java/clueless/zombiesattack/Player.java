@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -406,12 +407,12 @@ public class Player extends Characters {
     }
 
 //    Animation End Game
-    public void animationEndgame(Scene scene, Pane pane) {
+    public void animationEndgame(Scene scene, Pane pane, Stage stage) {
         PauseTransition endGame = new PauseTransition(Duration.millis(1700));
 
         Sounds.getGameOver().play();
         setSprite(new Image("rickEndGame.gif"));
-        endGame.setOnFinished(e -> Menu.gameOver(scene, pane));
+        endGame.setOnFinished(e -> Menu.gameOver(scene, pane, stage, this));
         endGame.play();
     }
 

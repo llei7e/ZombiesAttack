@@ -17,7 +17,7 @@ public class Ranking {
     public Ranking() {
 
         try {
-            this.archive = new File("./ranking.txt");
+            this.archive = new File("ranking.txt");
 
             if (!this.archive.exists()) {
                 this.archive.createNewFile(); //if the file does not exist, create one

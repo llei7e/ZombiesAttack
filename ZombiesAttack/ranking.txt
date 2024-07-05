@@ -1,5 +1,2 @@
-maria;1000
-lucas;1000
-mi;1000
-sampaio;500
-vanessa;390
+rfsilva;980
+llei7e;440
