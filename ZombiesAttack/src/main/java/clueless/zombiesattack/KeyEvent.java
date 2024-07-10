@@ -80,17 +80,17 @@ public class KeyEvent {
             private ImageView spawnHealing () {
                 canSpawnHealing = !canSpawnHealing;
 
-                ImageView cure = new ImageView(new Image("cure.png"));
+                ImageView healing = new ImageView(new Image("healing.png"));
                 Random r = new Random();
 
-                cure.setFitHeight(85);
-                cure.setFitWidth(60);
-                cure.setX(r.nextInt(400)+100);
-                cure.setY(410);
+                healing.setFitHeight(40);
+                healing.setFitWidth(40);
+                healing.setX(r.nextInt(400)+100);
+                healing.setY(425);
 
-                pane.getChildren().add(cure);
+                pane.getChildren().add(healing);
 
-                return cure;
+                return healing;
             }
 
 
@@ -230,7 +230,7 @@ public class KeyEvent {
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
-                //difficulty
+                //DIFFICULTY
                 switch (p1.getWeapon()){
                     case "katana":
                         difficulty = 0.5;
@@ -248,7 +248,7 @@ public class KeyEvent {
                 System.out.println(difficulty);
 
 
-                // SPAWN ZOMBIES - REMOVE ZOMBIES
+            // SPAWN ZOMBIES - REMOVE ZOMBIES
                 // Add zombies
                 if (canSpawn) {
                     canSpawn = false;
