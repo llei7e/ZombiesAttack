@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,6 +34,7 @@ public class KeyEvent {
             private boolean hitBreak = false;
             private boolean canSpawn = true;
             private boolean canSpawnHealing = true;
+            private boolean playing = false;
 
             // HUD images
             Image lifeImage;
@@ -143,10 +145,12 @@ public class KeyEvent {
                             break;
                     }
                 });
+
                 // only moves when there is no shot
                 if (!p1.getShooting() && !canMove()){
                     p1.move(currentFrame, p1.getWeapon());
                 }
+
                 // check if keyboard has been released
                 scene.setOnKeyReleased(event -> {
                     if (paused) return; // disable input
@@ -243,7 +247,7 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(100));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
@@ -253,12 +257,13 @@ public class KeyEvent {
                     ImageView spawnedHealing = spawnHealing();
                     AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
 
-                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(10));
+                    PauseTransition waitingHealing = new PauseTransition(Duration.seconds(45));
                     waitingHealing.setOnFinished(e -> {
                         canSpawnHealing = !canSpawnHealing;
                         pane.getChildren().remove(spawnedHealing);
                         check.stop();
                     });
+                    Sounds.getSpawn().play();
                     waitingHealing.play();
                     check.start();
                 }

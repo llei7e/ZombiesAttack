@@ -6,18 +6,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-    private final int WindowWidth = 620;
-    private final int WindowHeight = 620;
 
 
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
-        Scene scene = new Scene(pane, WindowWidth, WindowHeight);
+        int windowHeight = 620;
+        int windowWidth = 620;
+        Scene scene = new Scene(pane, windowWidth, windowHeight);
         Menu screen = new Menu();
         Ranking ranking = new Ranking();
-        screen.homeScreen(scene, pane, primaryStage, ranking);
+        Menu.game(scene, pane, primaryStage);
 
-        // configurando "primaryStage"
+        // setting "primaryStage"
         primaryStage.setTitle("Zombies Attack");
         primaryStage.setScene(scene);
         primaryStage.show();
