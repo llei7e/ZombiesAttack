@@ -272,6 +272,7 @@ public class Player extends Characters {
                     // check if collide with zombie
                     for (Zombies z : zombies) {
                         if (projectile.getBoundsInParent().intersects(z.getSprite().getBoundsInParent())) {
+                            z.takeHit();
                             // define direction
                             if (Objects.equals(direction, "right")) {
                                 if (Objects.equals(getWeapon(), "knife")) {

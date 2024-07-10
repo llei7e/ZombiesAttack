@@ -1,6 +1,11 @@
 package clueless.zombiesattack;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 public class Zombies extends Characters{
     // Attributes
@@ -86,6 +91,17 @@ public class Zombies extends Characters{
             setLeft(true);
         }
         zombie.move(frame, this.getType());
+    }
+
+    public void takeHit() {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(0.5);
+
+        this.getSprite().setEffect(colorAdjust);
+
+        PauseTransition pause = new PauseTransition(Duration.millis(200));
+        pause.setOnFinished(event -> this.getSprite().setEffect(null));
+        pause.play();
     }
 
     // Getters
