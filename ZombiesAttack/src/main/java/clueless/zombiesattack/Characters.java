@@ -14,7 +14,7 @@ public abstract class Characters extends ImageView {
     private boolean left = false;
     private int life;
     private int speed;
-    private int strength;
+    private double strength;
     private ImageView sprite;
     protected Image [] walking = new Image[6];
 
@@ -168,7 +168,7 @@ public abstract class Characters extends ImageView {
         return life;
     }
 
-    public int getStrength() {
+    public double getStrength() {
         return strength;
     }
 
@@ -192,7 +192,7 @@ public abstract class Characters extends ImageView {
         this.speed = speed;
     }
 
-    public void setStrength(int strength) {
+    public void setStrength(double strength) {
         this.strength = strength;
     }
 
