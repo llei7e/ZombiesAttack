@@ -2,10 +2,10 @@ package clueless.zombiesattack;
 
 import javafx.animation.*;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ public class Player extends Characters {
     private boolean isJumping = false;
     private boolean isAttacking = false;
     private String direction = "right";
-    private final Image[] shooting = new Image[2];
     private final MediaPlayer steps = Sounds.getWalking();
 
     //Constructor
@@ -81,7 +80,7 @@ public class Player extends Characters {
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(2);
+            setStrength(1.2);
 
         }
 
@@ -101,7 +100,7 @@ public class Player extends Characters {
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(1);
+            setStrength(1.2);
         }
 
         if (Objects.equals(this.getWeapon(), "rifle")) {
@@ -120,7 +119,7 @@ public class Player extends Characters {
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(3);
+            setStrength(1.5);
         }
     }
 
@@ -275,6 +274,7 @@ public class Player extends Characters {
                     // check if collide with zombie
                     for (Zombies z : zombies) {
                         if (projectile.getBoundsInParent().intersects(z.getSprite().getBoundsInParent())) {
+                            z.takeHit();
                             // define direction
                             if (Objects.equals(direction, "right")) {
                                 if (Objects.equals(getWeapon(), "knife")) {
@@ -299,7 +299,7 @@ public class Player extends Characters {
                             }
 
                             // Set zombie life
-                            z.setLife(z.getLife() - getStrength());
+                            z.setLife((int)(z.getLife() - getStrength()));
 
                             if (z.getLife() <= getStrength()) {
                                 // Update points
@@ -330,6 +330,7 @@ public class Player extends Characters {
                         pane.getChildren().remove(z.getSprite());
                         zombies.remove(z);
                     }
+
                 }
             };
 
@@ -448,10 +449,21 @@ public class Player extends Characters {
         hitDisplac.play();
 
     }
+    public void takeDamage() {
+        // Criar o efeito de ajuste de cor para vermelho
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(0.3); // Brilho reduzido para escurecer um pouco
+        colorAdjust.setSaturation(1.0); // Saturação total para manter a cor
 
-    public boolean isWalking () {
-        return this.isLeft() || this.isRight();
+        // Aplicar o efeito ao sprite do jogador
+        this.getSprite().setEffect(colorAdjust);
+
+        // Criar uma transição de pausa para remover o efeito após um curto período
+        PauseTransition pause = new PauseTransition(Duration.millis(200));
+        pause.setOnFinished(event -> this.getSprite().setEffect(null)); // Remover o efeito
+        pause.play();
     }
+
 //    Getters
 
     public MediaPlayer getSteps () { return steps; }
@@ -473,7 +485,7 @@ public class Player extends Characters {
     }
 
 
-//    Setters
+    //    Setters
 
     public void setName(String name) {
         this.name = name;

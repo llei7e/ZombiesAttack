@@ -137,7 +137,7 @@ public class Menu {
 
     public static void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gameKeys.png");
+        Image img = new Image("gamekeys.png");
         ImageView gameKeys = new ImageView(img);
 
         gameKeys.setFitWidth(pane.getWidth());
@@ -146,7 +146,13 @@ public class Menu {
         //adding root on pane
         pane.getChildren().add(gameKeys);
 
-        gameKeys.setOnMouseReleased(e -> game(scene, pane, stage));
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+
+        delay.setOnFinished(e -> game(scene, pane, stage));
+
+        delay.play();
+
+
     }
 
     public static void gameOver(Scene scene, Pane pane, Stage stage, Player p1) {
@@ -160,7 +166,7 @@ public class Menu {
         pane.getChildren().add(gameOver);
 
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
 
         delay.setOnFinished(e -> rankingName(scene, pane, stage, p1));
 
