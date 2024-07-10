@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -272,6 +273,7 @@ public class Player extends Characters {
                     // check if collide with zombie
                     for (Zombies z : zombies) {
                         if (projectile.getBoundsInParent().intersects(z.getSprite().getBoundsInParent())) {
+                            z.takeHit();
                             // define direction
                             if (Objects.equals(direction, "right")) {
                                 if (Objects.equals(getWeapon(), "knife")) {

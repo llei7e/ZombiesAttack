@@ -137,7 +137,7 @@ public class Menu {
 
     public static void gameKeys(Scene scene, Pane pane, Stage stage) {
         //Creating elements
-        Image img = new Image("gameKeys.png");
+        Image img = new Image("gamekeys.png");
         ImageView gameKeys = new ImageView(img);
 
         gameKeys.setFitWidth(pane.getWidth());
