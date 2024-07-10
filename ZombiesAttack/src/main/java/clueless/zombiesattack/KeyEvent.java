@@ -16,6 +16,7 @@ import java.util.*;
 public class KeyEvent {
 
     private boolean paused = false; // pause gameLooping
+    private double difficulty = 1;
 
     public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies,
                          ImageView life, ImageView weapon, Text weaponName, Text points, Stage stage) {
@@ -79,17 +80,17 @@ public class KeyEvent {
             private ImageView spawnHealing () {
                 canSpawnHealing = !canSpawnHealing;
 
-                ImageView cure = new ImageView(new Image("cure.png"));
+                ImageView healing = new ImageView(new Image("healing.png"));
                 Random r = new Random();
 
-                cure.setFitHeight(85);
-                cure.setFitWidth(60);
-                cure.setX(r.nextInt(400)+100);
-                cure.setY(410);
+                healing.setFitHeight(40);
+                healing.setFitWidth(40);
+                healing.setX(r.nextInt(400)+100);
+                healing.setY(425);
 
-                pane.getChildren().add(cure);
+                pane.getChildren().add(healing);
 
-                return cure;
+                return healing;
             }
 
 
@@ -176,7 +177,7 @@ public class KeyEvent {
                     if (checkCollision(p1, zombie) && !hitBreak) {
 
                         p1.hit(zombie);
-                        p1.setLife(p1.getLife() - zombie.getStrength());
+                        p1.setLife(p1.getLife() - (int)zombie.getStrength());
                         hitBreak = true;
                         // emit punch sound
                         if (zombie.getType() == 3)
@@ -229,8 +230,25 @@ public class KeyEvent {
                 //Define Points
                 points.setText(String.valueOf(p1.getPoints()) + " pts");
 
+                //DIFFICULTY
+                switch (p1.getWeapon()){
+                    case "katana":
+                        difficulty = 0.5;
+                        break;
+                    case "pistol":
+                        difficulty = 0.3;
+                        break;
+                    case "rifle":
+                        difficulty = 0.2;
+                        break;
+                    default:
+                        difficulty = 1;
+                        break;
+                }
+                System.out.println(difficulty);
 
-                // SPAWN ZOMBIES - REMOVE ZOMBIES
+
+            // SPAWN ZOMBIES - REMOVE ZOMBIES
                 // Add zombies
                 if (canSpawn) {
                     canSpawn = false;
@@ -239,7 +257,7 @@ public class KeyEvent {
                     zombies.add(z);
                     pane.getChildren().add(z.getSprite());
                     // Define delay (Wave)
-                    PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(difficulty));
                     delay.setOnFinished(event -> canSpawn = true);
                     delay.play();
                 }
@@ -260,18 +278,18 @@ public class KeyEvent {
                 }
 
                 // Remove zombies of ArrayList
-
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+                //change Weapons by points
                 if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
                     p1.setWeapon("katana");
                     p1.playerWeapons();
                 }
-                if(p1.getPoints() > 399 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
+                if(p1.getPoints() > 599 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
                     p1.setWeapon("pistol");
                     p1.playerWeapons();
                 }
-                if(p1.getPoints() > 799 && Objects.equals(p1.getWeapon(), "pistol")) {
+                if(p1.getPoints() > 1199 && Objects.equals(p1.getWeapon(), "pistol")) {
                     p1.setWeapon("rifle");
                     p1.playerWeapons();
                 }
