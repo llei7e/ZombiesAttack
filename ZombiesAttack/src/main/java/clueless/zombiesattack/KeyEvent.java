@@ -174,7 +174,6 @@ public class KeyEvent {
                 // collision check between player end zombie
                 for (Zombies zombie : zombies)
                     if (checkCollision(p1, zombie) && !hitBreak) {
-
                         p1.hit(zombie);
                         p1.setLife(p1.getLife() - zombie.getStrength());
                         hitBreak = true;
@@ -183,6 +182,8 @@ public class KeyEvent {
                             Sounds.getBigPunch().play();
                         else
                             Sounds.getSmallPunch().play();
+
+                        p1.takeDamage();
 
                         // hit delay
                         PauseTransition delay = new PauseTransition(Duration.seconds(2));

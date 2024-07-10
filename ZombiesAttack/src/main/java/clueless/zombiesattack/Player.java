@@ -2,6 +2,7 @@ package clueless.zombiesattack;
 
 import javafx.animation.*;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -446,6 +447,21 @@ public class Player extends Characters {
         Timeline hitDisplac = new Timeline(new KeyFrame(Duration.millis(170), kv));
         hitDisplac.play();
 
+    }
+
+    public void takeDamage() {
+        // Criar o efeito de ajuste de cor para vermelho
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(0.3); // Brilho reduzido para escurecer um pouco
+        colorAdjust.setSaturation(1.0); // Saturação total para manter a cor
+
+        // Aplicar o efeito ao sprite do jogador
+        this.getSprite().setEffect(colorAdjust);
+
+        // Criar uma transição de pausa para remover o efeito após um curto período
+        PauseTransition pause = new PauseTransition(Duration.millis(200));
+        pause.setOnFinished(event -> this.getSprite().setEffect(null)); // Remover o efeito
+        pause.play();
     }
 
 //    Getters
