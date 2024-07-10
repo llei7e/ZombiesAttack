@@ -20,7 +20,6 @@ public class Player extends Characters {
     private boolean isJumping = false;
     private boolean isAttacking = false;
     private String direction = "right";
-    private final MediaPlayer steps = Sounds.getWalking();
 
     //Constructor
     public Player() {
@@ -465,8 +464,6 @@ public class Player extends Characters {
     }
 
 //    Getters
-
-    public MediaPlayer getSteps () { return steps; }
 
     public String getName() {
         return name;

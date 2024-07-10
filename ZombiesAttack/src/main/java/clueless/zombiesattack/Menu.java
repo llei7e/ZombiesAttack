@@ -31,7 +31,7 @@ public class Menu {
         backgroundSound.play();
 
         //Resize stage
-        stage.setX(450);
+        stage.centerOnScreen();
         stage.setWidth(620);
 
         //Creating elements
@@ -83,7 +83,7 @@ public class Menu {
     public static void rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
 
         //Resize stage
-        stage.setX(450);
+        stage.centerOnScreen();
         stage.setWidth(620);
 
         // Creating elements
@@ -146,7 +146,7 @@ public class Menu {
     public static void gameKeys(Scene scene, Pane pane, Stage stage) {
 
         //Resize stage
-        stage.setX(450);
+        stage.centerOnScreen();
         stage.setWidth(620);
 
         //Creating elements
@@ -171,8 +171,8 @@ public class Menu {
     public static void gameOver(Scene scene, Pane pane, Stage stage, Player p1) {
 
         //Resize stage
-        stage.setX(450);
         stage.setWidth(620);
+        stage.centerOnScreen();
 
         //Creating elements
         Image img = new Image("gameOver.png");
@@ -197,11 +197,11 @@ public class Menu {
 
         ImageView background = new ImageView(new Image("background.png"));
         background.setFitHeight(pane.getHeight());
-        background.setFitWidth(1436);
+        background.setFitWidth(1290);
 
         //Resize stage
-        stage.setWidth(1436);
-        stage.setX(50);
+        stage.setWidth(1290);
+        stage.centerOnScreen();
 
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
@@ -231,7 +231,7 @@ public class Menu {
 
         weapon.getChildren().addAll(weaponName, weaponImg);
         lifeWeapon.getChildren().addAll(life, weapon);
-        lifeWeapon.setLayoutX(1100);
+        lifeWeapon.setLayoutX(950);
         pointsBox.setLayoutX(-10);
 
         //Add objects at the pane (screen)
@@ -255,7 +255,7 @@ public class Menu {
     public static void loading(Scene scene, Pane pane, Stage stage) {
 
         //Resize stage
-        stage.setX(450);
+        stage.centerOnScreen();
         stage.setWidth(620);
 
         // backgroundSound - loading
@@ -365,7 +365,7 @@ public class Menu {
     public static void rankingName(Scene scene, Pane pane, Stage stage, Player p1) {
 
         //Resize stage
-        stage.setX(450);
+        stage.centerOnScreen();
         stage.setWidth(620);
 
         // Creating elements
