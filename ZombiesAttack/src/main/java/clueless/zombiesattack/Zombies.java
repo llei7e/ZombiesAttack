@@ -28,7 +28,7 @@ public class Zombies extends Characters{
 
 
             //define stats
-            setLife(3);
+            setLife(4);
             setSpeed(3);
             setStrength(3);
 
@@ -48,7 +48,7 @@ public class Zombies extends Characters{
             this.walking[5] = new Image("zombieG-walking3.png");
 
             //define stats
-            setLife(8);
+            setLife(9);
             setSpeed(1);
             setStrength(5);
 
@@ -68,7 +68,7 @@ public class Zombies extends Characters{
             this.walking[5] = new Image("zombieM-walking3.png");
 
             //define stats
-            setLife(4);
+            setLife(6);
             setSpeed(2);
             setStrength(3);
         }

@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ public class Player extends Characters {
     private boolean isJumping = false;
     private boolean isAttacking = false;
     private String direction = "right";
-    private final Image[] shooting = new Image[2];
 
     //Constructor
     public Player() {
@@ -78,7 +78,7 @@ public class Player extends Characters {
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(2);
+            setStrength(1.2);
 
         }
 
@@ -98,7 +98,7 @@ public class Player extends Characters {
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(1);
+            setStrength(1.2);
         }
 
         if (Objects.equals(this.getWeapon(), "rifle")) {
@@ -117,7 +117,7 @@ public class Player extends Characters {
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
 
-            setStrength(3);
+            setStrength(1.5);
         }
     }
 
@@ -296,7 +296,7 @@ public class Player extends Characters {
                             }
 
                             // Set zombie life
-                            z.setLife(z.getLife() - getStrength());
+                            z.setLife((int)(z.getLife() - getStrength()));
 
                             if (z.getLife() <= getStrength()) {
                                 // Update points
@@ -327,6 +327,7 @@ public class Player extends Characters {
                         pane.getChildren().remove(z.getSprite());
                         zombies.remove(z);
                     }
+
                 }
             };
 
@@ -465,7 +466,7 @@ public class Player extends Characters {
     }
 
 
-//    Setters
+    //    Setters
 
     public void setName(String name) {
         this.name = name;
