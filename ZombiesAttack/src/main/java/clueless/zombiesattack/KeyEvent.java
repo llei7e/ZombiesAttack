@@ -174,11 +174,18 @@ public class KeyEvent {
                 // collision check between player end zombie
                 for (Zombies zombie : zombies)
                     if (checkCollision(p1, zombie) && !hitBreak) {
+
+                        p1.hit(zombie);
                         p1.setLife(p1.getLife() - zombie.getStrength());
                         hitBreak = true;
+                        // emit punch sound
+                        if (zombie.getType() == 3)
+                            Sounds.getBigPunch().play();
+                        else
+                            Sounds.getSmallPunch().play();
 
                         // hit delay
-                        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                        PauseTransition delay = new PauseTransition(Duration.seconds(2));
                         delay.setOnFinished(event -> hitBreak = false);
                         delay.play();
 
@@ -202,6 +209,7 @@ public class KeyEvent {
                     //p1.animationEndGame(scene, pane);
 
                     canSpawn = false;
+                    canSpawnHealing = false;
                     for (Zombies z : zombies)
                         pane.getChildren().remove(z.getSprite());
                     zombies.clear();

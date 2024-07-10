@@ -15,7 +15,6 @@ public class Game extends Application {
         Scene scene = new Scene(pane, WindowWidth, WindowHeight);
         Menu screen = new Menu();
         Ranking ranking = new Ranking();
-
         screen.homeScreen(scene, pane, primaryStage, ranking);
 
         // configurando "primaryStage"

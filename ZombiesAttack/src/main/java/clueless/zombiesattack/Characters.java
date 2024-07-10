@@ -168,10 +168,6 @@ public abstract class Characters extends ImageView {
         return life;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
     public int getStrength() {
         return strength;
     }
