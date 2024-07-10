@@ -20,6 +20,7 @@ public class Player extends Characters {
     private boolean isJumping = false;
     private boolean isAttacking = false;
     private String direction = "right";
+    private final MediaPlayer steps = Sounds.getWalking();
 
     //Constructor
     public Player() {
@@ -74,7 +75,7 @@ public class Player extends Characters {
             this.walking[4] = new Image("katanawalk-left2.png");
             this.walking[5] = new Image("katanawalk-left3.png");
 
-            Sounds.getKatana().play();
+            Sounds.getKatana(0).play();
 
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -417,7 +418,7 @@ public class Player extends Characters {
                 Sounds.getKnife().play();
                 break;
             case "katana":
-                Sounds.getKatana(isRight()).play();
+                Sounds.getKatana(1).play();
                 break;
             case "pistol":
                 Sounds.getPistol(1).play();
@@ -448,7 +449,6 @@ public class Player extends Characters {
         hitDisplac.play();
 
     }
-
     public void takeDamage() {
         // Criar o efeito de ajuste de cor para vermelho
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -465,6 +465,8 @@ public class Player extends Characters {
     }
 
 //    Getters
+
+    public MediaPlayer getSteps () { return steps; }
 
     public String getName() {
         return name;
