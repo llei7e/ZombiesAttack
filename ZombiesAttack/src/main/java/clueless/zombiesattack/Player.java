@@ -398,12 +398,12 @@ public class Player extends Characters {
     }
 
 //    Animation End Game
-    public void animationEndgame(Scene scene, Pane pane) {
+    public void animationEndgame(Scene scene, Pane pane, Stage stage) {
         PauseTransition endGame = new PauseTransition(Duration.millis(1700));
 
         Sounds.getGameOver().play();
         setSprite(new Image("rickEndGame.gif"));
-        endGame.setOnFinished(e -> Menu.gameOver(scene, pane));
+        endGame.setOnFinished(e -> Menu.gameOver(scene, pane, stage, this));
         endGame.play();
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class KeyEvent {
     private boolean paused = false; // pause gameLooping
 
     public void keyEvent(Scene scene, Pane pane, Player p1, ArrayList<Zombies> zombies,
-                         ImageView life, ImageView weapon, Text weaponName, Text points) {
+                         ImageView life, ImageView weapon, Text weaponName, Text points, Stage stage) {
 
         AnimationTimer gameLooping = new AnimationTimer() {
 
@@ -214,7 +215,7 @@ public class KeyEvent {
                     zombies.clear();
                     this.stop();
                     paused = !paused;
-                    p1.animationEndgame(scene, pane);
+                    p1.animationEndgame(scene, pane, stage);
                      // End game
                 }
 
