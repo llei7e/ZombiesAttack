@@ -30,6 +30,10 @@ public class Menu {
         backgroundSound.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundSound.play();
 
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         //Creating elements
         VBox root = new VBox();
         root.setAlignment(Pos.TOP_CENTER);
@@ -77,6 +81,11 @@ public class Menu {
     }
 
     public static void rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking) {
+
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         // Creating elements
         VBox root = new VBox();
         root.setAlignment(Pos.TOP_CENTER);
@@ -134,8 +143,12 @@ public class Menu {
         scene.getStylesheets().add(css);
     }
 
-
     public static void gameKeys(Scene scene, Pane pane, Stage stage) {
+
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         //Creating elements
         Image img = new Image("gamekeys.png");
         ImageView gameKeys = new ImageView(img);
@@ -156,10 +169,15 @@ public class Menu {
     }
 
     public static void gameOver(Scene scene, Pane pane, Stage stage, Player p1) {
+
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         //Creating elements
         Image img = new Image("gameOver.png");
         ImageView gameOver = new ImageView(img);
-        gameOver.setFitWidth(pane.getWidth());
+        gameOver.setFitWidth(620);
         gameOver.setFitHeight(pane.getHeight());
 
         //adding root on pane
@@ -179,7 +197,11 @@ public class Menu {
 
         ImageView background = new ImageView(new Image("background.png"));
         background.setFitHeight(pane.getHeight());
-        background.setFitWidth(pane.getWidth());
+        background.setFitWidth(1436);
+
+        //Resize stage
+        stage.setWidth(1436);
+        stage.setX(50);
 
         // Zombies Collection
         ArrayList<Zombies> zombies = new ArrayList<>();
@@ -209,9 +231,8 @@ public class Menu {
 
         weapon.getChildren().addAll(weaponName, weaponImg);
         lifeWeapon.getChildren().addAll(life, weapon);
-        lifeWeapon.setLayoutX(300);
+        lifeWeapon.setLayoutX(1100);
         pointsBox.setLayoutX(-10);
-
 
         //Add objects at the pane (screen)
         pane.getChildren().addAll(background, pointsBox, lifeWeapon, p1.getSprite());
@@ -233,6 +254,10 @@ public class Menu {
 
     public static void loading(Scene scene, Pane pane, Stage stage) {
 
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         // backgroundSound - loading
         MediaPlayer backgroundSound = Sounds.getLoading();
         backgroundSound.play();
@@ -250,19 +275,19 @@ public class Menu {
 
         Image imgText1 = new Image("load1.png");
         ImageView load1 = new ImageView(imgText1);
-        load1.setX(450);
+        load1.setX(440);
         load1.setY(30);
         Image imgText2 = new Image("load2.png");
         ImageView load2 = new ImageView(imgText2);
-        load2.setX(450);
+        load2.setX(440);
         load2.setY(30);
         Image imgText3 = new Image("load3.png");
         ImageView load3 = new ImageView(imgText3);
-        load3.setX(450);
+        load3.setX(440);
         load3.setY(30);
         Image imgText4 = new Image("load4.png");
         ImageView load4 = new ImageView(imgText4);
-        load4.setX(450);
+        load4.setX(440);
         load4.setY(30);
 
         Image imgzombie1 = new Image("zombieG-walking2.png");
@@ -338,6 +363,11 @@ public class Menu {
     }
 
     public static void rankingName(Scene scene, Pane pane, Stage stage, Player p1) {
+
+        //Resize stage
+        stage.setX(450);
+        stage.setWidth(620);
+
         // Creating elements
         Image moonImg = new Image("rankingbg.jpeg");
         ImageView moon = new ImageView(moonImg);

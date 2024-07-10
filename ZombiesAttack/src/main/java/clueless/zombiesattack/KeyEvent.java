@@ -80,7 +80,7 @@ public class KeyEvent {
                 // Define positionX
                 int value = r.nextInt(3) + 1;
                 if (value == 1)
-                    X = 630;
+                    X = 1446;
                 else if(value == 2)
                     X = -15;
 
@@ -96,7 +96,7 @@ public class KeyEvent {
 
                 healing.setFitHeight(40);
                 healing.setFitWidth(40);
-                healing.setX(r.nextInt(400)+100);
+                healing.setX(r.nextInt(1200)+100);
                 healing.setY(425);
 
                 pane.getChildren().add(healing);
