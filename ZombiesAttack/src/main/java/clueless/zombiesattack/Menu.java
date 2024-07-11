@@ -33,6 +33,7 @@ public class Menu {
         //Resize stage
         stage.centerOnScreen();
         stage.setWidth(620);
+        stage.setResizable(false);
 
         //Creating elements
         VBox root = new VBox();
