@@ -59,7 +59,7 @@ public class Player extends Characters {
             this.walking[5] = new Image("knifewalk-left3.png");
 
             // set cooldown
-            this.cooldown = 75;
+            this.cooldown = 500;
 
             img = new Image("knifewalk-right2.png");
             this.setSprite(img, getWeapon());

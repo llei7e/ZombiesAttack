@@ -29,6 +29,7 @@ public class KeyEvent {
             // time for frames
             private long lastUpdate = 0;
             private int currentFrame = 0;
+            private int count = 0;
 
             // booleans
             private boolean hitBreak = false;
@@ -140,7 +141,7 @@ public class KeyEvent {
                         case P:
                             p1.setLeft(false);
                             p1.setRight(false);
-                            gamePaused(scene, pane, this);
+                            gamePaused(scene, pane, this, p1);
                             break;
                     }
                 });
@@ -287,18 +288,23 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+
                 //change Weapons by points
-                if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
-                    p1.setWeapon("katana");
-                    p1.playerWeapons();
-                }
-                if(p1.getPoints() > 599 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
-                    p1.setWeapon("pistol");
-                    p1.playerWeapons();
-                }
-                if(p1.getPoints() > 1199 && Objects.equals(p1.getWeapon(), "pistol")) {
-                    p1.setWeapon("rifle");
-                    p1.playerWeapons();
+                switch (count) {
+                    case 0:
+                        if (p1.getPoints() > 199)
+                            avaliable(pane);
+                        break;
+                    case 1:
+                        if (p1.getPoints() > 599)
+                            avaliable(pane);
+                        break;
+                    case 2:
+                        if (p1.getPoints() > 1199)
+                            avaliable(pane);
+                        break;
+
+
                 }
 
             }
@@ -306,8 +312,34 @@ public class KeyEvent {
         gameLooping.start();
     }
 
+    //
+    private void avaliable (Pane pane) {
+        Text availableText = new Text("New Weapon Available");
+        availableText.setX(pane.getWidth()/2 - 50);
+        availableText.setY(30);
+        availableText.getStyleClass().add("pauseText");
+
+        pane.getChildren().add(availableText);
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), availableText);
+        fadeIn.setFromValue(0.0);
+        fadeIn.setToValue(1.0);
+
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(2000), availableText);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
+
+        // Definir o comportamento após a transição de fade-in
+        fadeIn.setOnFinished(event -> fadeOut.play());
+        fadeOut.setOnFinished(event -> pane.getChildren().remove(availableText));
+
+        // Iniciar a transição de fade-in
+        fadeIn.play();
+    }
+
+
     // game pause
-    private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
+    private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping, Player p1) {
         // stop gameLooping
         paused = !paused;
 
@@ -327,16 +359,51 @@ public class KeyEvent {
         pauseAnimation.setAutoReverse(true);
         pauseAnimation.setCycleCount(Timeline.INDEFINITE);
 
+        // new weapon after GamePaused
+        String[] newWeapon = {p1.getWeapon()};
+
         new AnimationTimer() {
+            public void setNewWeapon (String weapon) {
+                newWeapon[0] = weapon;
+            }
+
             @Override
             public void handle(long l) {
                 scene.setOnKeyPressed(e -> {
+
+                    switch (e.getCode()) {
+                        case Y:
+                                Sounds.getOption().play();
+                                newWeapon[0] = "knife";
+                                break;
+                        case U:
+                            if (p1.getPoints() > 199) {
+                                newWeapon[0] = "pistol";
+                                Sounds.getOption().play();
+                            }
+                            break;
+                        case I:
+                            if (p1.getPoints() > 599) {
+                                newWeapon[0] = "katana";
+                                Sounds.getOption().play();
+                            }
+                            break;
+                        case O:
+                            if (p1.getPoints() > 1199) {
+                                newWeapon[0] = "rifle";
+                                Sounds.getOption().play();
+                            }
+                            break;
+                    }
+
                     if (e.getCode() == KeyCode.P){
-                        Sounds.getOption().play();
-                        paused = !paused; // set paused to false
-                        pane.getChildren().remove(pauseText); // remove pauseText
-                        this.stop(); // end of gamePause
-                        gameLooping.start(); // restart gameLooping
+                            Sounds.getOption().play();
+                            p1.setWeapon(newWeapon[0]);
+                            p1.playerWeapons();
+                            paused = !paused; // set paused to false
+                            pane.getChildren().remove(pauseText); // remove pauseText
+                            this.stop(); // end of gamePause
+                            gameLooping.start(); // restart gameLooping
                     }
                 });
                 pauseAnimation.play();
