@@ -1,0 +1,233 @@
+[33mcommit 6f7bec804308244bb5222515b67019564b58656c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrefactor/cooldown[m[33m)[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Thu Jul 11 16:07:28 2024 -0300
+
+    refactor:
+
+[33mcommit 936b7619080dfc707db655180e3f5e2fcb43a325[m[33m ([m[1;31morigin/refactor/cooldown[m[33m, [m[1;32mrefactor/sounds[m[33m)[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Thu Jul 11 16:04:42 2024 -0300
+
+    refactor: cooldown has been created and some old mechanisms were deleted
+
+[33mcommit 57a420cfa1c5f3fcb1c61842cd3626617b1ccb3b[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
+Merge: d5a34b7 b7e9d8b
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Wed Jul 10 17:37:20 2024 -0300
+
+    Merge pull request #76 from Game-JAVA/feature/adjusting_resize_on_different_scale/lucas
+    
+    feature/adjusting resize on different scale/lucas
+
+[33mcommit b7e9d8b73f55743451b537a79d9d8ddd9141877c[m
+Author: llei7e <leitellucas@gmail.com>
+Date:   Wed Jul 10 17:36:51 2024 -0300
+
+    feat: adjusted screens sizes
+
+[33mcommit d5a34b7ecb1a34c3daea6f863c4b584c1f8ccde6[m[33m ([m[1;32mfeat/cooldown[m[33m)[m
+Merge: 1e9e95c c7e8118
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Wed Jul 10 16:52:11 2024 -0300
+
+    Merge pull request #75 from Game-JAVA/feature/resize_game_screen/lucas
+    
+    Feature/resize game screen/lucas
+
+[33mcommit c7e811876b38c7a922e8a22b2f6d060ed5ca9ed1[m
+Author: llei7e <leitellucas@gmail.com>
+Date:   Wed Jul 10 16:50:12 2024 -0300
+
+    feat: resize game screen
+
+[33mcommit 1e9e95caba1354a551468f421428e9c24a59253f[m
+Merge: c3abe0f 235a0fc
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Wed Jul 10 16:28:54 2024 -0300
+
+    Merge pull request #74 from Game-JAVA/fix/restart
+    
+    Fix/restart
+
+[33mcommit 235a0fc252cce7f36379cf6c924626093a663907[m
+Merge: e20eaca c3abe0f
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Wed Jul 10 16:28:46 2024 -0300
+
+    Merge branch 'develop' into fix/restart
+
+[33mcommit c3abe0fda9355553966ca8782bdeb797378e128f[m
+Merge: 9ca8e76 66e2f4f
+Author: mwlaofr <148801384+mwlaofr@users.noreply.github.com>
+Date:   Wed Jul 10 16:17:55 2024 -0300
+
+    Merge pull request #73 from Game-JAVA/feature/player_hit_effect/millena
+    
+    feat: add hit color effect for player
+
+[33mcommit 66e2f4fba078abf68ba5c7a6bac9a57995caac58[m
+Merge: 2f8ae39 9ca8e76
+Author: mwlaofr <148801384+mwlaofr@users.noreply.github.com>
+Date:   Wed Jul 10 16:17:31 2024 -0300
+
+    Merge branch 'develop' into feature/player_hit_effect/millena
+
+[33mcommit 2f8ae396d36544359b80ad74b312f6e9945cdeec[m
+Author: mwlaofr <millenaofrr@gmail.com>
+Date:   Wed Jul 10 16:15:09 2024 -0300
+
+    feat: add hit color effect for player
+
+[33mcommit e20eaca53171014bc0aad252b74422dfa741d1b7[m[33m ([m[1;31morigin/fix/restart[m[33m)[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Wed Jul 10 16:14:57 2024 -0300
+
+    fix: restart was working and new sound was added to the game
+
+[33mcommit a212abd9f93baa1d92c5e5ec3594ae1b36be85df[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Wed Jul 10 14:51:50 2024 -0300
+
+    fix: now, game can restart
+
+[33mcommit 9ca8e76c73e983e95e9ebc617b7c6eef617876c1[m
+Merge: b54a204 438c596
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Wed Jul 10 14:49:34 2024 -0300
+
+    Merge pull request #72 from Game-JAVA/feature/update_key_screen_transition/lucas
+    
+    feature/update key screen transition/lucas
+
+[33mcommit 438c5965df6a7ad06696c08077685f8afc272c9b[m
+Merge: ee35945 b54a204
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Wed Jul 10 14:49:24 2024 -0300
+
+    Merge branch 'develop' into feature/update_key_screen_transition/lucas
+
+[33mcommit ee3594566ed3bc28cc6f4b61655110ff3a52dbf5[m
+Author: llei7e <leitellucas@gmail.com>
+Date:   Wed Jul 10 14:46:30 2024 -0300
+
+    feat: change life sprite and zombies spawn timming
+
+[33mcommit b54a20494e54812c2486b4d9f2a2d7dd5d8ceaf8[m
+Merge: 849b859 9218ace
+Author: mwlaofr <148801384+mwlaofr@users.noreply.github.com>
+Date:   Wed Jul 10 14:27:03 2024 -0300
+
+    Merge pull request #71 from Game-JAVA/feature/zombie_hit_color/millena
+    
+    feat: add hit color effect for zombies
+
+[33mcommit 9218ace3fc8d55a85c1653374d905f0c858ac8b5[m
+Author: mwlaofr <millenaofrr@gmail.com>
+Date:   Wed Jul 10 14:25:13 2024 -0300
+
+    feat: add hit color effect for zombies
+
+[33mcommit 36a00d31c464a374615931bd61114e391347817f[m
+Author: llei7e <leitellucas@gmail.com>
+Date:   Wed Jul 10 14:22:02 2024 -0300
+
+    feat: fixed transition and game balanced
+
+[33mcommit 849b85993b47aa2e56698db17c344db73d2f9081[m
+Merge: b98e9e6 2b79c5e
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Wed Jul 10 13:09:29 2024 -0300
+
+    Merge pull request #70 from Game-JAVA/feature/punch
+    
+    feat: animation of zombie hit
+
+[33mcommit 2b79c5edce48f1846a48e8647ffd6c3e1b3a86f6[m
+Merge: ea98a09 b98e9e6
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Wed Jul 10 13:09:14 2024 -0300
+
+    Merge branch 'develop' into feature/punch
+
+[33mcommit ea98a09842bbd6d7f5a79b06e043d39aa5e75c15[m[33m ([m[1;31morigin/feature/punch[m[33m)[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Fri Jul 5 17:44:02 2024 -0300
+
+    feat: animation of zombie hit
+
+[33mcommit b98e9e676ddf4fd79b9a825cdb1a1f7d4eb427de[m
+Merge: 558ccd0 22ec9ab
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Fri Jul 5 17:41:43 2024 -0300
+
+    Merge pull request #69 from Game-JAVA/feature/fixing_last_merge/lucas
+    
+    feat: fixed merging bugs
+
+[33mcommit 22ec9ab0aa949953b8e995dad5a64301af44512e[m
+Author: llei7e <leitellucas@gmail.com>
+Date:   Fri Jul 5 17:40:47 2024 -0300
+
+    feat: fixed merging bugs
+
+[33mcommit 558ccd0c7ccee729fe89e84b7d8309c4096bbcf7[m
+Merge: f0b5c80 627bcc6
+Author: mwlaofr <148801384+mwlaofr@users.noreply.github.com>
+Date:   Fri Jul 5 17:11:10 2024 -0300
+
+    Merge pull request #68 from Game-JAVA/feature/creating_input_name_screen/millena
+    
+    feat: implementation off the ranking system
+
+[33mcommit 627bcc6a79959a4847c06b03a8f963ab42dd3ca0[m
+Merge: 2e3f7d6 f0b5c80
+Author: mwlaofr <148801384+mwlaofr@users.noreply.github.com>
+Date:   Fri Jul 5 17:11:00 2024 -0300
+
+    Merge branch 'develop' into feature/creating_input_name_screen/millena
+
+[33mcommit 2e3f7d6ada4813861bf6772df19352cca978899f[m
+Author: mwlaofr <millenaofrr@gmail.com>
+Date:   Fri Jul 5 17:03:32 2024 -0300
+
+    feat: implementation off the ranking system
+
+[33mcommit f0b5c80e8d911db1ea7bd047daddaa8cac7d1e65[m
+Merge: 4845140 eb21549
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Fri Jul 5 16:13:37 2024 -0300
+
+    Merge pull request #67 from Game-JAVA/feature/sound-mechanism
+    
+    Feature/sound mechanism
+
+[33mcommit eb21549f5de9704f61e807b44b207678e083212d[m
+Merge: 6a90814 4845140
+Author: Giovani-RodriguesS <121878338+Giovani-RodriguesS@users.noreply.github.com>
+Date:   Fri Jul 5 16:13:25 2024 -0300
+
+    Merge branch 'develop' into feature/sound-mechanism
+
+[33mcommit 6a90814a4bcbbe323dae001e130c3dcb860c7582[m[33m ([m[1;31morigin/feature/sound-mechanism[m[33m)[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Fri Jul 5 16:11:36 2024 -0300
+
+    fix: zombies definition
+
+[33mcommit 5faadefbf31e91b9931a4450fcebb9e3185af45e[m
+Author: Giovani-RodriguesS <giovanirodrigues021@gmail.com>
+Date:   Fri Jul 5 16:07:04 2024 -0300
+
+    feat: added new sounds to the project
+
+[33mcommit 484514081e478d7d9b292fd4b62230f115805135[m
+Merge: 14b4e21 7a1b5cf
+Author: Lucas Leite <148909506+llei7e@users.noreply.github.com>
+Date:   Fri Jul 5 16:01:53 2024 -0300
+
+    Merge pull request #66 from Game-JAVA/feature/points_generation/lucas
+    
+    feat: implemented points generation by killing each zombie
+
+[33mcommit 7a1b5cf624e28803351f7d34eb4a10be5258c6b8[m
+Author: llei7e <leitelluc
