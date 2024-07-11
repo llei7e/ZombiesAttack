@@ -173,7 +173,7 @@ public class KeyEvent {
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.cooldownDelay();
+                        p1.setCoolDown(false);
                     }
                 });
 
@@ -288,15 +288,15 @@ public class KeyEvent {
                 zombies.removeIf(z -> z.getLife() <= 0);
 
                 //change Weapons by points
-                if(p1.getPoints() > 199 && p1.getPoints() < 399 && Objects.equals(p1.getWeapon(), "knife")) {
-                    p1.setWeapon("katana");
-                    p1.playerWeapons();
-                }
-                if(p1.getPoints() > 599 && p1.getPoints() < 799 && Objects.equals(p1.getWeapon(), "katana")) {
+                if(p1.getPoints() > 499 && p1.getPoints() < 1199 && Objects.equals(p1.getWeapon(), "knife")) {
                     p1.setWeapon("pistol");
                     p1.playerWeapons();
                 }
-                if(p1.getPoints() > 1199 && Objects.equals(p1.getWeapon(), "pistol")) {
+                if(p1.getPoints() > 1199 && p1.getPoints() < 1999 && Objects.equals(p1.getWeapon(), "pistol")) {
+                    p1.setWeapon("katana");
+                    p1.playerWeapons();
+                }
+                if(p1.getPoints() > 1999 && Objects.equals(p1.getWeapon(), "katana")) {
                     p1.setWeapon("rifle");
                     p1.playerWeapons();
                 }

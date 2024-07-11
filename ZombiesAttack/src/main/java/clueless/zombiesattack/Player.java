@@ -20,7 +20,6 @@ public class Player extends Characters {
     private String weapon;
     private boolean isJumping = false;
     private boolean isCoolDown = false;
-    private int cooldown;
     private String direction = "right";
 
     //Constructor
@@ -33,7 +32,6 @@ public class Player extends Characters {
         this.weapon = "knife";
         setLife(10);
         setSpeed(7);
-
 
         //define sprites
         playerWeapons();
@@ -58,14 +56,11 @@ public class Player extends Characters {
             this.walking[4] = new Image("knifewalk-left2.png");
             this.walking[5] = new Image("knifewalk-left3.png");
 
-            // set cooldown
-            this.cooldown = 75;
 
             img = new Image("knifewalk-right2.png");
             this.setSprite(img, getWeapon());
 
             setStrength(1);
-
         }
 
         // Set katana
@@ -82,14 +77,11 @@ public class Player extends Characters {
 
             Sounds.getKatana(0).play();
 
-            // set cooldown
-            this.cooldown = 120;
 
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
 
             setStrength(1.2);
-
         }
 
         // Set pistol
@@ -106,8 +98,6 @@ public class Player extends Characters {
 
             Sounds.getPistol(0).play();
 
-            // set cooldown
-            this.cooldown = 75;
 
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
@@ -128,9 +118,6 @@ public class Player extends Characters {
             this.walking[5] = new Image("riflewalk-left3.png");
 
             Sounds.getRifle(0).play();
-
-            // set cooldown
-            this.cooldown = 250;
 
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -422,13 +409,6 @@ public class Player extends Characters {
 
     }
 
-//    Cooldown delay
-    public void cooldownDelay() {
-        PauseTransition delay = new PauseTransition(Duration.millis(this.cooldown));
-        delay.setOnFinished(e -> isCoolDown = false);
-        delay.play();
-    }
-
 //    Animation End Game
     public void animationEndgame(Scene scene, Pane pane, Stage stage) {
         PauseTransition endGame = new PauseTransition(Duration.millis(1700));
@@ -527,5 +507,9 @@ public class Player extends Characters {
 
     public void setDirection(String dir) {
         this.direction = dir;
+    }
+
+    public void setCoolDown(boolean coolDown) {
+        isCoolDown = coolDown;
     }
 }

@@ -17,7 +17,7 @@ public class Ranking {
     public Ranking() {
 
         try {
-            this.archive = new File("ZombiesAttack/src/main/resources/ranking.txt");
+            this.archive = new File("src/main/resources/ranking.txt");
 
             if (!this.archive.exists()) {
                 this.archive.createNewFile(); //if the file does not exist, create one
