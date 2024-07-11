@@ -20,7 +20,6 @@ public abstract class Characters extends ImageView {
 
     // Constructor
     public Characters() {
-
         this.sprite = new ImageView();
     }
 

@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -35,7 +34,6 @@ public class KeyEvent {
             private boolean hitBreak = false;
             private boolean canSpawn = true;
             private boolean canSpawnHealing = true;
-            private boolean playing = false;
 
             // HUD images
             Image lifeImage;
@@ -127,9 +125,7 @@ public class KeyEvent {
                             p1.jump();
                             break;
                         case J:
-                            p1.weaponSfx();
                             p1.attack(pane, zombies);
-                            p1.setShooting(true);
                             break;
                         case D :
                             p1.setRight(true);
@@ -142,6 +138,8 @@ public class KeyEvent {
                             p1.setDirection("left");
                             break;
                         case P:
+                            p1.setLeft(false);
+                            p1.setRight(false);
                             gamePaused(scene, pane, this);
                             break;
                     }
@@ -175,7 +173,7 @@ public class KeyEvent {
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.setShooting(false); // end of shooting
+                        p1.cooldownDelay();
                     }
                 });
 
@@ -254,7 +252,6 @@ public class KeyEvent {
                         difficulty = 1;
                         break;
                 }
-                System.out.println(difficulty);
 
 
             // SPAWN ZOMBIES - REMOVE ZOMBIES
@@ -313,11 +310,12 @@ public class KeyEvent {
     private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
         // stop gameLooping
         paused = !paused;
+
         Sounds.getOption().play();
         gameLooping.stop();
         // create pauseText
         Text pauseText = new Text("Paused");
-        pauseText.setX(270);
+        pauseText.setX(pane.getWidth()/2 - 50);
         pauseText.setY(360);
         pauseText.getStyleClass().add("pauseText");
 
