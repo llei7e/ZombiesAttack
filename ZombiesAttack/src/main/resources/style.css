@@ -43,6 +43,18 @@
     -fx-font-size: 42px;
     -fx-border-color: black;
 }
+.points-pressed{
+    -fx-fill: gray;
+    -fx-font-size: 30px;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
+}
+
+.points-unavalible{
+    -fx-fill: white;
+    -fx-font-size: 30px;
+    -fx-opacity: 0.7;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
+}
 
 .back{
     -fx-background-color: black;

@@ -97,8 +97,6 @@ public class Player extends Characters {
             this.walking[5] = new Image("rickwalk3-left.png");
 
             Sounds.getPistol(0).play();
-
-
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
@@ -118,7 +116,6 @@ public class Player extends Characters {
             this.walking[5] = new Image("riflewalk-left3.png");
 
             Sounds.getRifle(0).play();
-
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
 
@@ -134,7 +131,6 @@ public class Player extends Characters {
         KeyFrame kf;
 
         if (!isCoolDown) {
-
             isCoolDown = true;
 
             // projectile instance and settings
@@ -508,8 +504,7 @@ public class Player extends Characters {
     public void setDirection(String dir) {
         this.direction = dir;
     }
-
-    public void setCoolDown(boolean coolDown) {
+    public void setCoolDown(boolean coolDown){
         isCoolDown = coolDown;
     }
 }

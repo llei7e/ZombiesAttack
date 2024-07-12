@@ -29,6 +29,7 @@ public class KeyEvent {
             // time for frames
             private long lastUpdate = 0;
             private int currentFrame = 0;
+            private int count = 0;
 
             // booleans
             private boolean hitBreak = false;
@@ -140,7 +141,7 @@ public class KeyEvent {
                         case P:
                             p1.setLeft(false);
                             p1.setRight(false);
-                            gamePaused(scene, pane, this);
+                            gamePaused(scene, pane, this, p1);
                             break;
                     }
                 });
@@ -270,7 +271,7 @@ public class KeyEvent {
 
                 // Spawn Healing
                 if (canSpawnHealing){
-                    ImageView spawnedHealing = spawnHealing();
+                    ImageView spawnedHealing =  spawnHealing();
                     AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
 
                     PauseTransition waitingHealing = new PauseTransition(Duration.seconds(45));
@@ -287,18 +288,28 @@ public class KeyEvent {
                 // Remove zombies of ArrayList
                 zombies.removeIf(z -> z.getLife() <= 0);
 
+
                 //change Weapons by points
-                if(p1.getPoints() > 499 && p1.getPoints() < 1199 && Objects.equals(p1.getWeapon(), "knife")) {
-                    p1.setWeapon("pistol");
-                    p1.playerWeapons();
-                }
-                if(p1.getPoints() > 1199 && p1.getPoints() < 1999 && Objects.equals(p1.getWeapon(), "pistol")) {
-                    p1.setWeapon("katana");
-                    p1.playerWeapons();
-                }
-                if(p1.getPoints() > 1999 && Objects.equals(p1.getWeapon(), "katana")) {
-                    p1.setWeapon("rifle");
-                    p1.playerWeapons();
+                switch (count) {
+                    case 0:
+                        if (p1.getPoints() > 499) {
+                            avaliable(pane);
+                            count++;
+                        }
+                        break;
+                    case 1:
+                        if (p1.getPoints() >1199){
+                            avaliable(pane);
+                            count++;
+                        break;
+                        }
+                    case 2:
+                        if (p1.getPoints() > 1999) {
+                            avaliable(pane);
+                            count++;
+                        }
+                        break;
+
                 }
 
             }
@@ -306,20 +317,65 @@ public class KeyEvent {
         gameLooping.start();
     }
 
+    //
+    private void avaliable (Pane pane) {
+        Text availableText = new Text("New Weapon Available");
+        availableText.setX(pane.getWidth()/2 - 140);
+        availableText.setY(75);
+        availableText.setOpacity(0.0);
+        availableText.getStyleClass().add("pauseText");
+        pane.getChildren().add(availableText);
+        Sounds.getOption().play();
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(3500), availableText);
+        fadeIn.setFromValue(0.0);
+        fadeIn.setToValue(1.0);
+
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(2500), availableText);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
+
+        fadeIn.setOnFinished(event -> fadeOut.play());
+        fadeOut.setOnFinished(event -> pane.getChildren().remove(availableText));
+        fadeIn.play();
+
+    }
+
+
     // game pause
-    private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping ) {
+    private void gamePaused (Scene scene, Pane pane, AnimationTimer gameLooping, Player p1) {
         // stop gameLooping
         paused = !paused;
 
         Sounds.getOption().play();
         gameLooping.stop();
+
         // create pauseText
         Text pauseText = new Text("Paused");
         pauseText.setX(pane.getWidth()/2 - 50);
-        pauseText.setY(360);
+        pauseText.setY(340);
         pauseText.getStyleClass().add("pauseText");
 
-        pane.getChildren().add(pauseText);
+        // create options
+        Text knifeText = new Text("Knife - Press Y");
+        knifeText.setX(pane.getWidth()/2 - 100);
+        knifeText.setY(380);
+
+        Text pistolText = new Text("Pistol (200) - Press U");
+        pistolText.setX(pane.getWidth()/2 - 100);
+        pistolText.setY(420);
+
+        Text katanaText = new Text("Katana (600) - Press I");
+        katanaText.setX(pane.getWidth()/2 - 100);
+        katanaText.setY(460);
+
+        Text rifleText = new Text("Rifle (1200) - Press O");
+        rifleText.setX(pane.getWidth()/2 - 100);
+        rifleText.setY(500);
+
+        optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+
+        pane.getChildren().addAll(pauseText, knifeText, pistolText, rifleText, katanaText);
 
         // pauseAnimation
         KeyValue kv = new KeyValue(pauseText.yProperty(), 335, Interpolator.EASE_BOTH);
@@ -327,20 +383,98 @@ public class KeyEvent {
         pauseAnimation.setAutoReverse(true);
         pauseAnimation.setCycleCount(Timeline.INDEFINITE);
 
+        // new weapon after GamePaused
+        String[] newWeapon = {p1.getWeapon()};
+
         new AnimationTimer() {
+            public void setNewWeapon (String weapon) {
+                newWeapon[0] = weapon;
+            }
+
             @Override
             public void handle(long l) {
                 scene.setOnKeyPressed(e -> {
+
+                    switch (e.getCode()) {
+                        case Y:
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                knifeText.getStyleClass().clear();
+                                knifeText.getStyleClass().add("points-pressed");
+                                Sounds.getOption().play();
+                                Sounds.getKnife().play();
+                                newWeapon[0] = "knife";
+                                break;
+                        case U:
+                            if (p1.getPoints() > 199) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                pistolText.getStyleClass().clear();
+                                pistolText.getStyleClass().add("points-pressed");
+                                newWeapon[0] = "pistol";
+                                Sounds.getOption().play();
+                                Sounds.getPistol(0).play();
+                            }
+                            break;
+                        case I:
+                            if (p1.getPoints() > 599) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                katanaText.getStyleClass().clear();
+                                katanaText.getStyleClass().add("points-pressed");
+                                newWeapon[0] = "katana";
+                                Sounds.getOption().play();
+                                Sounds.getKatana(0).play();
+                            }
+                            break;
+                        case O:
+                            if (p1.getPoints() > 1199) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                rifleText.getStyleClass().clear();
+                                rifleText.getStyleClass().add("points-pressed");
+                                newWeapon[0] = "rifle";
+                                Sounds.getRifle(0).play();
+                                Sounds.getOption().play();
+                            }
+                            break;
+                    }
+
                     if (e.getCode() == KeyCode.P){
-                        Sounds.getOption().play();
-                        paused = !paused; // set paused to false
-                        pane.getChildren().remove(pauseText); // remove pauseText
-                        this.stop(); // end of gamePause
-                        gameLooping.start(); // restart gameLooping
+                            Sounds.getOption().play();
+                            p1.setWeapon(newWeapon[0]);
+                            p1.playerWeapons();
+                            paused = !paused; // set paused to false
+                            pane.getChildren().removeAll(pauseText, knifeText, pistolText, rifleText, katanaText); // remove texts
+                            this.stop(); // end of gamePause
+                            gameLooping.start(); // restart gameLooping
                     }
                 });
                 pauseAnimation.play();
             }
         }.start();
+    }
+
+    // Set default style options
+    private void optionsStyleDefault(int points, Text rifleText, Text pistolText, Text knifeText, Text katanaText){
+
+        // clear all styles
+        rifleText.getStyleClass().clear();
+        knifeText.getStyleClass().clear();
+        katanaText.getStyleClass().clear();
+        pistolText.getStyleClass().clear();
+
+        // Set styles
+        knifeText.getStyleClass().add("points");
+
+        if (points > 1199)
+            rifleText.getStyleClass().add("points");
+        else
+            rifleText.getStyleClass().add("points-unavalible");
+        if (points > 199)
+            pistolText.getStyleClass().add("points");
+        else
+            pistolText.getStyleClass().add("points-unavalible");
+        if (points > 599)
+            katanaText.getStyleClass().add("points");
+        else
+            katanaText.getStyleClass().add("points-unavalible");
+
     }
 }
