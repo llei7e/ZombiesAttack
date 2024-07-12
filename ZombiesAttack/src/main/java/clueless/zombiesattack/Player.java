@@ -20,7 +20,6 @@ public class Player extends Characters {
     private String weapon;
     private boolean isJumping = false;
     private boolean isCoolDown = false;
-    private int cooldown;
     private String direction = "right";
 
     //Constructor
@@ -58,8 +57,6 @@ public class Player extends Characters {
             this.walking[4] = new Image("knifewalk-left2.png");
             this.walking[5] = new Image("knifewalk-left3.png");
 
-            // set cooldown
-            this.cooldown = 500;
 
             img = new Image("knifewalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -82,8 +79,6 @@ public class Player extends Characters {
 
             Sounds.getKatana(0).play();
 
-            // set cooldown
-            this.cooldown = 120;
 
             img = new Image("katanawalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -106,9 +101,6 @@ public class Player extends Characters {
 
             Sounds.getPistol(0).play();
 
-            // set cooldown
-            this.cooldown = 75;
-
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
@@ -129,8 +121,6 @@ public class Player extends Characters {
 
             Sounds.getRifle(0).play();
 
-            // set cooldown
-            this.cooldown = 250;
 
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
@@ -148,7 +138,6 @@ public class Player extends Characters {
 
         if (!isCoolDown) {
 
-            isCoolDown = true;
 
             // projectile instance and settings
             ImageView projectile;
@@ -420,13 +409,6 @@ public class Player extends Characters {
             }
         };
 
-    }
-
-//    Cooldown delay
-    public void cooldownDelay() {
-        PauseTransition delay = new PauseTransition(Duration.millis(this.cooldown));
-        delay.setOnFinished(e -> isCoolDown = false);
-        delay.play();
     }
 
 //    Animation End Game

@@ -174,7 +174,7 @@ public class KeyEvent {
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
-                        p1.cooldownDelay();
+
                     }
                 });
 
@@ -292,16 +292,22 @@ public class KeyEvent {
                 //change Weapons by points
                 switch (count) {
                     case 0:
-                        if (p1.getPoints() > 199)
+                        if (p1.getPoints() > 199) {
                             avaliable(pane);
+                            count++;
+                        }
                         break;
                     case 1:
-                        if (p1.getPoints() > 599)
+                        if (p1.getPoints() > 599){
                             avaliable(pane);
+                            count++;
                         break;
+                        }
                     case 2:
-                        if (p1.getPoints() > 1199)
+                        if (p1.getPoints() > 1199) {
                             avaliable(pane);
+                            count++;
+                        }
                         break;
 
 
@@ -315,26 +321,25 @@ public class KeyEvent {
     //
     private void avaliable (Pane pane) {
         Text availableText = new Text("New Weapon Available");
-        availableText.setX(pane.getWidth()/2 - 50);
-        availableText.setY(30);
+        availableText.setX(pane.getWidth()/2 - 140);
+        availableText.setY(75);
+        availableText.setOpacity(0.0);
         availableText.getStyleClass().add("pauseText");
-
         pane.getChildren().add(availableText);
+        Sounds.getOption().play();
 
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), availableText);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(3500), availableText);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
 
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(2000), availableText);
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(2500), availableText);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
 
-        // Definir o comportamento após a transição de fade-in
         fadeIn.setOnFinished(event -> fadeOut.play());
         fadeOut.setOnFinished(event -> pane.getChildren().remove(availableText));
-
-        // Iniciar a transição de fade-in
         fadeIn.play();
+
     }
 
 
@@ -345,13 +350,35 @@ public class KeyEvent {
 
         Sounds.getOption().play();
         gameLooping.stop();
+
         // create pauseText
         Text pauseText = new Text("Paused");
         pauseText.setX(pane.getWidth()/2 - 50);
-        pauseText.setY(360);
+        pauseText.setY(340);
         pauseText.getStyleClass().add("pauseText");
 
-        pane.getChildren().add(pauseText);
+        // create options
+        Text knifeText = new Text("Knife - Press Y");
+        knifeText.setX(pane.getWidth()/2 - 100);
+        knifeText.setY(380);
+        knifeText.getStyleClass().add("points");
+
+        Text pistolText = new Text("Pistol (200) - Press U");
+        pistolText.setX(pane.getWidth()/2 - 100);
+        pistolText.setY(420);
+        pistolText.getStyleClass().add("points");
+
+        Text katanaText = new Text("Katana (600) - Press I");
+        katanaText.setX(pane.getWidth()/2 - 100);
+        katanaText.setY(460);
+        katanaText.getStyleClass().add("points");
+
+        Text rifleText = new Text("Rifle (1200) - Press O");
+        rifleText.setX(pane.getWidth()/2 - 100);
+        rifleText.setY(500);
+        rifleText.getStyleClass().add("points");
+
+        pane.getChildren().addAll(pauseText, knifeText, pistolText, rifleText, katanaText);
 
         // pauseAnimation
         KeyValue kv = new KeyValue(pauseText.yProperty(), 335, Interpolator.EASE_BOTH);
@@ -401,7 +428,7 @@ public class KeyEvent {
                             p1.setWeapon(newWeapon[0]);
                             p1.playerWeapons();
                             paused = !paused; // set paused to false
-                            pane.getChildren().remove(pauseText); // remove pauseText
+                            pane.getChildren().removeAll(pauseText, knifeText, pistolText, rifleText, katanaText); // remove texts
                             this.stop(); // end of gamePause
                             gameLooping.start(); // restart gameLooping
                     }
