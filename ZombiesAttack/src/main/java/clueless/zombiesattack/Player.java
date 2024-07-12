@@ -33,7 +33,6 @@ public class Player extends Characters {
         setLife(10);
         setSpeed(7);
 
-
         //define sprites
         playerWeapons();
         this.getSprite().setX(310);
@@ -62,7 +61,6 @@ public class Player extends Characters {
             this.setSprite(img, getWeapon());
 
             setStrength(1);
-
         }
 
         // Set katana
@@ -84,7 +82,6 @@ public class Player extends Characters {
             this.setSprite(img, getWeapon());
 
             setStrength(1.2);
-
         }
 
         // Set pistol
@@ -100,7 +97,6 @@ public class Player extends Characters {
             this.walking[5] = new Image("rickwalk3-left.png");
 
             Sounds.getPistol(0).play();
-
             img = new Image("rickwalk2-right.png");
             this.setSprite(img, getWeapon());
 
@@ -120,8 +116,6 @@ public class Player extends Characters {
             this.walking[5] = new Image("riflewalk-left3.png");
 
             Sounds.getRifle(0).play();
-
-
             img = new Image("riflewalk-right2.png");
             this.setSprite(img, getWeapon());
 

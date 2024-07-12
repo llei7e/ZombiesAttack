@@ -38,7 +38,16 @@ End date: to be defined.
 
 - Java IDE like IntelliJ or Eclipse (used IntelliJ for development),  
 - java 22(used jdk 22.0.1),  
-- java.fx,  
+- java.fx,
+
+### Steps
+- Download the IntelliJ (community edition is free) - [IntelliJ (Community Edition)](https://www.jetbrains.com/idea/download/#section=windows),
+- Download git - [git for windows)](https://git-scm.com/download/win),
+- Install both IntelliJ and git,
+- Clone the project,
+- Open it at IntelliJ (wait the dependencies to install),
+- Close the project,
+- Open it again.
 
 ## Game Classes
 ```mermaid
@@ -46,17 +55,15 @@ End date: to be defined.
 ---
 title: Zombies Attack
 ---
+
 classDiagram
 Characters <|-- Player
 Characters <|-- Zombies
 ImageView <|-- Characters
-ImageView <|-- Scenario
 Application <|-- Game
 
 class Game{
--int width
--int height
-+start()
++start(Stage primaryStage)
 +main(string[]  args)
 }
 class ImageView{
@@ -70,57 +77,59 @@ class Characters{
 -int strength
 -ImageView sprite
 -Image[] walking
++Characters()
 +move(int frame, String weapon)
 +move(int frame, int type)
++setSprite(Image img)
++setSprite(Image img, int type)
++setSprite(Image img, String weapon)
++setSprite(Image img, String weapon, boolean isShooting)
 }
 class Player{
 -String name
 -int points
--int timeSurvived
 -String weapon
 -boolean isJumping
--boolean isWalking
--boolean isAttacking
+-boolean isCooldown
 -String direction
--Image[] shooting
-+dash()
++Player()
 +playerWeapons()
-+checkHealing()
-+attack()
++attack(Pane pane, ArrayList<Zombies> zombies)
 +jump()
++checkHealing(ImageView healing, Pane pane)
++animationEndGame(Scene scene, Pane pane, Stage stage)
++weaponsSfx()
++hit(Zombie zombie)
++takeDamage()
 }
 class Zombies{
 -int type
-+chasing(int x, int y)
-}
-class Scenario{
--ImageView background
--Object plataform
++Zombies(int positionX, int type)
++chasing(Player player, Zombie zombie, int frame)
++takeHit()
 }
 class Menu{
-+homeScreen()
-+rankingScreen()
-+gameKeys()
-+gameOver()
-+game()
-+buyScreen()
-+loading()
++homeScreen(Scene scene, Pane pane, Stage stage, Ranking ranking)
++rankingScreen(Scene scene, Pane pane, Stage stage, Ranking ranking)
++gameKeys(Scene scene, Pane pane, Stage stage)
++gameOver(Scene scene, Pane pane, Stage stage, Player p1)
++game(Scene scene, Pane pane, Stage stage)
++loading(Scene scene, Pane pane, Stage stage)
++rankingName(Scene scene, Pane pane, Stage stage, Player p1)
 }
-
-class KeyEvent{
+class GameLoop{
 -boolean paused
+-boolean canRestart
+double difficulty
 +keyEvent()
--gamePaused()
++gamePaused(Scene scene, Pane pane, AnimationTimer gameLooping)
 }
-
 class Sounds{
--MediaPlayer sound
 +getSoundEffect()
 +getRifle(int op)
 +getPistol(int op)
 +getKnife()
 +getKatana()
-+getWalking()
 +getJumping()
 +getZombieGrowl()
 +getSmallPunch()
@@ -128,6 +137,28 @@ class Sounds{
 +getGameOver()
 +getOption()
 +getHealing()
++getSpawn()
++getLoading()
++getHome()
+}
+class Ranking{
+-ArrayList<Winner> winners
+-File archive
++Ranking()
++getWinnersFromArchive()
++setWinnersToArchive()
++sortWinners()
++saveWinner(String name, int points)
++getWinners()
+}
+class Winner{
+-String name
+-int points
++Winner(String name, int points)
++setName()
++setPoints()
++getName()
++getPoints()
 }
 class Application{
 +launch()

@@ -292,24 +292,23 @@ public class KeyEvent {
                 //change Weapons by points
                 switch (count) {
                     case 0:
-                        if (p1.getPoints() > 199) {
+                        if (p1.getPoints() > 499) {
                             avaliable(pane);
                             count++;
                         }
                         break;
                     case 1:
-                        if (p1.getPoints() > 599){
+                        if (p1.getPoints() >1199){
                             avaliable(pane);
                             count++;
                         break;
                         }
                     case 2:
-                        if (p1.getPoints() > 1199) {
+                        if (p1.getPoints() > 1999) {
                             avaliable(pane);
                             count++;
                         }
                         break;
-
 
                 }
 
