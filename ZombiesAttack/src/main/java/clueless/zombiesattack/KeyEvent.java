@@ -174,7 +174,7 @@ public class KeyEvent {
                         }
                     }
                     if (event.getCode() == KeyCode.J) {
-
+                        p1.setCoolDown(false);
                     }
                 });
 

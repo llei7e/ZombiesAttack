@@ -137,7 +137,7 @@ public class Player extends Characters {
         KeyFrame kf;
 
         if (!isCoolDown) {
-
+            isCoolDown = true;
 
             // projectile instance and settings
             ImageView projectile;
@@ -509,5 +509,8 @@ public class Player extends Characters {
 
     public void setDirection(String dir) {
         this.direction = dir;
+    }
+    public void setCoolDown(boolean coolDown){
+        isCoolDown = coolDown;
     }
 }
