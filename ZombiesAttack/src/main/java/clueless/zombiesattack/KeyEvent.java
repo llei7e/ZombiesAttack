@@ -271,7 +271,7 @@ public class KeyEvent {
 
                 // Spawn Healing
                 if (canSpawnHealing){
-                    ImageView spawnedHealing = spawnHealing();
+                    ImageView spawnedHealing =  spawnHealing();
                     AnimationTimer check = p1.checkHealing(spawnedHealing, pane);
 
                     PauseTransition waitingHealing = new PauseTransition(Duration.seconds(45));
@@ -361,22 +361,20 @@ public class KeyEvent {
         Text knifeText = new Text("Knife - Press Y");
         knifeText.setX(pane.getWidth()/2 - 100);
         knifeText.setY(380);
-        knifeText.getStyleClass().add("points");
 
         Text pistolText = new Text("Pistol (200) - Press U");
         pistolText.setX(pane.getWidth()/2 - 100);
         pistolText.setY(420);
-        pistolText.getStyleClass().add("points");
 
         Text katanaText = new Text("Katana (600) - Press I");
         katanaText.setX(pane.getWidth()/2 - 100);
         katanaText.setY(460);
-        katanaText.getStyleClass().add("points");
 
         Text rifleText = new Text("Rifle (1200) - Press O");
         rifleText.setX(pane.getWidth()/2 - 100);
         rifleText.setY(500);
-        rifleText.getStyleClass().add("points");
+
+        optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
 
         pane.getChildren().addAll(pauseText, knifeText, pistolText, rifleText, katanaText);
 
@@ -400,24 +398,40 @@ public class KeyEvent {
 
                     switch (e.getCode()) {
                         case Y:
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                knifeText.getStyleClass().clear();
+                                knifeText.getStyleClass().add("points-pressed");
                                 Sounds.getOption().play();
+                                Sounds.getKnife().play();
                                 newWeapon[0] = "knife";
                                 break;
                         case U:
                             if (p1.getPoints() > 199) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                pistolText.getStyleClass().clear();
+                                pistolText.getStyleClass().add("points-pressed");
                                 newWeapon[0] = "pistol";
                                 Sounds.getOption().play();
+                                Sounds.getPistol(0).play();
                             }
                             break;
                         case I:
                             if (p1.getPoints() > 599) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                katanaText.getStyleClass().clear();
+                                katanaText.getStyleClass().add("points-pressed");
                                 newWeapon[0] = "katana";
                                 Sounds.getOption().play();
+                                Sounds.getKatana(0).play();
                             }
                             break;
                         case O:
                             if (p1.getPoints() > 1199) {
+                                optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
+                                rifleText.getStyleClass().clear();
+                                rifleText.getStyleClass().add("points-pressed");
                                 newWeapon[0] = "rifle";
+                                Sounds.getRifle(0).play();
                                 Sounds.getOption().play();
                             }
                             break;
@@ -436,5 +450,32 @@ public class KeyEvent {
                 pauseAnimation.play();
             }
         }.start();
+    }
+
+    // Set default style options
+    private void optionsStyleDefault(int points, Text rifleText, Text pistolText, Text knifeText, Text katanaText){
+
+        // clear all styles
+        rifleText.getStyleClass().clear();
+        knifeText.getStyleClass().clear();
+        katanaText.getStyleClass().clear();
+        pistolText.getStyleClass().clear();
+
+        // Set styles
+        knifeText.getStyleClass().add("points");
+
+        if (points > 1199)
+            rifleText.getStyleClass().add("points");
+        else
+            rifleText.getStyleClass().add("points-unavalible");
+        if (points > 199)
+            pistolText.getStyleClass().add("points");
+        else
+            pistolText.getStyleClass().add("points-unavalible");
+        if (points > 599)
+            katanaText.getStyleClass().add("points");
+        else
+            katanaText.getStyleClass().add("points-unavalible");
+
     }
 }
