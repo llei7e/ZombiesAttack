@@ -40,8 +40,8 @@
 
 .pauseText {
     -fx-fill: yellow;
-    -fx-font-size: 42px;
-    -fx-border-color: black;
+    -fx-font-size: 45px;
+    -fx-effect: dropshadow( gaussian , black , 3 , 0.7 , 0 , 0 );
 }
 .points-pressed{
     -fx-fill: gray;
