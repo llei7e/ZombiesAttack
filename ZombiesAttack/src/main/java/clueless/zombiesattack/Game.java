@@ -16,7 +16,7 @@ public class Game extends Application {
         Menu screen = new Menu();
         Ranking ranking = new Ranking();
 
-        screen.game(scene, pane, primaryStage);
+        screen.homeScreen(scene, pane, primaryStage, ranking);
 
         // setting "primaryStage"
         primaryStage.setTitle("Zombies Attack");
