@@ -292,19 +292,19 @@ public class KeyEvent {
                 //change Weapons by points
                 switch (count) {
                     case 0:
-                        if (p1.getPoints() > 499) {
+                        if (p1.getPoints() > 399) {
                             avaliable(pane);
                             count++;
                         }
                         break;
                     case 1:
-                        if (p1.getPoints() >1199){
+                        if (p1.getPoints() >999){
                             avaliable(pane);
                             count++;
                         break;
                         }
                     case 2:
-                        if (p1.getPoints() > 1999) {
+                        if (p1.getPoints() > 1499) {
                             avaliable(pane);
                             count++;
                         }
@@ -320,18 +320,18 @@ public class KeyEvent {
     //
     private void avaliable (Pane pane) {
         Text availableText = new Text("New Weapon Available");
-        availableText.setX(pane.getWidth()/2 - 140);
+        availableText.setX(pane.getWidth()/2 - 160);
         availableText.setY(75);
         availableText.setOpacity(0.0);
         availableText.getStyleClass().add("pauseText");
         pane.getChildren().add(availableText);
         Sounds.getOption().play();
 
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(3500), availableText);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(2000), availableText);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
 
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(2500), availableText);
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(2000), availableText);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
 
@@ -352,33 +352,33 @@ public class KeyEvent {
 
         // create pauseText
         Text pauseText = new Text("Paused");
-        pauseText.setX(pane.getWidth()/2 - 50);
-        pauseText.setY(340);
+        pauseText.setX(pane.getWidth()/2 - 50-20);
+        pauseText.setY(320-150);
         pauseText.getStyleClass().add("pauseText");
 
         // create options
-        Text knifeText = new Text("Knife - Press Y");
-        knifeText.setX(pane.getWidth()/2 - 100);
-        knifeText.setY(380);
+        Text knifeText = new Text("> Knife - Press Y");
+        knifeText.setX(pane.getWidth()/2 - 100-20);
+        knifeText.setY(380-150);
 
-        Text pistolText = new Text("Pistol (200) - Press U");
-        pistolText.setX(pane.getWidth()/2 - 100);
-        pistolText.setY(420);
+        Text pistolText = new Text("> Pistol (400) - Press U");
+        pistolText.setX(pane.getWidth()/2 - 100-20);
+        pistolText.setY(420-150);
 
-        Text katanaText = new Text("Katana (600) - Press I");
-        katanaText.setX(pane.getWidth()/2 - 100);
-        katanaText.setY(460);
+        Text katanaText = new Text("> Katana (1200) - Press I");
+        katanaText.setX(pane.getWidth()/2 - 100-20);
+        katanaText.setY(460-150);
 
-        Text rifleText = new Text("Rifle (1200) - Press O");
-        rifleText.setX(pane.getWidth()/2 - 100);
-        rifleText.setY(500);
+        Text rifleText = new Text("> Rifle  (2000) - Press O");
+        rifleText.setX(pane.getWidth()/2 - 100-20);
+        rifleText.setY(500-150);
 
         optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
 
         pane.getChildren().addAll(pauseText, knifeText, pistolText, rifleText, katanaText);
 
         // pauseAnimation
-        KeyValue kv = new KeyValue(pauseText.yProperty(), 335, Interpolator.EASE_BOTH);
+        KeyValue kv = new KeyValue(pauseText.yProperty(), 190, Interpolator.EASE_BOTH);
         Timeline pauseAnimation = new Timeline(new KeyFrame(Duration.seconds(2), kv));
         pauseAnimation.setAutoReverse(true);
         pauseAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -405,7 +405,7 @@ public class KeyEvent {
                                 newWeapon[0] = "knife";
                                 break;
                         case U:
-                            if (p1.getPoints() > 199) {
+                            if (p1.getPoints() > 399) {
                                 optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
                                 pistolText.getStyleClass().clear();
                                 pistolText.getStyleClass().add("points-pressed");
@@ -415,7 +415,7 @@ public class KeyEvent {
                             }
                             break;
                         case I:
-                            if (p1.getPoints() > 599) {
+                            if (p1.getPoints() > 999) {
                                 optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
                                 katanaText.getStyleClass().clear();
                                 katanaText.getStyleClass().add("points-pressed");
@@ -425,7 +425,7 @@ public class KeyEvent {
                             }
                             break;
                         case O:
-                            if (p1.getPoints() > 1199) {
+                            if (p1.getPoints() > 1499) {
                                 optionsStyleDefault(p1.getPoints(), rifleText, pistolText, knifeText, katanaText);
                                 rifleText.getStyleClass().clear();
                                 rifleText.getStyleClass().add("points-pressed");
@@ -463,15 +463,15 @@ public class KeyEvent {
         // Set styles
         knifeText.getStyleClass().add("points");
 
-        if (points > 1199)
+        if (points > 1499)
             rifleText.getStyleClass().add("points");
         else
             rifleText.getStyleClass().add("points-unavalible");
-        if (points > 199)
+        if (points > 399)
             pistolText.getStyleClass().add("points");
         else
             pistolText.getStyleClass().add("points-unavalible");
-        if (points > 599)
+        if (points > 999)
             katanaText.getStyleClass().add("points");
         else
             katanaText.getStyleClass().add("points-unavalible");
